@@ -1,0 +1,1 @@
+program nonkelvartests;{$mode objfpc}{$H+}uses  Classes, Forms, Interfaces, GuiTestRunner, fpcunittestrunner, vartests,  helperscase, bisoncase;begin  Application.Initialize;  Application.CreateForm(TGUITestRunner, TestRunner);  Application.Run;end.

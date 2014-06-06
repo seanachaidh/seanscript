@@ -41,7 +41,7 @@ type
 
   TSymbolList = specialize TFPGList<TSymbol>;
 var
-  symlist TSymbolList;
+  symlist: TSymbolList;
 
 implementation
 

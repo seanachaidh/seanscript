@@ -20,7 +20,7 @@
 %token <nstring> T_IDENTIFIER
 %token <TCmpType> T_CMP
 
-%type <TNonkelVar> expression term statement assignment print_cmd exit_cmd if_statement
+%type <TStatement> expression term statement assignment print_cmd exit_cmd if_statement
 
 
 %%

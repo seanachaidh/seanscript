@@ -1,0 +1,23 @@
+script gdc
+
+//grootse gemene deler voorbeeld
+
+main
+{
+	var a:= 0;
+	var b:= 0;
+	
+	while a != b
+	{
+		if a > b
+		{
+			a:= a - b;
+		}
+		if a < b
+		{
+			b:= b - a;
+		}
+
+	}
+	print a;
+}

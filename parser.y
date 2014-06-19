@@ -11,19 +11,24 @@
   end;
   var
      x: TCmpType;
+     tmpnode: TAstNode;
 %}
 
 %token T_EOL
 %token T_NUMBER
-%token T_MIN T_PLUS T_MUL T_EQUAL T_EXIT T_IF T_COLON T_DIV
-%token T_PRINT
+%token T_EXIT T_PRINT T_COLON T_SEMICOLON
+%token T_IF T_WHILE
+%token T_VAR T_SCRIPT
 %token <nstring> T_IDENTIFIER
 %token <TCmpType> T_CMP
+%token <TOperatorType> T_MIN T_PLUS T_MUL T_EQUAL T_EXIT T_IF T_COLON T_DIV
 
 %type <TStatement> expression term statement assignment print_cmd exit_cmd if_statement
 
 
 %%
+
+%start program
 
 program:
         |program statement T_EOL {writeDown($2);};
@@ -38,11 +43,10 @@ statement: assignment
 
 assignment: T_IDENTIFIER T_EQUAL expression {$$:= vlist.setvar($1, $3);};
 
-expression: term
-            | expression T_MIN term {$$ := DoMin($1, $3);}
-            | expression T_PLUS term {$$ := DoPlus($1, $3);}
-            | expression T_MUL term {$$ := DoMul($1, $3);}
-            | expression T_DIV term {$$:= DoDiv($1, $3);}
+expression: T_NUMBER
+            | expression T_OPERATOR expression {
+              tmpnode:= T
+            }
             ;
 if_statement:
              T_IF expression T_CMP expression T_COLON {
@@ -56,16 +60,13 @@ if_statement:
              }
              ;
 
-cmp_token:
-          T_GREATER
-          |T_LESSER
-          |T_EQUAL
-
 term: T_NUMBER
       | T_IDENTIFIER {$$:= vlist.getvar($1);}
       ;
 
-print_cmd: T_PRINT T_IDENTIFIER {$$:= vlist.getvar($2);};
+print_cmd: T_PRINT T_IDENTIFIER {
+           $$:= vlist.getvar($2);
+;
 exit_cmd: T_EXIT {halt;};
 
 %%

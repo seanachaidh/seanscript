@@ -16,6 +16,7 @@ type
   TSymbol = class
     private
       myname: string;
+      //is dit handig om te bewaren?
       mykind: TEnumType;
       myvalue: Variant;
       //om het debuggen van code gemakkelijker te maken

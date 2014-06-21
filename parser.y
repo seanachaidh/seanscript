@@ -23,7 +23,7 @@
 %token <TCmpType> T_CMP
 %token <TOperatorType> T_MIN T_PLUS T_MUL T_EQUAL T_EXIT T_IF T_COLON T_DIV
 
-%type <TStatement> expression term statement assignment print_cmd exit_cmd if_statement
+%type <TAstNode> expression term statement assignment print_cmd exit_cmd if_statement
 
 
 %%
@@ -31,8 +31,13 @@
 %start program
 
 program:
-        |program statement T_EOL {writeDown($2);};
+        |programdecl statementlist
 ;
+
+programdecl:
+            T_SCRIPT T_IDENTIFIER T_SEMICOLON {
+            tmpnode:= TScriptDeclaration.Create($2);
+
 
 statement: assignment
           |expression

@@ -7,11 +7,12 @@ unit uinterpreter;
 
 interface
 uses
-  Classes, fgl, sysutils, symtab, helpers;
+  Classes, fgl, sysutils, symtab, helpers, typinfo;
 
 type
   //deze enum wordt gebruikt bij vergelijkingen
   TCompType = (GREATER, LESSER, EQUAL);
+  TOperator = (OPERATOR_PLUS, OPERATOR_DIV, OPERATOR_MIN, OPERATOR_MUL);
   TContext = class;
 
   { TAstNode }
@@ -56,9 +57,13 @@ type
   end;
 
   {Deze klasse stelt een berekening voor}
+
+  { TCalculation }
+
   TCalculation = class(TNumber)
     private
       myleft, myright: TNumber;
+      op: TOperator;
     public
       property Left: TNumber read myleft write myleft;
       property Right: TNumber read myright write myright;
@@ -67,7 +72,7 @@ type
       procedure Interpret(con: TContext); override;
       function ToString: ansistring; override;
 
-      constructor Create(cleft, cright: TNumber);
+      constructor Create(cleft, cright: TNumber; cop: TOperator);
   end;
 
   {Deze klasse stelt een block voor}
@@ -87,6 +92,9 @@ type
   end;
 
   {Deze kasse stelt een hoofding voor van een programma}
+
+  { TScriptDeclaration }
+
   TScriptDeclaration = class(TAstNode)
     private
       mynaam: String;
@@ -97,6 +105,8 @@ type
 
       constructor Create(cnaam: String);
   end;
+
+  { TConditional }
 
   TConditional = class(TAstNode)
     private
@@ -115,6 +125,8 @@ type
       constructor Create(cleft, cright: TCalculation; ccomp: TCompType;
         cblock: TCodeBlock);
   end;
+
+  { TWhileStatement }
 
   TWhileStatement = class(TConditional)
     public
@@ -135,6 +147,8 @@ type
       constructor Create(cleft, cright: TCalculation; ccomp: TCompType;
         cblock: TCodeBlock; celse: TCodeBlock);
   end;
+
+  { TAssingnment }
 
   TAssingnment = class(TAstNode)
     private
@@ -178,6 +192,115 @@ type
   end;
 
 implementation
+
+{ TWhileStatement }
+
+procedure TWhileStatement.Interpret(con: TContext);
+begin
+  inherited Interpret(con);
+end;
+
+function TWhileStatement.ToString: AnsiString;
+begin
+  Result:=inherited ToString;
+end;
+
+{ TConditional }
+
+procedure TConditional.Interpret(con: TContext);
+begin
+  raise Exception.Create('nog niet geimplementeerd');
+end;
+
+function TConditional.ToString: AnsiString;
+begin
+  Result:=inherited ToString + stnewline;
+  Result+= 'Left: ' + stnewline + Left.ToString + stnewline;
+  Result+= 'Right: ' + stnewline + Right.ToString;
+end;
+
+constructor TConditional.Create(cleft, cright: TCalculation; ccomp: TCompType;
+  cblock: TCodeBlock);
+begin
+  self.Left:= cleft;
+  self.Right:= cright;
+  Self.comp:= ccomp;
+  Self.CodeBlock:= cblock;
+end;
+
+{ TScriptDeclaration }
+
+procedure TScriptDeclaration.Interpret(con: TContext);
+begin
+  raise Exception.Create('nog niet geimplemteerd');
+end;
+
+function TScriptDeclaration.ToString: ansistring;
+begin
+  Result:=inherited ToString + stnewlinetab;
+  Result+= 'Script naam: ' + Naam;
+end;
+
+constructor TScriptDeclaration.Create(cnaam: String);
+begin
+  Self.Naam:= cnaam;
+end;
+
+{ TCalculation }
+
+function TCalculation.GetValue: Variant;
+begin
+  case op of
+  OPERATOR_PLUS: Result:= Left.value + Right.value;
+  OPERATOR_MIN: Result:= Left.value - Right.value;
+  OPERATOR_DIV: Result:= Left.value / Right.value;
+  OPERATOR_MUL: Result:= Left.value * Right.value;
+  end;
+end;
+
+procedure TCalculation.Interpret(con: TContext);
+begin
+  raise Exception.Create('nog niet geimplementeerd');
+end;
+
+function TCalculation.ToString: ansistring;
+begin
+  Result:=inherited ToString + stnewline;
+  Result+= 'Operator: ' + GetEnumName(TypeInfo(TOperator), integer(self.op)) + stnewline;
+  Result+= 'Left:' + stnewlinetab + left.ToString + stnewline;
+  Result+= 'Right:' + stnewlinetab + right.ToString;
+end;
+
+constructor TCalculation.Create(cleft, cright: TNumber; cop: TOperator);
+begin
+  self.Left:= cleft;
+  self.Right:= cright;
+  self.op:= cop;
+end;
+
+{ TAssingnment }
+
+procedure TAssingnment.Interpret(con: TContext);
+begin
+  raise Exception.Create('nog niet geimplementeerd');
+end;
+
+function TAssingnment.ToString: AnsiString;
+begin
+  Result:=inherited ToString + stnewlinetab;
+  Result+= self.ident + stnewlinetab;
+end;
+
+constructor TAssingnment.Create(cident: string);
+begin
+  self.ident:= cident;
+end;
+
+constructor TAssingnment.Create(cident: string; ccalc: TCalculation);
+begin
+  Self.ident:= cident;
+  self.calc:= ccalc;
+end;
 
 { TCodeBlock }
 

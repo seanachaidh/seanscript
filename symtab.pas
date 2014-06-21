@@ -12,12 +12,15 @@ uses
   Classes, SysUtils, fgl;
 
 type
-  TEnumType = (KIND_BOOL, KIND_STRING, KIND_INTEGER, KIND_FLOAT);
+  TEnumKind = (KIND_BOOL, KIND_STRING, KIND_INTEGER, KIND_FLOAT);
+
+  { TSymbol }
+
   TSymbol = class
     private
       myname: string;
       //is dit handig om te bewaren?
-      mykind: TEnumType;
+      mykind: TEnumKind;
       myvalue: Variant;
       //om het debuggen van code gemakkelijker te maken
       mylinenum: integer;
@@ -25,29 +28,32 @@ type
 
     public
       property Name: string read myname write myname;
-      property Kind: TEnumType read mykind write mykind;
+      //Is dit relevant?
+      property Kind: TEnumKind read mykind write mykind;
       property Value: Variant read myvalue write myvalue;
       property Linenum: integer read mylinenum write mylinenum;
       property Global: boolean read myglobal write myglobal;
 
+      Constructor Create(cname: String; ckind: TEnumKind; cvalue: Variant;
+        clinenum: integer; cglobal: boolean);
+
   end;
 
-  TFunction = class(TSymbol)
-    private
-      myparams: integer;
-      param_kinds: array of TEnumType;
-    public
-      property Params: integer read myparams write myparams;
-  end;
-
-  TSymbolList = specialize TFPGList<TSymbol>;
-var
-  symlist: TSymbolList;
+  TSymbolTable = specialize TFPGList<TSymbol>;
 
 implementation
 
-initialization
-symlist:= TSymbolList.Create;
+{ TSymbol }
+
+constructor TSymbol.Create(cname: String; ckind: TEnumKind; cvalue: Variant;
+  clinenum: integer; cglobal: boolean);
+begin
+  myname:= cname;
+  mykind:= ckind;
+  myglobal:= cglobal;
+  mylinenum:= clinenum;
+  myvalue:= cvalue;
+end;
 
 end.
 

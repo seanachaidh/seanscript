@@ -7,6 +7,11 @@ interface
 uses
   Classes, SysUtils;
 
+{enkele constanten voor het maken van newlines en tabs in strings}
+const
+  stnewline = {$ifdef WINDOWS} AnsiString(#10#13); {$else} AnsiString(#10); {$endif}
+  stnewlinetab = {$ifdef windows} AnsiString(#10#13#9); {$else} AnsiString(#10#9); {$endif}
+
 function GenerateRandomString: string;
 
 implementation

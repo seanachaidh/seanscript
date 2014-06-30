@@ -11,16 +11,27 @@ uses
 
 type
   //deze enum wordt gebruikt bij vergelijkingen
+
+
+  TContext = class;
+  TAstNode = class;
+
+  TNodeList = specialize TFPGList<TAstNode>;
   TCompType = (GREATER, LESSER, EQUAL);
   TOperator = (OPERATOR_PLUS, OPERATOR_DIV, OPERATOR_MIN, OPERATOR_MUL);
-  TContext = class;
 
   { TAstNode }
 
   TAstNode = class
+    private
+      kinderen: TNodeList;
     public
       procedure Interpret(con: TContext);virtual; abstract;
       function ToString: ansistring; override;
+
+      constructor Create;
+      constructor Create(initkinderen: TNodeList);
+
   end;
 
   { TParameter }
@@ -38,7 +49,6 @@ type
       constructor Create(cnaam: string; cvalue: variant);
   end;
 
-  TNodeList = specialize TFPGList<TAstNode>;
   TParameterList = specialize TFPGList<TParameter>;
 
   {Deze klasse stelt een nummer voor}
@@ -98,10 +108,12 @@ type
   TScriptDeclaration = class(TAstNode)
     private
       mynaam: String;
+      myprogram: TNodeList;
     public
       property Naam: string read mynaam write mynaam;
       procedure Interpret(con: TContext); override;
       function ToString: ansistring; override;
+      procedure AddProgram(toadd: TNodeList);
 
       constructor Create(cnaam: String);
   end;
@@ -241,9 +253,20 @@ begin
   Result+= 'Script naam: ' + Naam;
 end;
 
+procedure TScriptDeclaration.AddProgram(toadd: TNodeList);
+var
+  tmp: TAstNode;
+begin
+  for tmp in toadd
+  begin
+    myprogram.Add(tmp);
+  end;
+end;
+
 constructor TScriptDeclaration.Create(cnaam: String);
 begin
   Self.Naam:= cnaam;
+  self.myprogram:= TNodeList.Create;
 end;
 
 { TCalculation }
@@ -355,6 +378,16 @@ begin
   Result:='naam node: ' + ClassName;
 end;
 
+constructor TAstNode.Create;
+begin
+  Self.kinderen:= TNodeList.Create;
+end;
+
+constructor TAstNode.Create(initkinderen: TNodeList);
+begin
+  self.kinderen:= initkinderen;
+end;
+
 { TNumber }
 
 function TNumber.GetValue: Variant;
@@ -436,4 +469,4 @@ begin
 end;
 
 end.
-
+

@@ -11,7 +11,7 @@
   end;
   var
      x: TCmpType;
-     tmpnode: TAstNode;
+     tmpnode: TScriptDeclaration;
 %}
 
 %token T_EOL
@@ -31,12 +31,19 @@
 %start program
 
 program:
-        |programdecl statementlist
+        |programdecl statementlist {
+                     $1.AddProgram($2);
+        }
 ;
 
 programdecl:
             T_SCRIPT T_IDENTIFIER T_SEMICOLON {
             tmpnode:= TScriptDeclaration.Create($2);
+};
+
+statementlist:
+              statementlist satement {
+
 
 
 statement: assignment

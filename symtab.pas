@@ -37,6 +37,8 @@ type
       Constructor Create(cname: String; ckind: TEnumKind; cvalue: Variant;
         clinenum: integer; cglobal: boolean);
 
+      function ToString: ansistring; override;
+
   end;
 
   TSymbolTable = specialize TFPGList<TSymbol>;
@@ -53,6 +55,11 @@ begin
   myglobal:= cglobal;
   mylinenum:= clinenum;
   myvalue:= cvalue;
+end;
+
+function TSymbol.ToString: ansistring;
+begin
+  Result:= 'Symbol naam: ' + Name + ', value: ' + Value;
 end;
 
 end.

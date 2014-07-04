@@ -186,6 +186,16 @@ type
       mysymbols: TSymbolTable;
     public
       property Symbols: TSymbolTable read mysymbols write mysymbols;
+
+      //functies om de symbolentabel van deze context te beheren
+      function SearchSymbol(snaam: string): TSymbol;
+      {
+      update een symbol
+      Deze funtie geeft true wanneer er een symbol is toegevoegd
+      False wanneer het slechts geüpdated is
+      }
+      function PutSymbol(snaam: string; svalue: variant): boolean;
+
       constructor Create(syms: TSymbolTable);
       constructor Create;
   end;
@@ -473,6 +483,47 @@ begin
 end;
 
 { TContext }
+
+function TContext.SearchSymbol(snaam: string): TSymbol;
+var
+  tmp: TSymbol;
+begin
+  Result:= nil;
+
+  for tmp in Symbols do
+  begin
+    if tmp.Name = snaam then
+    begin
+      Result:= tmp;
+    end;
+  end;
+
+end;
+
+function TContext.PutSymbol(snaam: string; svalue: variant): boolean;
+var
+  //ik maak gebruik van deze variable in plaats van result ten behoeve van de leesbaarheid.
+  retval: boolean;
+  tmpsymbol: TSymbol;
+begin
+  retval:= true;
+
+  for tmpsymbol in Symbols do
+  begin
+    if snaam = tmpsymbol.Name then
+    begin
+      tmpsymbol.Value:= svalue;
+      retval:= false;
+    end;
+  end;
+
+  if retval then
+  begin
+    Symbols.Add(TSymbol.Create(snaam, KIND_INTEGER, svalue, true));
+  end;
+
+  Result:= retval;
+end;
 
 constructor TContext.Create(syms: TSymbolTable);
 begin

@@ -21,7 +21,7 @@
 %token T_VAR T_SCRIPT
 %token <nstring> T_IDENTIFIER
 %token <TCmpType> T_CMP
-%token <TOperatorType> T_MIN T_PLUS T_MUL T_EQUAL T_EXIT T_IF T_COLON T_DIV
+%token <TOperatorType> T_OPERATOR
 
 %type <TAstNode> expression term statement assignment print_cmd exit_cmd if_statement
 
@@ -42,43 +42,39 @@ programdecl:
 };
 
 statementlist:
-              statementlist satement {
-
+              statementlist T_SEMICOLON satement {
+                            $1.AddChild($2);
+                            $$:= $1;
+              }
+;
 
 
 statement: assignment
-          |expression
+          |calculation
           |if_statement
           |print_cmd
           |exit_cmd
 ;
 
-assignment: T_IDENTIFIER T_EQUAL expression {$$:= vlist.setvar($1, $3);};
+calculation: T_NUMBER T_OPERATOR T_NUMBER {
+             $$:= TCalculation.Create($1, $3, $2);
+}
+;
 
-expression: T_NUMBER
-            | expression T_OPERATOR expression {
-              tmpnode:= T
+assignment: T_IDENTIFIER T_EQUAL expression {
+                         $$:=TAssingnment.Create($1, $3);
             }
-            ;
+;
+
+/*hier moet ik nog een else statementlist aan toevoegen.*/
 if_statement:
-             T_IF expression T_CMP expression T_COLON {
-                  x:= $3;
-                  case x of
-                       GREATER: writeln('een if statement met een groter dan');
-                       LESSER: writeln('een if statement met een kleiner dan');
-                       EQUAL: writeln('een if statement met een gelijk aan');
-                  end;
-                  $$:= TNonkelVar.EmptyVar;
+             T_IF expression T_CMP expression T_COLON statementlist {
+                       $$:= TIfStatement.Create($2, $4, $3, $6, nil);
              }
-             ;
+;
 
 term: T_NUMBER
-      | T_IDENTIFIER {$$:= vlist.getvar($1);}
-      ;
-
-print_cmd: T_PRINT T_IDENTIFIER {
-           $$:= vlist.getvar($2);
+      | T_IDENTIFIER {$$:= TNumber.Create($}
 ;
-exit_cmd: T_EXIT {halt;};
 
 %%

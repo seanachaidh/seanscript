@@ -11,6 +11,8 @@ type
   { TNonkelScript }
 
   TNonkelScript = class(TCustomApplication)
+  private
+    maininterpreter: TInterpreter;
   protected
     procedure DoRun; override;
   public
@@ -44,6 +46,9 @@ begin
   end;
 
   writeln('welkom');
+  maininterpreter:= TInterpreter.Create;
+
+  //Waar gaat de gemaakte syntaxtree heen?
   yyparse;
 
   // stop program loop
@@ -75,4 +80,4 @@ begin
   Application.Run;
   Application.Free;
 end.
-
+

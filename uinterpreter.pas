@@ -27,6 +27,7 @@ type
       kinderen: TNodeList;
     public
       procedure Interpret(con: TContext);virtual; abstract;
+      procedure AddChild(toadd: TAstNode);
       function ToString: ansistring; override;
 
       constructor Create;
@@ -39,14 +40,14 @@ type
   TParameter = class(TAstNode)
     private
       mynaam: string;
-      myvalue: Variant;
+      myvalue: float;
     public
       property Naam: string read mynaam write mynaam;
-      property Value: Variant read myvalue write myvalue;
+      property Value: float read myvalue write myvalue;
 
       procedure Interpret(con: TContext); override;
       function ToString: ansistring; override;
-      constructor Create(cnaam: string; cvalue: variant);
+      constructor Create(cnaam: string; cvalue: float);
   end;
 
   TParameterList = specialize TFPGList<TParameter>;
@@ -57,13 +58,13 @@ type
 
   TNumber = class(TAstNode)
     private
-      value: Variant;
+      value: float;
     public
-      function GetValue: Variant; virtual;
+      function GetValue: float; virtual;
       procedure Interpret(con: TContext); override;
       function ToString: ansistring; override;
 
-      Constructor Create(val: Variant);
+      Constructor Create(val: Float);
   end;
 
   {Deze klasse stelt een berekening voor}
@@ -78,7 +79,7 @@ type
       property Left: TNumber read myleft write myleft;
       property Right: TNumber read myright write myright;
 
-      function GetValue: Variant; override;
+      function GetValue: float; override;
       procedure Interpret(con: TContext); override;
       function ToString: ansistring; override;
 
@@ -271,7 +272,7 @@ end;
 
 { TCalculation }
 
-function TCalculation.GetValue: Variant;
+function TCalculation.GetValue: float;
 begin
   case op of
   OPERATOR_PLUS: Result:= Left.value + Right.value;
@@ -316,11 +317,13 @@ end;
 
 constructor TAssingnment.Create(cident: string);
 begin
+  inherited Create;
   self.ident:= cident;
 end;
 
 constructor TAssingnment.Create(cident: string; ccalc: TCalculation);
 begin
+  inherited Create;
   Self.ident:= cident;
   self.calc:= ccalc;
 end;
@@ -345,6 +348,7 @@ end;
 
 constructor TCodeBlock.Create;
 begin
+  inherited Create;
   Statements:= TNodeList.Create;
 end;
 
@@ -364,6 +368,7 @@ end;
 constructor TIfStatement.Create(cleft, cright: TCalculation; ccomp: TCompType;
   cblock: TCodeBlock; celse: TCodeBlock);
 begin
+  inherited Create;
   self.Left:= cleft;
   self.Right:= cright;
   self.comp:= ccomp;
@@ -373,6 +378,11 @@ end;
 
 { TAstNode }
 
+procedure TAstNode.AddChild(toadd: TAstNode);
+begin
+  kinderen.Add(toadd);
+end;
+
 function TAstNode.ToString: ansistring;
 begin
   Result:='naam node: ' + ClassName;
@@ -380,17 +390,19 @@ end;
 
 constructor TAstNode.Create;
 begin
+  inherited Create;
   Self.kinderen:= TNodeList.Create;
 end;
 
 constructor TAstNode.Create(initkinderen: TNodeList);
 begin
+  inherited Create;
   self.kinderen:= initkinderen;
 end;
 
 { TNumber }
 
-function TNumber.GetValue: Variant;
+function TNumber.GetValue: float;
 begin
   Result:= value;
 end;
@@ -410,8 +422,9 @@ begin
   Result:= retval;
 end;
 
-constructor TNumber.Create(val: Variant);
+constructor TNumber.Create(val: float);
 begin
+  inherited Create;
   self.value:= val;
 end;
 
@@ -433,8 +446,9 @@ begin
   Result:= retval;
 end;
 
-constructor TParameter.Create(cnaam: string; cvalue: variant);
+constructor TParameter.Create(cnaam: string; cvalue: float);
 begin
+  inherited Create;
   Self.Naam:= cnaam;
   self.Value:= cvalue;
 end;
@@ -448,11 +462,13 @@ end;
 
 constructor TInterpreter.Create;
 begin
+  inherited Create;
   mycontext:= TContext.Create;
 end;
 
 constructor TInterpreter.Create(con: TContext);
 begin
+  inherited Create;
   mycontext:= con;
 end;
 
@@ -460,11 +476,13 @@ end;
 
 constructor TContext.Create(syms: TSymbolTable);
 begin
+  inherited Create;
   mysymbols:= syms;
 end;
 
 constructor TContext.Create;
 begin
+  inherited Create;
   mysymbols:= TSymbolTable.Create;
 end;
 

@@ -125,18 +125,19 @@ type
     private
       myleft, myright: TCalculation;
       comp: TCompType;
-      block: TCodeBlock;
+      block: TAstNode;
     public
       property Left: TCalculation read myleft write myleft;
       property Right: TCalculation read myright write myright;
       property Comparator: TCompType read comp write comp;
-      property CodeBlock: TCodeBlock read block write block;
+      property CodeBlock: TAstNode read block write block;
 
       procedure Interpret(con: TContext); override;
       function ToString: AnsiString; override;
 
+      //de codeblock moet hier nog veranderd worden door een AstNode
       constructor Create(cleft, cright: TCalculation; ccomp: TCompType;
-        cblock: TCodeBlock);
+        cblock: TAstNode);
   end;
 
   { TWhileStatement }
@@ -151,14 +152,14 @@ type
 
   TIfStatement = class(TConditional)
     private
-      belse: TCodeBlock;
+      belse: TAstNode;
     public
-      property ElseBlock: TCodeBlock read belse write belse;
+      property ElseBlock: TAstNode read belse write belse;
       procedure Interpret(con: TContext); override;
       function ToString: AnsiString; override;
 
       constructor Create(cleft, cright: TCalculation; ccomp: TCompType;
-        cblock: TCodeBlock; celse: TCodeBlock);
+        cblock: TAstNode; celse: TAstNode);
   end;
 
   { TAssingnment }
@@ -243,7 +244,7 @@ begin
 end;
 
 constructor TConditional.Create(cleft, cright: TCalculation; ccomp: TCompType;
-  cblock: TCodeBlock);
+  cblock: TAstNode);
 begin
   self.Left:= cleft;
   self.Right:= cright;
@@ -376,7 +377,7 @@ begin
 end;
 
 constructor TIfStatement.Create(cleft, cright: TCalculation; ccomp: TCompType;
-  cblock: TCodeBlock; celse: TCodeBlock);
+  cblock: TAstNode; celse: TAstNode);
 begin
   inherited Create;
   self.Left:= cleft;

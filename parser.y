@@ -52,8 +52,7 @@ statementlist:
 statement: assignment
           |calculation
           |if_statement
-          |print_cmd
-          |exit_cmd
+          |while_statement
 ;
 
 calculation: T_NUMBER T_OPERATOR T_NUMBER {
@@ -73,8 +72,15 @@ if_statement:
              }
 ;
 
+while_statement:
+                T_WHILE expression T_CMP expression T_COLON statementlist {
+                /*Code voor een gewone while statement*/
+                       $$:= TWhileStatement.Create($2, $4, $3, $6);
+                }
+/*los dit op door het maken van een eigen value type dat alle soorten typen kan beihouden*/
 term: T_NUMBER
       | T_IDENTIFIER {$$:= TNumber.Create($}
 ;
 
 %%
+

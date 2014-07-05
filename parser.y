@@ -79,7 +79,7 @@ while_statement:
                 }
 /*los dit op door het maken van een eigen value type dat alle soorten typen kan beihouden*/
 term: T_NUMBER
-      | T_IDENTIFIER {$$:= TNumber.Create($}
+      | T_IDENTIFIER {$$:= TNumber.Create($1)
 ;
 
 %%

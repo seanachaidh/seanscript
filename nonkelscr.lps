@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="14">
+    <Units Count="13">
       <Unit0>
         <Filename Value="nonkelscr.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -41,8 +41,8 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="55"/>
-        <CursorPos X="39" Y="78"/>
+        <TopLine Value="62"/>
+        <CursorPos X="29" Y="83"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="None"/>
@@ -60,10 +60,11 @@
         <Filename Value="helpers.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="helpers"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="39" Y="12"/>
+        <TopLine Value="9"/>
+        <CursorPos X="4" Y="32"/>
         <UsageCount Value="210"/>
         <Loaded Value="True"/>
       </Unit5>
@@ -104,7 +105,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="42"/>
         <CursorPos X="20" Y="62"/>
-        <UsageCount Value="176"/>
+        <UsageCount Value="192"/>
         <Loaded Value="True"/>
       </Unit9>
       <Unit10>
@@ -114,18 +115,17 @@
         <WindowIndex Value="0"/>
         <TopLine Value="4"/>
         <CursorPos X="23" Y="34"/>
-        <UsageCount Value="176"/>
+        <UsageCount Value="192"/>
       </Unit10>
       <Unit11>
         <Filename Value="uinterpreter.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uinterpreter"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="379"/>
-        <CursorPos X="36" Y="380"/>
-        <UsageCount Value="168"/>
+        <TopLine Value="518"/>
+        <CursorPos X="39" Y="542"/>
+        <UsageCount Value="184"/>
         <Loaded Value="True"/>
       </Unit11>
       <Unit12>
@@ -134,16 +134,8 @@
         <WindowIndex Value="0"/>
         <TopLine Value="91"/>
         <CursorPos X="15" Y="112"/>
-        <UsageCount Value="34"/>
+        <UsageCount Value="33"/>
       </Unit12>
-      <Unit13>
-        <Filename Value="C:\lazarus\fpc\2.6.2\source\packages\fcl-base\src\custapp.pp"/>
-        <UnitName Value="CustApp"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="58"/>
-        <CursorPos X="14" Y="68"/>
-        <UsageCount Value="0"/>
-      </Unit13>
     </Units>
     <General>
       <ActiveWindowIndexAtStart Value="0"/>

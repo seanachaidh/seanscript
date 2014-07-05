@@ -9,12 +9,33 @@ unit symtab;
 interface
 
 uses
-  Classes, SysUtils, fgl;
+  Classes, SysUtils, fgl, variants;
 
 type
-  TEnumKind = (KIND_BOOL, KIND_STRING, KIND_INTEGER, KIND_FLOAT);
+  TEnumKind = (KIND_BOOL, KIND_STRING, KIND_NUMBER);
 
   { TSymbol }
+
+  //deze klasse moet  ervoor zorgen dat er zo weinig mogelijk gebruik gemaakt wordt
+  //van het variant.
+
+  { TValue }
+
+  TValue = class
+    private
+      myboolean: boolean;
+      mystring: string;
+      mynumber: float;
+
+      mykind: TEnumKind;
+
+    public
+      constructor Create(cvalue: variant; ckind: TEnumKind);
+      function ToString: ansistring; override;
+
+      property Kind: TEnumKind read mykind;
+
+  end;
 
   TSymbol = class
     private
@@ -44,6 +65,22 @@ type
   TSymbolTable = specialize TFPGList<TSymbol>;
 
 implementation
+
+{ TValue }
+
+constructor TValue.Create(cvalue: variant; ckind: TEnumKind);
+begin
+
+end;
+
+function TValue.ToString: ansistring;
+begin
+  case mykind of
+  KIND_STRING: Result:= mystring;
+  KIND_NUMBER: Result:= FloatToStr(mynumber);
+  KIND_BOOL: Result:= BoolToStr(myboolean, 'true', 'false');
+  end;
+end;
 
 { TSymbol }
 

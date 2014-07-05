@@ -78,7 +78,7 @@ while_statement:
                        $$:= TWhileStatement.Create($2, $4, $3, $6);
                 }
 /*los dit op door het maken van een eigen value type dat alle soorten typen kan beihouden*/
-term: T_NUMBER
+term: T_NUMBER {$$:= TValue.Creat
       | T_IDENTIFIER {$$:= TNumber.Create($1)
 ;
 

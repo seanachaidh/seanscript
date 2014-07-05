@@ -40,18 +40,14 @@ type
   TSymbol = class
     private
       myname: string;
-      //is dit handig om te bewaren?
-      mykind: TEnumKind;
-      myvalue: Variant;
+      myvalue: TValue;
       //om het debuggen van code gemakkelijker te maken
       mylinenum: integer;
       myglobal: boolean;
 
     public
       property Name: string read myname write myname;
-      //Is dit relevant?
-      property Kind: TEnumKind read mykind write mykind;
-      property Value: Variant read myvalue write myvalue;
+      property Value: TValue read myvalue write myvalue;
       property Linenum: integer read mylinenum write mylinenum;
       property Global: boolean read myglobal write myglobal;
 
@@ -70,6 +66,13 @@ implementation
 
 constructor TValue.Create(cvalue: variant; ckind: TEnumKind);
 begin
+  case ckind of
+  KIND_BOOL: myboolean:= cvalue;
+  KIND_NUMBER: mynumber:= cvalue;
+  KIND_STRING: mystring:= cvalue;
+  end;
+
+  mykind:= ckind;
 
 end;
 
@@ -84,7 +87,7 @@ end;
 
 { TSymbol }
 
-constructor TSymbol.Create(cname: String; ckind: TEnumKind; cvalue: Variant;
+constructor TSymbol.Create(cname: String; ckind: TEnumKind; cvalue: TValue;
   clinenum: integer; cglobal: boolean);
 begin
   myname:= cname;
@@ -96,7 +99,7 @@ end;
 
 function TSymbol.ToString: ansistring;
 begin
-  Result:= 'Symbol naam: ' + Name + ', value: ' + Value;
+  Result:= 'Symbol naam: ' + Name + ', value: ' + Value.ToString;
 end;
 
 end.

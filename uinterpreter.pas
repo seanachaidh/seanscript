@@ -7,12 +7,9 @@ unit uinterpreter;
 
 interface
 uses
-  Classes, fgl, sysutils, symtab, helpers, typinfo;
+  Classes, fgl, sysutils, symtab, helpers, typinfo, symtab;
 
 type
-  //deze enum wordt gebruikt bij vergelijkingen
-
-
   TContext = class;
   TAstNode = class;
 
@@ -58,7 +55,7 @@ type
 
   TNumber = class(TAstNode)
     private
-      value: float;
+      value: TValue;
     public
       function GetValue: float; virtual;
       procedure Interpret(con: TContext); override;
@@ -415,7 +412,12 @@ end;
 
 function TNumber.GetValue: float;
 begin
-  Result:= value;
+  if value.Kind = KIND_NUMBER then
+  begin
+    Result:= StrToFloat(value.ToString);
+  end else begin
+    Result:= 0;
+  end;
 end;
 
 procedure TNumber.Interpret(con: TContext);

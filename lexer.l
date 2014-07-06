@@ -27,7 +27,7 @@
 "script"                        return(T_SCRIPT);
 
 [1-9][0-9]*			begin
-                                     yylval.yyTNonkelVar:= TNonkelVar.Create('number', strtoint(yytext));
+                                     yylval.yyTValue:= TValue.Create(StrToFloat(yytext));
                                      return(T_NUMBER);
                                      end;
 [a-zA-Z][_a-zA-Z0-9]*           begin yylval.yynstring := yytext; return(T_IDENTIFIER); end;

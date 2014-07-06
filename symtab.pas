@@ -30,7 +30,9 @@ type
       mykind: TEnumKind;
 
     public
-      constructor Create(cvalue: variant; ckind: TEnumKind);
+      constructor Create(val: boolean);
+      constructor Create(val: float);
+      constructor Create(val: string);
       function ToString: ansistring; override;
 
       property Kind: TEnumKind read mykind;
@@ -51,7 +53,7 @@ type
       property Linenum: integer read mylinenum write mylinenum;
       property Global: boolean read myglobal write myglobal;
 
-      Constructor Create(cname: String; ckind: TEnumKind; cvalue: Variant;
+      Constructor Create(cname: String; ckind: TEnumKind; cvalue: TValue;
         clinenum: integer; cglobal: boolean);
 
       function ToString: ansistring; override;
@@ -64,16 +66,22 @@ implementation
 
 { TValue }
 
-constructor TValue.Create(cvalue: variant; ckind: TEnumKind);
+constructor TValue.Create(val: boolean);
 begin
-  case ckind of
-  KIND_BOOL: myboolean:= cvalue;
-  KIND_NUMBER: mynumber:= cvalue;
-  KIND_STRING: mystring:= cvalue;
-  end;
+  mykind:= KIND_BOOL;
+  myboolean:= val;
+end;
 
-  mykind:= ckind;
+constructor TValue.Create(val: float);
+begin
+  mykind:= KIND_NUMBER;
+  myvalue:= val;
+end;
 
+constructor TValue.Create(val: string);
+begin
+  mykind:= KIND_STRING;
+  myvalue:= val;
 end;
 
 function TValue.ToString: ansistring;

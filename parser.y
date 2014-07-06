@@ -15,11 +15,11 @@
 %}
 
 %token T_EOL
-%token T_NUMBER
+%token <TValue> T_NUMBER
 %token T_EXIT T_PRINT T_COLON T_SEMICOLON
 %token T_IF T_WHILE
 %token T_VAR T_SCRIPT
-%token <nstring> T_IDENTIFIER
+%token <pchar> T_IDENTIFIER
 %token <TCmpType> T_CMP
 %token <TOperatorType> T_OPERATOR
 
@@ -50,17 +50,17 @@ statementlist:
 
 
 statement: assignment
-          |calculation
           |if_statement
           |while_statement
 ;
 
-calculation: T_NUMBER T_OPERATOR T_NUMBER {
+/*zorg er ook voor dat je identifiers kan berekenen*/
+calculation: number T_OPERATOR number {
              $$:= TCalculation.Create($1, $3, $2);
 }
 ;
 
-assignment: T_IDENTIFIER T_EQUAL expression {
+assignment: T_IDENTIFIER T_EQUAL calculation {
                          $$:=TAssingnment.Create($1, $3);
             }
 ;
@@ -77,10 +77,11 @@ while_statement:
                 /*Code voor een gewone while statement*/
                        $$:= TWhileStatement.Create($2, $4, $3, $6);
                 }
-/*los dit op door het maken van een eigen value type dat alle soorten typen kan beihouden*/
-term: T_NUMBER {$$:= TValue.Creat
-      | T_IDENTIFIER {$$:= TNumber.Create($1)
 ;
+
+number:
+       T_NUMBER {$$:= TNumber.Create($1);}
+       T_IDENTIFIER
 
 %%
 

@@ -4,7 +4,7 @@ program nonkelscr;
 
 uses
   classes, sysutils, CustApp, varsystem, yacclib, lexlib, helpers,
-  conditionsystem, symtab, ucomp, uinterpreter;
+  conditionsystem, symtab, ucomp, uinterpreter, ucmd;
 
 type
 

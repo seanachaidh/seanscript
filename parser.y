@@ -23,7 +23,7 @@
 %token <TCmpType> T_CMP
 %token <TOperatorType> T_OPERATOR
 
-%type <TAstNode> expression term statement assignment print_cmd exit_cmd if_statement
+%type <TAstNode> expression number statement assignment if_statement
 
 
 %%
@@ -52,6 +52,8 @@ statementlist:
 statement: assignment
           |if_statement
           |while_statement
+          |exit_cmd
+          |print_cmd
 ;
 
 /*zorg er ook voor dat je identifiers kan berekenen*/
@@ -81,7 +83,10 @@ while_statement:
 
 number:
        T_NUMBER {$$:= TNumber.Create($1);}
-       T_IDENTIFIER
-
+       T_IDENTIFIER {
+                    $$:= TNumber.Create(
+                          maininterpreter.Context.SearchSymbol($1).Value);
+       }
+;
 %%
 

@@ -23,12 +23,12 @@
 %token <TCmpType> T_CMP
 %token <TOperatorType> T_OPERATOR
 
-%type <TAstNode> expression number statement assignment if_statement
-
-
+%type <TAstNode> number statement assignment if_statement while_statement programdecl
+%type <TAstNode> statementlist calculation programdecl
+%start program
 %%
 
-%start program
+
 
 program:
         |programdecl statementlist {
@@ -38,22 +38,19 @@ program:
 
 programdecl:
             T_SCRIPT T_IDENTIFIER T_SEMICOLON {
-            tmpnode:= TScriptDeclaration.Create($2);
+            $$:= TScriptDeclaration.Create($2);
 };
-
-statementlist:
-              statementlist T_SEMICOLON satement {
-                            $1.AddChild($2);
-                            $$:= $1;
-              }
-;
-
 
 statement: assignment
           |if_statement
           |while_statement
-          |exit_cmd
-          |print_cmd
+;
+
+statementlist:
+              statementlist T_SEMICOLON statement {
+                            $1.AddChild($3);
+                            $$:= $1;
+              }
 ;
 
 /*zorg er ook voor dat je identifiers kan berekenen*/
@@ -69,14 +66,13 @@ assignment: T_IDENTIFIER T_EQUAL calculation {
 
 /*hier moet ik nog een else statementlist aan toevoegen.*/
 if_statement:
-             T_IF expression T_CMP expression T_COLON statementlist {
+             T_IF calculation T_CMP calculation T_COLON statementlist {
                        $$:= TIfStatement.Create($2, $4, $3, $6, nil);
              }
 ;
 
 while_statement:
-                T_WHILE expression T_CMP expression T_COLON statementlist {
-                /*Code voor een gewone while statement*/
+                T_WHILE calculation T_CMP calculation T_COLON statementlist {
                        $$:= TWhileStatement.Create($2, $4, $3, $6);
                 }
 ;
@@ -84,8 +80,7 @@ while_statement:
 number:
        T_NUMBER {$$:= TNumber.Create($1);}
        T_IDENTIFIER {
-                    $$:= TNumber.Create(
-                          maininterpreter.Context.SearchSymbol($1).Value);
+                    $$:= TAssignedNumber.Create($1);
        }
 ;
 %%

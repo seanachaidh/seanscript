@@ -32,7 +32,7 @@
         <FormatVersion Value="1"/>
       </local>
     </RunParams>
-    <Units Count="12">
+    <Units Count="14">
       <Unit0>
         <Filename Value="nonkelscr.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -91,6 +91,16 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uinterpreter"/>
       </Unit11>
+      <Unit12>
+        <Filename Value="ucmd.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ucmd"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="appunit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="appunit"/>
+      </Unit13>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -15,24 +15,27 @@
   end;
   var
      x: TCmpType;
+     tmpnode: TScriptDeclaration;
 const T_EOL = 257;
 const T_NUMBER = 258;
-const T_MIN = 259;
-const T_PLUS = 260;
-const T_MUL = 261;
-const T_EQUAL = 262;
-const T_EXIT = 263;
-const T_IF = 264;
-const T_COLON = 265;
-const T_DIV = 266;
-const T_PRINT = 267;
-const T_IDENTIFIER = 268;
-const T_CMP = 269;
+const T_EXIT = 259;
+const T_PRINT = 260;
+const T_COLON = 261;
+const T_SEMICOLON = 262;
+const T_IF = 263;
+const T_WHILE = 264;
+const T_VAR = 265;
+const T_SCRIPT = 266;
+const T_IDENTIFIER = 267;
+const T_CMP = 268;
+const T_OPERATOR = 269;
 
 type YYSType = record case Integer of
-                 1 : ( yyTCmpType : TCmpType );
-                 2 : ( yyTNonkelVar : TNonkelVar );
-                 3 : ( yynstring : nstring );
+                 1 : ( yyTAstNode : TAstNode );
+                 2 : ( yyTCmpType : TCmpType );
+                 3 : ( yyTOperatorType : TOperatorType );
+                 4 : ( yyTValue : TValue );
+                 5 : ( yypchar : pchar );
                end(*YYSType*);
 
 var yylval : YYSType;
@@ -54,10 +57,14 @@ begin
    1 : begin
        end;
    2 : begin
-         writeDown(yyv[yysp-1].yyTNonkelVar);
+         
+         yyv[yysp-1].yyTAstNode.AddProgram(yyv[yysp-0].yyTAstNode);
+         
        end;
    3 : begin
-         yyval := yyv[yysp-0];
+         
+         yyval.yyTAstNode:= TScriptDeclaration.Create(yyv[yysp-1].yypchar);
+         
        end;
    4 : begin
          yyval := yyv[yysp-0];
@@ -69,57 +76,38 @@ begin
          yyval := yyv[yysp-0];
        end;
    7 : begin
-         yyval := yyv[yysp-0];
+         
+         yyv[yysp-2].yyTAstNode.AddChild(yyv[yysp-0].yyTAstNode);
+         yyval.yyTAstNode:= yyv[yysp-2].yyTAstNode;
+         
        end;
    8 : begin
-         yyval.yyTNonkelVar:= vlist.setvar(yyv[yysp-2].yynstring, yyv[yysp-0].yyTNonkelVar);
+         
+         yyval.yyTAstNode:= TCalculation.Create(yyv[yysp-2].yyTAstNode, yyv[yysp-0].yyTAstNode, yyv[yysp-1].yyTOperatorType);
+         
        end;
    9 : begin
-         yyval := yyv[yysp-0];
+         
+         yyval.yyTAstNode:=TAssingnment.Create(yyv[yysp-2].yypchar, yyv[yysp-0].yyTAstNode);
+         
        end;
   10 : begin
-         yyval.yyTNonkelVar := DoMin(yyv[yysp-2].yyTNonkelVar, yyv[yysp-0].yyTNonkelVar);
+         
+         yyval.yyTAstNode:= TIfStatement.Create(yyv[yysp-4].yyTAstNode, yyv[yysp-2].yyTAstNode, yyv[yysp-3].yyTCmpType, yyv[yysp-0].yyTAstNode, nil);
+         
        end;
   11 : begin
-         yyval.yyTNonkelVar := DoPlus(yyv[yysp-2].yyTNonkelVar, yyv[yysp-0].yyTNonkelVar);
+         
+         yyval.yyTAstNode:= TWhileStatement.Create(yyv[yysp-4].yyTAstNode, yyv[yysp-2].yyTAstNode, yyv[yysp-3].yyTCmpType, yyv[yysp-0].yyTAstNode);
+         
        end;
   12 : begin
-         yyval.yyTNonkelVar := DoMul(yyv[yysp-2].yyTNonkelVar, yyv[yysp-0].yyTNonkelVar);
+         yyval.yyTAstNode:= TNumber.Create(yyv[yysp-0].yyTValue);
        end;
   13 : begin
-         yyval.yyTNonkelVar:= DoDiv(yyv[yysp-2].yyTNonkelVar, yyv[yysp-0].yyTNonkelVar);
-       end;
-  14 : begin
          
-         x:= yyv[yysp-2].yyTCmpType;
-         case x of
-         GREATER: writeln('een if statement met een groter dan');
-         LESSER: writeln('een if statement met een kleiner dan');
-         EQUAL: writeln('een if statement met een gelijk aan');
-         end;
-         yyval.yyTNonkelVar:= TNonkelVar.EmptyVar;
+         yyval.yyTAstNode:= TAssignedNumber.Create(yyv[yysp-2].yyTValue);
          
-       end;
-  15 : begin
-         yyval := yyv[yysp-0];
-       end;
-  16 : begin
-         yyval := yyv[yysp-0];
-       end;
-  17 : begin
-         yyval := yyv[yysp-0];
-       end;
-  18 : begin
-         yyval := yyv[yysp-0];
-       end;
-  19 : begin
-         yyval.yyTNonkelVar:= vlist.getvar(yyv[yysp-0].yynstring);
-       end;
-  20 : begin
-         yyval.yyTNonkelVar:= vlist.getvar(yyv[yysp-0].yynstring);
-       end;
-  21 : begin
-         halt;
        end;
   end;
 end(*yyaction*);
@@ -135,337 +123,325 @@ type YYARec = record
 
 const
 
-yynacts   = 48;
-yyngotos  = 18;
-yynstates = 31;
-yynrules  = 21;
+yynacts   = 26;
+yyngotos  = 22;
+yynstates = 33;
+yynrules  = 13;
 
 yya : array [1..yynacts] of YYARec = (
 { 0: }
+  ( sym: 266; act: 3 ),
+  ( sym: 0; act: -1 ),
 { 1: }
   ( sym: 0; act: 0 ),
-  ( sym: 258; act: 9 ),
-  ( sym: 263; act: 10 ),
-  ( sym: 264; act: 11 ),
-  ( sym: 267; act: 12 ),
-  ( sym: 268; act: 13 ),
 { 2: }
 { 3: }
+  ( sym: 267; act: 5 ),
 { 4: }
+  ( sym: 262; act: 6 ),
+  ( sym: 0; act: -2 ),
 { 5: }
+  ( sym: 262; act: 7 ),
 { 6: }
-  ( sym: 257; act: 14 ),
+  ( sym: 263; act: 12 ),
+  ( sym: 264; act: 13 ),
+  ( sym: 267; act: 14 ),
 { 7: }
 { 8: }
-  ( sym: 259; act: 15 ),
-  ( sym: 260; act: 16 ),
-  ( sym: 261; act: 17 ),
-  ( sym: 266; act: 18 ),
-  ( sym: 257; act: -4 ),
 { 9: }
 { 10: }
 { 11: }
-  ( sym: 258; act: 9 ),
-  ( sym: 268; act: 20 ),
 { 12: }
-  ( sym: 268; act: 21 ),
+  ( sym: 258; act: 17 ),
 { 13: }
-  ( sym: 262; act: 22 ),
-  ( sym: 257; act: -19 ),
-  ( sym: 259; act: -19 ),
-  ( sym: 260; act: -19 ),
-  ( sym: 261; act: -19 ),
-  ( sym: 266; act: -19 ),
+  ( sym: 258; act: 17 ),
 { 14: }
 { 15: }
-  ( sym: 258; act: 9 ),
   ( sym: 268; act: 20 ),
 { 16: }
-  ( sym: 258; act: 9 ),
-  ( sym: 268; act: 20 ),
+  ( sym: 269; act: 21 ),
 { 17: }
-  ( sym: 258; act: 9 ),
-  ( sym: 268; act: 20 ),
 { 18: }
-  ( sym: 258; act: 9 ),
-  ( sym: 268; act: 20 ),
+  ( sym: 268; act: 23 ),
 { 19: }
-  ( sym: 259; act: 15 ),
-  ( sym: 260; act: 16 ),
-  ( sym: 261; act: 17 ),
-  ( sym: 266; act: 18 ),
-  ( sym: 269; act: 27 ),
+  ( sym: 258; act: 17 ),
 { 20: }
+  ( sym: 258; act: 17 ),
 { 21: }
+  ( sym: 258; act: 17 ),
 { 22: }
-  ( sym: 258; act: 9 ),
-  ( sym: 268; act: 20 ),
+  ( sym: 267; act: 27 ),
 { 23: }
+  ( sym: 258; act: 17 ),
 { 24: }
 { 25: }
+  ( sym: 261; act: 29 ),
 { 26: }
 { 27: }
-  ( sym: 258; act: 9 ),
-  ( sym: 268; act: 20 ),
 { 28: }
-  ( sym: 259; act: 15 ),
-  ( sym: 260; act: 16 ),
-  ( sym: 261; act: 17 ),
-  ( sym: 266; act: 18 ),
-  ( sym: 257; act: -8 ),
+  ( sym: 261; act: 30 ),
 { 29: }
-  ( sym: 259; act: 15 ),
-  ( sym: 260; act: 16 ),
-  ( sym: 261; act: 17 ),
-  ( sym: 265; act: 30 ),
-  ( sym: 266; act: 18 )
 { 30: }
+{ 31: }
+  ( sym: 262; act: 6 ),
+  ( sym: 0; act: -10 ),
+{ 32: }
+  ( sym: 262; act: 6 ),
+  ( sym: 0; act: -11 )
 );
 
 yyg : array [1..yyngotos] of YYARec = (
 { 0: }
-  ( sym: -9; act: 1 ),
+  ( sym: -10; act: 1 ),
+  ( sym: -7; act: 2 ),
 { 1: }
-  ( sym: -8; act: 2 ),
-  ( sym: -7; act: 3 ),
-  ( sym: -6; act: 4 ),
-  ( sym: -5; act: 5 ),
-  ( sym: -4; act: 6 ),
-  ( sym: -3; act: 7 ),
-  ( sym: -2; act: 8 ),
 { 2: }
+  ( sym: -8; act: 4 ),
 { 3: }
 { 4: }
 { 5: }
 { 6: }
+  ( sym: -6; act: 8 ),
+  ( sym: -5; act: 9 ),
+  ( sym: -4; act: 10 ),
+  ( sym: -3; act: 11 ),
 { 7: }
 { 8: }
 { 9: }
 { 10: }
 { 11: }
-  ( sym: -3; act: 7 ),
-  ( sym: -2; act: 19 ),
 { 12: }
+  ( sym: -9; act: 15 ),
+  ( sym: -2; act: 16 ),
 { 13: }
+  ( sym: -9; act: 18 ),
+  ( sym: -2; act: 16 ),
 { 14: }
+  ( sym: -11; act: 19 ),
 { 15: }
-  ( sym: -3; act: 23 ),
 { 16: }
-  ( sym: -3; act: 24 ),
 { 17: }
-  ( sym: -3; act: 25 ),
+  ( sym: -12; act: 22 ),
 { 18: }
-  ( sym: -3; act: 26 ),
 { 19: }
+  ( sym: -9; act: 24 ),
+  ( sym: -2; act: 16 ),
 { 20: }
+  ( sym: -9; act: 25 ),
+  ( sym: -2; act: 16 ),
 { 21: }
+  ( sym: -2; act: 26 ),
 { 22: }
-  ( sym: -3; act: 7 ),
-  ( sym: -2; act: 28 ),
 { 23: }
+  ( sym: -9; act: 28 ),
+  ( sym: -2; act: 16 ),
 { 24: }
 { 25: }
 { 26: }
 { 27: }
-  ( sym: -3; act: 7 ),
-  ( sym: -2; act: 29 )
 { 28: }
 { 29: }
+  ( sym: -8; act: 31 ),
 { 30: }
+  ( sym: -8; act: 32 )
+{ 31: }
+{ 32: }
 );
 
 yyd : array [0..yynstates-1] of Integer = (
-{ 0: } -1,
+{ 0: } 0,
 { 1: } 0,
-{ 2: } -5,
-{ 3: } -7,
-{ 4: } -6,
-{ 5: } -3,
+{ 2: } 0,
+{ 3: } 0,
+{ 4: } 0,
+{ 5: } 0,
 { 6: } 0,
-{ 7: } -9,
-{ 8: } 0,
-{ 9: } -18,
-{ 10: } -21,
-{ 11: } 0,
+{ 7: } 0,
+{ 8: } -6,
+{ 9: } -5,
+{ 10: } -4,
+{ 11: } -7,
 { 12: } 0,
 { 13: } 0,
-{ 14: } -2,
+{ 14: } 0,
 { 15: } 0,
 { 16: } 0,
-{ 17: } 0,
+{ 17: } -12,
 { 18: } 0,
 { 19: } 0,
-{ 20: } -19,
-{ 21: } -20,
+{ 20: } 0,
+{ 21: } 0,
 { 22: } 0,
-{ 23: } -10,
-{ 24: } -11,
-{ 25: } -12,
-{ 26: } -13,
-{ 27: } 0,
+{ 23: } 0,
+{ 24: } -9,
+{ 25: } 0,
+{ 26: } -8,
+{ 27: } -13,
 { 28: } 0,
 { 29: } 0,
-{ 30: } -14
+{ 30: } 0,
+{ 31: } 0,
+{ 32: } 0
 );
 
 yyal : array [0..yynstates-1] of Integer = (
 { 0: } 1,
-{ 1: } 1,
-{ 2: } 7,
-{ 3: } 7,
-{ 4: } 7,
+{ 1: } 3,
+{ 2: } 4,
+{ 3: } 4,
+{ 4: } 5,
 { 5: } 7,
-{ 6: } 7,
-{ 7: } 8,
-{ 8: } 8,
-{ 9: } 13,
-{ 10: } 13,
-{ 11: } 13,
-{ 12: } 15,
-{ 13: } 16,
-{ 14: } 22,
-{ 15: } 22,
-{ 16: } 24,
-{ 17: } 26,
-{ 18: } 28,
-{ 19: } 30,
-{ 20: } 35,
-{ 21: } 35,
-{ 22: } 35,
-{ 23: } 37,
-{ 24: } 37,
-{ 25: } 37,
-{ 26: } 37,
-{ 27: } 37,
-{ 28: } 39,
-{ 29: } 44,
-{ 30: } 49
+{ 6: } 8,
+{ 7: } 11,
+{ 8: } 11,
+{ 9: } 11,
+{ 10: } 11,
+{ 11: } 11,
+{ 12: } 11,
+{ 13: } 12,
+{ 14: } 13,
+{ 15: } 13,
+{ 16: } 14,
+{ 17: } 15,
+{ 18: } 15,
+{ 19: } 16,
+{ 20: } 17,
+{ 21: } 18,
+{ 22: } 19,
+{ 23: } 20,
+{ 24: } 21,
+{ 25: } 21,
+{ 26: } 22,
+{ 27: } 22,
+{ 28: } 22,
+{ 29: } 23,
+{ 30: } 23,
+{ 31: } 23,
+{ 32: } 25
 );
 
 yyah : array [0..yynstates-1] of Integer = (
-{ 0: } 0,
-{ 1: } 6,
-{ 2: } 6,
-{ 3: } 6,
+{ 0: } 2,
+{ 1: } 3,
+{ 2: } 3,
+{ 3: } 4,
 { 4: } 6,
-{ 5: } 6,
-{ 6: } 7,
-{ 7: } 7,
-{ 8: } 12,
-{ 9: } 12,
-{ 10: } 12,
-{ 11: } 14,
-{ 12: } 15,
-{ 13: } 21,
-{ 14: } 21,
-{ 15: } 23,
-{ 16: } 25,
-{ 17: } 27,
-{ 18: } 29,
-{ 19: } 34,
-{ 20: } 34,
-{ 21: } 34,
-{ 22: } 36,
-{ 23: } 36,
-{ 24: } 36,
-{ 25: } 36,
-{ 26: } 36,
-{ 27: } 38,
-{ 28: } 43,
-{ 29: } 48,
-{ 30: } 48
+{ 5: } 7,
+{ 6: } 10,
+{ 7: } 10,
+{ 8: } 10,
+{ 9: } 10,
+{ 10: } 10,
+{ 11: } 10,
+{ 12: } 11,
+{ 13: } 12,
+{ 14: } 12,
+{ 15: } 13,
+{ 16: } 14,
+{ 17: } 14,
+{ 18: } 15,
+{ 19: } 16,
+{ 20: } 17,
+{ 21: } 18,
+{ 22: } 19,
+{ 23: } 20,
+{ 24: } 20,
+{ 25: } 21,
+{ 26: } 21,
+{ 27: } 21,
+{ 28: } 22,
+{ 29: } 22,
+{ 30: } 22,
+{ 31: } 24,
+{ 32: } 26
 );
 
 yygl : array [0..yynstates-1] of Integer = (
 { 0: } 1,
-{ 1: } 2,
-{ 2: } 9,
-{ 3: } 9,
-{ 4: } 9,
-{ 5: } 9,
-{ 6: } 9,
-{ 7: } 9,
-{ 8: } 9,
-{ 9: } 9,
-{ 10: } 9,
-{ 11: } 9,
-{ 12: } 11,
-{ 13: } 11,
-{ 14: } 11,
-{ 15: } 11,
-{ 16: } 12,
-{ 17: } 13,
-{ 18: } 14,
-{ 19: } 15,
-{ 20: } 15,
-{ 21: } 15,
-{ 22: } 15,
-{ 23: } 17,
-{ 24: } 17,
-{ 25: } 17,
-{ 26: } 17,
-{ 27: } 17,
-{ 28: } 19,
-{ 29: } 19,
-{ 30: } 19
-);
-
-yygh : array [0..yynstates-1] of Integer = (
-{ 0: } 1,
-{ 1: } 8,
-{ 2: } 8,
-{ 3: } 8,
-{ 4: } 8,
-{ 5: } 8,
-{ 6: } 8,
+{ 1: } 3,
+{ 2: } 3,
+{ 3: } 4,
+{ 4: } 4,
+{ 5: } 4,
+{ 6: } 4,
 { 7: } 8,
 { 8: } 8,
 { 9: } 8,
 { 10: } 8,
-{ 11: } 10,
-{ 12: } 10,
+{ 11: } 8,
+{ 12: } 8,
 { 13: } 10,
-{ 14: } 10,
-{ 15: } 11,
-{ 16: } 12,
+{ 14: } 12,
+{ 15: } 13,
+{ 16: } 13,
 { 17: } 13,
 { 18: } 14,
 { 19: } 14,
-{ 20: } 14,
-{ 21: } 14,
-{ 22: } 16,
-{ 23: } 16,
-{ 24: } 16,
-{ 25: } 16,
-{ 26: } 16,
-{ 27: } 18,
-{ 28: } 18,
-{ 29: } 18,
-{ 30: } 18
+{ 20: } 16,
+{ 21: } 18,
+{ 22: } 19,
+{ 23: } 19,
+{ 24: } 21,
+{ 25: } 21,
+{ 26: } 21,
+{ 27: } 21,
+{ 28: } 21,
+{ 29: } 21,
+{ 30: } 22,
+{ 31: } 23,
+{ 32: } 23
+);
+
+yygh : array [0..yynstates-1] of Integer = (
+{ 0: } 2,
+{ 1: } 2,
+{ 2: } 3,
+{ 3: } 3,
+{ 4: } 3,
+{ 5: } 3,
+{ 6: } 7,
+{ 7: } 7,
+{ 8: } 7,
+{ 9: } 7,
+{ 10: } 7,
+{ 11: } 7,
+{ 12: } 9,
+{ 13: } 11,
+{ 14: } 12,
+{ 15: } 12,
+{ 16: } 12,
+{ 17: } 13,
+{ 18: } 13,
+{ 19: } 15,
+{ 20: } 17,
+{ 21: } 18,
+{ 22: } 18,
+{ 23: } 20,
+{ 24: } 20,
+{ 25: } 20,
+{ 26: } 20,
+{ 27: } 20,
+{ 28: } 20,
+{ 29: } 21,
+{ 30: } 22,
+{ 31: } 22,
+{ 32: } 22
 );
 
 yyr : array [1..yynrules] of YYRRec = (
-{ 1: } ( len: 0; sym: -9 ),
-{ 2: } ( len: 3; sym: -9 ),
-{ 3: } ( len: 1; sym: -4 ),
-{ 4: } ( len: 1; sym: -4 ),
-{ 5: } ( len: 1; sym: -4 ),
-{ 6: } ( len: 1; sym: -4 ),
-{ 7: } ( len: 1; sym: -4 ),
-{ 8: } ( len: 3; sym: -5 ),
-{ 9: } ( len: 1; sym: -2 ),
-{ 10: } ( len: 3; sym: -2 ),
-{ 11: } ( len: 3; sym: -2 ),
-{ 12: } ( len: 3; sym: -2 ),
-{ 13: } ( len: 3; sym: -2 ),
-{ 14: } ( len: 5; sym: -8 ),
-{ 15: } ( len: 1; sym: -10 ),
-{ 16: } ( len: 1; sym: -10 ),
-{ 17: } ( len: 1; sym: -10 ),
-{ 18: } ( len: 1; sym: -3 ),
-{ 19: } ( len: 1; sym: -3 ),
-{ 20: } ( len: 2; sym: -6 ),
-{ 21: } ( len: 1; sym: -7 )
+{ 1: } ( len: 0; sym: -10 ),
+{ 2: } ( len: 2; sym: -10 ),
+{ 3: } ( len: 3; sym: -7 ),
+{ 4: } ( len: 1; sym: -3 ),
+{ 5: } ( len: 1; sym: -3 ),
+{ 6: } ( len: 1; sym: -3 ),
+{ 7: } ( len: 3; sym: -8 ),
+{ 8: } ( len: 3; sym: -9 ),
+{ 9: } ( len: 3; sym: -4 ),
+{ 10: } ( len: 6; sym: -5 ),
+{ 11: } ( len: 6; sym: -6 ),
+{ 12: } ( len: 0; sym: -12 ),
+{ 13: } ( len: 3; sym: -2 )
 );
 
 
@@ -623,3 +599,4 @@ abort:
   yyparse := 1; exit;
 
 end(*yyparse*);
+

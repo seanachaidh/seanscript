@@ -25,13 +25,13 @@ type
     private
       myboolean: boolean;
       mystring: string;
-      mynumber: float;
+      mynumber: real;
 
       mykind: TEnumKind;
 
     public
       constructor Create(val: boolean);
-      constructor Create(val: float);
+      constructor Create(val: real);
       constructor Create(val: string);
       function ToString: ansistring; override;
 
@@ -72,16 +72,16 @@ begin
   myboolean:= val;
 end;
 
-constructor TValue.Create(val: float);
+constructor TValue.Create(val: real);
 begin
   mykind:= KIND_NUMBER;
-  myvalue:= val;
+  mynumber:= val;
 end;
 
 constructor TValue.Create(val: string);
 begin
   mykind:= KIND_STRING;
-  myvalue:= val;
+  mystring:= val;
 end;
 
 function TValue.ToString: ansistring;
@@ -95,11 +95,11 @@ end;
 
 { TSymbol }
 
+//hier moeten een paar paramters uit worden verwijderd
 constructor TSymbol.Create(cname: String; ckind: TEnumKind; cvalue: TValue;
   clinenum: integer; cglobal: boolean);
 begin
   myname:= cname;
-  mykind:= ckind;
   myglobal:= cglobal;
   mylinenum:= clinenum;
   myvalue:= cvalue;

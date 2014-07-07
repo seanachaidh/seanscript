@@ -7,7 +7,7 @@ unit uinterpreter;
 
 interface
 uses
-  Classes, fgl, sysutils, symtab, helpers, typinfo, symtab;
+  Classes, fgl, sysutils, symtab, helpers, typinfo;
 
 type
   TContext = class;
@@ -37,14 +37,14 @@ type
   TParameter = class(TAstNode)
     private
       mynaam: string;
-      myvalue: float;
+      myvalue: real;
     public
       property Naam: string read mynaam write mynaam;
-      property Value: float read myvalue write myvalue;
+      property Value: real read myvalue write myvalue;
 
       procedure Interpret(con: TContext); override;
       function ToString: ansistring; override;
-      constructor Create(cnaam: string; cvalue: float);
+      constructor Create(cnaam: string; cvalue: real);
   end;
 
   TParameterList = specialize TFPGList<TParameter>;
@@ -57,12 +57,27 @@ type
     private
       value: TValue;
     public
-      function GetValue: float; virtual;
+      function GetValue: real; virtual;
       procedure Interpret(con: TContext); override;
       function ToString: ansistring; override;
 
-      Constructor Create(val: Float);
+      Constructor Create(val: real);
+
   end;
+
+  { TAssignedNumber }
+
+  TAssignedNumber = class(TNumber)
+    private
+      myident: String;
+    public
+      function GetValue: real; override;
+      procedure Interpret(con: TContext); override;
+      function ToString: ansistring; override;
+
+      constructor Create(val: string);
+  end;
+
 
   {Deze klasse stelt een berekening voor}
 
@@ -76,7 +91,7 @@ type
       property Left: TNumber read myleft write myleft;
       property Right: TNumber read myright write myright;
 
-      function GetValue: float; override;
+      function GetValue: real; override;
       procedure Interpret(con: TContext); override;
       function ToString: ansistring; override;
 
@@ -213,6 +228,32 @@ type
   end;
 
 implementation
+uses appunit;
+
+{ TAssignedNumber }
+
+function TAssignedNumber.GetValue: real;
+var
+  tmp: TValue;
+begin
+  tmp:=
+end;
+
+procedure TAssignedNumber.Interpret(con: TContext);
+begin
+  inherited Interpret(con);
+end;
+
+function TAssignedNumber.ToString: ansistring;
+begin
+  Result:= inherited ToString;
+  Result+= 'een assigned value: ' + val;
+end;
+
+constructor TAssignedNumber.Create(val: string);
+begin
+  myident:= val;
+end;
 
 { TWhileStatement }
 
@@ -280,7 +321,7 @@ end;
 
 { TCalculation }
 
-function TCalculation.GetValue: float;
+function TCalculation.GetValue: real;
 begin
   case op of
   OPERATOR_PLUS: Result:= Left.value + Right.value;
@@ -410,11 +451,11 @@ end;
 
 { TNumber }
 
-function TNumber.GetValue: float;
+function TNumber.GetValue: real;
 begin
   if value.Kind = KIND_NUMBER then
   begin
-    Result:= StrToFloat(value.ToString);
+    Result:= StrToreal(value.ToString);
   end else begin
     Result:= 0;
   end;
@@ -435,7 +476,7 @@ begin
   Result:= retval;
 end;
 
-constructor TNumber.Create(val: float);
+constructor TNumber.Create(val: real);
 begin
   inherited Create;
   self.value:= val;
@@ -459,7 +500,7 @@ begin
   Result:= retval;
 end;
 
-constructor TParameter.Create(cnaam: string; cvalue: float);
+constructor TParameter.Create(cnaam: string; cvalue: real);
 begin
   inherited Create;
   Self.Naam:= cnaam;
@@ -541,4 +582,4 @@ begin
 end;
 
 end.
-
+

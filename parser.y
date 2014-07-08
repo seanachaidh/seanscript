@@ -9,9 +9,6 @@
        WriteLn('druk op een toets om verder te gaan...');
        ReadLn;
   end;
-  var
-     x: TCmpType;
-     tmpnode: TScriptDeclaration;
 %}
 
 %token T_EOL
@@ -25,6 +22,9 @@
 
 %type <TAstNode> number statement assignment if_statement while_statement programdecl
 %type <TAstNode> statementlist calculation programdecl
+
+%left T_NUMBER
+
 %start program
 %%
 
@@ -79,7 +79,7 @@ while_statement:
 
 number:
        T_NUMBER {$$:= TNumber.Create($1);}
-       T_IDENTIFIER {
+       | T_IDENTIFIER {
                     $$:= TAssignedNumber.Create($1);
        }
 ;

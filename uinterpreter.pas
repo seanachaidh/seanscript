@@ -57,11 +57,11 @@ type
     private
       value: TValue;
     public
-      function GetValue: real; virtual;
+      function GetValue: double; virtual;
       procedure Interpret(con: TContext); override;
       function ToString: ansistring; override;
 
-      Constructor Create(val: real);
+      Constructor Create(val: TValue);
 
   end;
 
@@ -95,7 +95,7 @@ type
       procedure Interpret(con: TContext); override;
       function ToString: ansistring; override;
 
-      constructor Create(cleft, cright: TNumber; cop: TOperator);
+      constructor Create(cleft, cright: TAstNode; cop: TOperator);
   end;
 
   {Deze klasse stelt een block voor}
@@ -148,7 +148,7 @@ type
       function ToString: AnsiString; override;
 
       //de codeblock moet hier nog veranderd worden door een AstNode
-      constructor Create(cleft, cright: TCalculation; ccomp: TCompType;
+      constructor Create(cleft, cright: TAstNode; ccomp: TCompType;
         cblock: TAstNode);
   end;
 
@@ -170,7 +170,7 @@ type
       procedure Interpret(con: TContext); override;
       function ToString: AnsiString; override;
 
-      constructor Create(cleft, cright: TCalculation; ccomp: TCompType;
+      constructor Create(cleft, cright: TAstNode; ccomp: TCompType;
         cblock: TAstNode; celse: TAstNode);
   end;
 
@@ -188,7 +188,7 @@ type
       function ToString: AnsiString; override;
 
       constructor Create(cident: string);
-      constructor Create(cident: string; ccalc: TCalculation);
+      constructor Create(cident: string; ccalc: TAstNode);
 
   end;
 
@@ -236,7 +236,8 @@ function TAssignedNumber.GetValue: real;
 var
   tmp: TValue;
 begin
-  tmp:=
+  //hier de symbolentabel van de interpreter aanspreken
+  //tmp:=
 end;
 
 procedure TAssignedNumber.Interpret(con: TContext);
@@ -247,7 +248,7 @@ end;
 function TAssignedNumber.ToString: ansistring;
 begin
   Result:= inherited ToString;
-  Result+= 'een assigned value: ' + val;
+  Result+= 'een assigned value: ' + myident;
 end;
 
 constructor TAssignedNumber.Create(val: string);
@@ -281,11 +282,11 @@ begin
   Result+= 'Right: ' + stnewline + Right.ToString;
 end;
 
-constructor TConditional.Create(cleft, cright: TCalculation; ccomp: TCompType;
+constructor TConditional.Create(cleft, cright: TAstNode; ccomp: TCompType;
   cblock: TAstNode);
 begin
-  self.Left:= cleft;
-  self.Right:= cright;
+  self.Left:= cleft as TCalculation;
+  self.Right:= cright as TCalculation;
   Self.comp:= ccomp;
   Self.CodeBlock:= cblock;
 end;
@@ -307,7 +308,7 @@ procedure TScriptDeclaration.AddProgram(toadd: TNodeList);
 var
   tmp: TAstNode;
 begin
-  for tmp in toadd
+  for tmp in toadd do
   begin
     myprogram.Add(tmp);
   end;
@@ -323,11 +324,12 @@ end;
 
 function TCalculation.GetValue: real;
 begin
+  //hier een case zetten die afhandelt wanneer er een boolean en een string wordt gebruikt
   case op of
-  OPERATOR_PLUS: Result:= Left.value + Right.value;
-  OPERATOR_MIN: Result:= Left.value - Right.value;
-  OPERATOR_DIV: Result:= Left.value / Right.value;
-  OPERATOR_MUL: Result:= Left.value * Right.value;
+  OPERATOR_PLUS: Result:= Left.GetValue + Right.GetValue;
+  OPERATOR_MIN: Result:= Left.GetValue - Right.GetValue;
+  OPERATOR_DIV: Result:= Left.GetValue / Right.GetValue;
+  OPERATOR_MUL: Result:= Left.GetValue * Right.GetValue;
   end;
 end;
 
@@ -344,10 +346,10 @@ begin
   Result+= 'Right:' + stnewlinetab + right.ToString;
 end;
 
-constructor TCalculation.Create(cleft, cright: TNumber; cop: TOperator);
+constructor TCalculation.Create(cleft, cright: TAstNode; cop: TOperator);
 begin
-  self.Left:= cleft;
-  self.Right:= cright;
+  self.Left:= cleft as TNumber;
+  self.Right:= cright as TNumber;
   self.op:= cop;
 end;
 
@@ -370,11 +372,11 @@ begin
   self.ident:= cident;
 end;
 
-constructor TAssingnment.Create(cident: string; ccalc: TCalculation);
+constructor TAssingnment.Create(cident: string; ccalc: TAstNode);
 begin
   inherited Create;
   Self.ident:= cident;
-  self.calc:= ccalc;
+  self.calc:= ccalc as TCalculation;
 end;
 
 { TCodeBlock }
@@ -414,12 +416,11 @@ begin
   Result += 'elseblock: ' + stnewlinetab + belse.ToString;
 end;
 
-constructor TIfStatement.Create(cleft, cright: TCalculation; ccomp: TCompType;
+constructor TIfStatement.Create(cleft, cright: TAstNode; ccomp: TCompType;
   cblock: TAstNode; celse: TAstNode);
 begin
-  inherited Create;
-  self.Left:= cleft;
-  self.Right:= cright;
+  self.Left:= cleft as TCalculation;
+  self.Right:= cright as TCalculation;
   self.comp:= ccomp;
   self.CodeBlock:= cblock;
   self.ElseBlock:= celse;
@@ -451,11 +452,11 @@ end;
 
 { TNumber }
 
-function TNumber.GetValue: real;
+function TNumber.GetValue: double;
 begin
   if value.Kind = KIND_NUMBER then
   begin
-    Result:= StrToreal(value.ToString);
+    Result:= StrToFloat(value.ToString);
   end else begin
     Result:= 0;
   end;
@@ -471,7 +472,7 @@ var
   retval: string;
 begin
   retval:= inherited ToString + stnewlinetab;
-  retval+= 'nummerwaarde: ' + value;
+  retval+= 'nummerwaarde: ' + value.ToString;
 
   Result:= retval;
 end;
@@ -582,4 +583,4 @@ begin
 end;
 
 end.
-
+

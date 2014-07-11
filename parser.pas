@@ -15,24 +15,27 @@
   end;
 const T_EOL = 257;
 const T_NUMBER = 258;
-const T_EXIT = 259;
-const T_PRINT = 260;
-const T_COLON = 261;
-const T_SEMICOLON = 262;
-const T_IF = 263;
-const T_WHILE = 264;
-const T_VAR = 265;
-const T_SCRIPT = 266;
-const T_IDENTIFIER = 267;
-const T_CMP = 268;
-const T_OPERATOR = 269;
+const T_END = 259;
+const T_BEGIN = 260;
+const T_EXIT = 261;
+const T_PRINT = 262;
+const T_COLON = 263;
+const T_SEMICOLON = 264;
+const T_EQUAL = 265;
+const T_IF = 266;
+const T_WHILE = 267;
+const T_VAR = 268;
+const T_SCRIPT = 269;
+const T_IDENTIFIER = 270;
+const T_CMP = 271;
+const T_OPERATOR = 272;
 
 type YYSType = record case Integer of
                  1 : ( yyTAstNode : TAstNode );
-                 2 : ( yyTCmpType : TCmpType );
-                 3 : ( yyTOperatorType : TOperatorType );
+                 2 : ( yyTCompType : TCompType );
+                 3 : ( yyTOperator : TOperator );
                  4 : ( yyTValue : TValue );
-                 5 : ( yypchar : pchar );
+                 5 : ( yyshortstring : shortstring );
                end(*YYSType*);
 
 var yylval : YYSType;
@@ -55,12 +58,12 @@ begin
        end;
    2 : begin
          
-         yyv[yysp-1].yyTAstNode.AddProgram(yyv[yysp-0].yyTAstNode);
+         yyv[yysp-1].yyTAstNode.AddChild(yyv[yysp-0].yyTAstNode);
          
        end;
    3 : begin
          
-         yyval.yyTAstNode:= TScriptDeclaration.Create(yyv[yysp-1].yypchar);
+         yyval.yyTAstNode:= TScriptDeclaration.Create(yyv[yysp-1].yyshortstring);
          
        end;
    4 : begin
@@ -80,22 +83,22 @@ begin
        end;
    8 : begin
          
-         yyval.yyTAstNode:= TCalculation.Create(yyv[yysp-2].yyTAstNode, yyv[yysp-0].yyTAstNode, yyv[yysp-1].yyTOperatorType);
+         yyval.yyTAstNode:= TCalculation.Create(yyv[yysp-2].yyTAstNode, yyv[yysp-0].yyTAstNode, yyv[yysp-1].yyTOperator);
          
        end;
    9 : begin
          
-         yyval.yyTAstNode:=TAssingnment.Create(yyv[yysp-2].yypchar, yyv[yysp-0].yyTAstNode);
+         yyval.yyTAstNode:=TAssingnment.Create(yyv[yysp-2].yyshortstring, yyv[yysp-0].yyTAstNode);
          
        end;
   10 : begin
          
-         yyval.yyTAstNode:= TIfStatement.Create(yyv[yysp-4].yyTAstNode, yyv[yysp-2].yyTAstNode, yyv[yysp-3].yyTCmpType, yyv[yysp-0].yyTAstNode, nil);
+         yyval.yyTAstNode:= TIfStatement.Create(yyv[yysp-5].yyTAstNode, yyv[yysp-3].yyTAstNode, yyv[yysp-4].yyTCompType, yyv[yysp-1].yyTAstNode, nil);
          
        end;
   11 : begin
          
-         yyval.yyTAstNode:= TWhileStatement.Create(yyv[yysp-4].yyTAstNode, yyv[yysp-2].yyTAstNode, yyv[yysp-3].yyTCmpType, yyv[yysp-0].yyTAstNode);
+         yyval.yyTAstNode:= TWhileStatement.Create(yyv[yysp-5].yyTAstNode, yyv[yysp-3].yyTAstNode, yyv[yysp-4].yyTCompType, yyv[yysp-1].yyTAstNode);
          
        end;
   12 : begin
@@ -103,7 +106,7 @@ begin
        end;
   13 : begin
          
-         yyval.yyTAstNode:= TAssignedNumber.Create(yyv[yysp-0].yypchar);
+         yyval.yyTAstNode:= TAssignedNumber.Create(yyv[yysp-0].yyshortstring);
          
        end;
   end;
@@ -120,29 +123,29 @@ type YYARec = record
 
 const
 
-yynacts   = 31;
-yyngotos  = 21;
-yynstates = 32;
+yynacts   = 32;
+yyngotos  = 20;
+yynstates = 34;
 yynrules  = 13;
 
 yya : array [1..yynacts] of YYARec = (
 { 0: }
-  ( sym: 266; act: 3 ),
+  ( sym: 269; act: 3 ),
   ( sym: 0; act: -1 ),
 { 1: }
   ( sym: 0; act: 0 ),
 { 2: }
 { 3: }
-  ( sym: 267; act: 5 ),
+  ( sym: 270; act: 5 ),
 { 4: }
-  ( sym: 262; act: 6 ),
+  ( sym: 264; act: 6 ),
   ( sym: 0; act: -2 ),
 { 5: }
-  ( sym: 262; act: 7 ),
+  ( sym: 264; act: 7 ),
 { 6: }
-  ( sym: 263; act: 12 ),
-  ( sym: 264; act: 13 ),
-  ( sym: 267; act: 14 ),
+  ( sym: 266; act: 12 ),
+  ( sym: 267; act: 13 ),
+  ( sym: 270; act: 14 ),
 { 7: }
 { 8: }
 { 9: }
@@ -150,45 +153,48 @@ yya : array [1..yynacts] of YYARec = (
 { 11: }
 { 12: }
   ( sym: 258; act: 17 ),
-  ( sym: 267; act: 18 ),
+  ( sym: 270; act: 18 ),
 { 13: }
   ( sym: 258; act: 17 ),
-  ( sym: 267; act: 18 ),
+  ( sym: 270; act: 18 ),
 { 14: }
+  ( sym: 265; act: 20 ),
 { 15: }
-  ( sym: 268; act: 21 ),
+  ( sym: 271; act: 21 ),
 { 16: }
-  ( sym: 269; act: 22 ),
+  ( sym: 272; act: 22 ),
 { 17: }
 { 18: }
 { 19: }
-  ( sym: 268; act: 23 ),
+  ( sym: 271; act: 23 ),
 { 20: }
   ( sym: 258; act: 17 ),
-  ( sym: 267; act: 18 ),
+  ( sym: 270; act: 18 ),
 { 21: }
   ( sym: 258; act: 17 ),
-  ( sym: 267; act: 18 ),
+  ( sym: 270; act: 18 ),
 { 22: }
   ( sym: 258; act: 17 ),
-  ( sym: 267; act: 18 ),
+  ( sym: 270; act: 18 ),
 { 23: }
   ( sym: 258; act: 17 ),
-  ( sym: 267; act: 18 ),
+  ( sym: 270; act: 18 ),
 { 24: }
 { 25: }
-  ( sym: 261; act: 28 ),
+  ( sym: 260; act: 28 ),
 { 26: }
 { 27: }
-  ( sym: 261; act: 29 ),
+  ( sym: 260; act: 29 ),
 { 28: }
 { 29: }
 { 30: }
-  ( sym: 262; act: 6 ),
-  ( sym: 0; act: -10 ),
+  ( sym: 259; act: 32 ),
+  ( sym: 264; act: 6 ),
 { 31: }
-  ( sym: 262; act: 6 ),
-  ( sym: 0; act: -11 )
+  ( sym: 259; act: 33 ),
+  ( sym: 264; act: 6 )
+{ 32: }
+{ 33: }
 );
 
 yyg : array [1..yyngotos] of YYARec = (
@@ -218,7 +224,6 @@ yyg : array [1..yyngotos] of YYARec = (
   ( sym: -9; act: 19 ),
   ( sym: -2; act: 16 ),
 { 14: }
-  ( sym: -11; act: 20 ),
 { 15: }
 { 16: }
 { 17: }
@@ -245,6 +250,8 @@ yyg : array [1..yyngotos] of YYARec = (
   ( sym: -8; act: 31 )
 { 30: }
 { 31: }
+{ 32: }
+{ 33: }
 );
 
 yyd : array [0..yynstates-1] of Integer = (
@@ -279,7 +286,9 @@ yyd : array [0..yynstates-1] of Integer = (
 { 28: } 0,
 { 29: } 0,
 { 30: } 0,
-{ 31: } 0
+{ 31: } 0,
+{ 32: } -10,
+{ 33: } -11
 );
 
 yyal : array [0..yynstates-1] of Integer = (
@@ -298,23 +307,25 @@ yyal : array [0..yynstates-1] of Integer = (
 { 12: } 11,
 { 13: } 13,
 { 14: } 15,
-{ 15: } 15,
-{ 16: } 16,
-{ 17: } 17,
-{ 18: } 17,
-{ 19: } 17,
-{ 20: } 18,
-{ 21: } 20,
-{ 22: } 22,
-{ 23: } 24,
-{ 24: } 26,
-{ 25: } 26,
-{ 26: } 27,
-{ 27: } 27,
-{ 28: } 28,
-{ 29: } 28,
-{ 30: } 28,
-{ 31: } 30
+{ 15: } 16,
+{ 16: } 17,
+{ 17: } 18,
+{ 18: } 18,
+{ 19: } 18,
+{ 20: } 19,
+{ 21: } 21,
+{ 22: } 23,
+{ 23: } 25,
+{ 24: } 27,
+{ 25: } 27,
+{ 26: } 28,
+{ 27: } 28,
+{ 28: } 29,
+{ 29: } 29,
+{ 30: } 29,
+{ 31: } 31,
+{ 32: } 33,
+{ 33: } 33
 );
 
 yyah : array [0..yynstates-1] of Integer = (
@@ -332,24 +343,26 @@ yyah : array [0..yynstates-1] of Integer = (
 { 11: } 10,
 { 12: } 12,
 { 13: } 14,
-{ 14: } 14,
-{ 15: } 15,
-{ 16: } 16,
-{ 17: } 16,
-{ 18: } 16,
-{ 19: } 17,
-{ 20: } 19,
-{ 21: } 21,
-{ 22: } 23,
-{ 23: } 25,
-{ 24: } 25,
-{ 25: } 26,
-{ 26: } 26,
-{ 27: } 27,
-{ 28: } 27,
-{ 29: } 27,
-{ 30: } 29,
-{ 31: } 31
+{ 14: } 15,
+{ 15: } 16,
+{ 16: } 17,
+{ 17: } 17,
+{ 18: } 17,
+{ 19: } 18,
+{ 20: } 20,
+{ 21: } 22,
+{ 22: } 24,
+{ 23: } 26,
+{ 24: } 26,
+{ 25: } 27,
+{ 26: } 27,
+{ 27: } 28,
+{ 28: } 28,
+{ 29: } 28,
+{ 30: } 30,
+{ 31: } 32,
+{ 32: } 32,
+{ 33: } 32
 );
 
 yygl : array [0..yynstates-1] of Integer = (
@@ -368,23 +381,25 @@ yygl : array [0..yynstates-1] of Integer = (
 { 12: } 8,
 { 13: } 10,
 { 14: } 12,
-{ 15: } 13,
-{ 16: } 13,
-{ 17: } 13,
-{ 18: } 13,
-{ 19: } 13,
-{ 20: } 13,
-{ 21: } 15,
-{ 22: } 17,
-{ 23: } 18,
-{ 24: } 20,
-{ 25: } 20,
-{ 26: } 20,
-{ 27: } 20,
-{ 28: } 20,
-{ 29: } 21,
-{ 30: } 22,
-{ 31: } 22
+{ 15: } 12,
+{ 16: } 12,
+{ 17: } 12,
+{ 18: } 12,
+{ 19: } 12,
+{ 20: } 12,
+{ 21: } 14,
+{ 22: } 16,
+{ 23: } 17,
+{ 24: } 19,
+{ 25: } 19,
+{ 26: } 19,
+{ 27: } 19,
+{ 28: } 19,
+{ 29: } 20,
+{ 30: } 21,
+{ 31: } 21,
+{ 32: } 21,
+{ 33: } 21
 );
 
 yygh : array [0..yynstates-1] of Integer = (
@@ -402,24 +417,26 @@ yygh : array [0..yynstates-1] of Integer = (
 { 11: } 7,
 { 12: } 9,
 { 13: } 11,
-{ 14: } 12,
-{ 15: } 12,
-{ 16: } 12,
-{ 17: } 12,
-{ 18: } 12,
-{ 19: } 12,
-{ 20: } 14,
-{ 21: } 16,
-{ 22: } 17,
-{ 23: } 19,
-{ 24: } 19,
-{ 25: } 19,
-{ 26: } 19,
-{ 27: } 19,
-{ 28: } 20,
-{ 29: } 21,
-{ 30: } 21,
-{ 31: } 21
+{ 14: } 11,
+{ 15: } 11,
+{ 16: } 11,
+{ 17: } 11,
+{ 18: } 11,
+{ 19: } 11,
+{ 20: } 13,
+{ 21: } 15,
+{ 22: } 16,
+{ 23: } 18,
+{ 24: } 18,
+{ 25: } 18,
+{ 26: } 18,
+{ 27: } 18,
+{ 28: } 19,
+{ 29: } 20,
+{ 30: } 20,
+{ 31: } 20,
+{ 32: } 20,
+{ 33: } 20
 );
 
 yyr : array [1..yynrules] of YYRRec = (
@@ -432,8 +449,8 @@ yyr : array [1..yynrules] of YYRRec = (
 { 7: } ( len: 3; sym: -8 ),
 { 8: } ( len: 3; sym: -9 ),
 { 9: } ( len: 3; sym: -4 ),
-{ 10: } ( len: 6; sym: -5 ),
-{ 11: } ( len: 6; sym: -6 ),
+{ 10: } ( len: 7; sym: -5 ),
+{ 11: } ( len: 7; sym: -6 ),
 { 12: } ( len: 1; sym: -2 ),
 { 13: } ( len: 1; sym: -2 )
 );

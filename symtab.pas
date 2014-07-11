@@ -25,16 +25,17 @@ type
     private
       myboolean: boolean;
       mystring: string;
-      mynumber: real;
+      mynumber: double;
 
       mykind: TEnumKind;
 
     public
       constructor Create(val: boolean);
-      constructor Create(val: real);
+      constructor Create(val: double);
       constructor Create(val: string);
       function ToString: ansistring; override;
 
+      property DoubleValue: double read mynumber;
       property Kind: TEnumKind read mykind;
 
   end;
@@ -72,7 +73,7 @@ begin
   myboolean:= val;
 end;
 
-constructor TValue.Create(val: real);
+constructor TValue.Create(val: double);
 begin
   mykind:= KIND_NUMBER;
   mynumber:= val;

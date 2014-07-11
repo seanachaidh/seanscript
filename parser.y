@@ -13,17 +13,16 @@
 
 %token T_EOL
 %token <TValue> T_NUMBER
-%token T_EXIT T_PRINT T_COLON T_SEMICOLON
+%token T_END T_BEGIN
+%token T_EXIT T_PRINT T_COLON T_SEMICOLON T_EQUAL
 %token T_IF T_WHILE
 %token T_VAR T_SCRIPT
-%token <pchar> T_IDENTIFIER
-%token <TCmpType> T_CMP
-%token <TOperatorType> T_OPERATOR
+%token <shortstring> T_IDENTIFIER
+%token <TCompType> T_CMP
+%token <TOperator> T_OPERATOR
 
 %type <TAstNode> number statement assignment if_statement while_statement programdecl
 %type <TAstNode> statementlist calculation programdecl
-
-%left T_NUMBER
 
 %start program
 %%
@@ -32,7 +31,7 @@
 
 program:
         |programdecl statementlist {
-                     $1.AddProgram($2);
+                     $1.AddChild($2);
         }
 ;
 
@@ -66,13 +65,13 @@ assignment: T_IDENTIFIER T_EQUAL calculation {
 
 /*hier moet ik nog een else statementlist aan toevoegen.*/
 if_statement:
-             T_IF calculation T_CMP calculation T_COLON statementlist {
+             T_IF calculation T_CMP calculation T_BEGIN statementlist T_END {
                        $$:= TIfStatement.Create($2, $4, $3, $6, nil);
              }
 ;
 
 while_statement:
-                T_WHILE calculation T_CMP calculation T_COLON statementlist {
+                T_WHILE calculation T_CMP calculation T_BEGIN statementlist T_END {
                        $$:= TWhileStatement.Create($2, $4, $3, $6);
                 }
 ;

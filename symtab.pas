@@ -33,6 +33,8 @@ type
       constructor Create(val: boolean);
       constructor Create(val: double);
       constructor Create(val: string);
+      constructor Create(val: variant);
+
       function ToString: ansistring; override;
 
       property DoubleValue: double read mynumber;
@@ -54,7 +56,7 @@ type
       property Linenum: integer read mylinenum write mylinenum;
       property Global: boolean read myglobal write myglobal;
 
-      Constructor Create(cname: String; ckind: TEnumKind; cvalue: TValue;
+      Constructor Create(cname: String; cvalue: TValue;
         clinenum: integer; cglobal: boolean);
 
       function ToString: ansistring; override;
@@ -85,6 +87,23 @@ begin
   mystring:= val;
 end;
 
+constructor TValue.Create(val: variant);
+begin
+  if VarIsNumeric(val) then
+  begin
+    mykind:= KIND_NUMBER;
+    myboolean:= val;
+  end else if VarIsStr(val) then
+  begin
+    mykind:= KIND_STRING;
+    mystring:= val;
+  end else if VarIsBool(val) then
+  begin
+    mykind:= KIND_BOOL;
+    myboolean:= val;
+  end;
+end;
+
 function TValue.ToString: ansistring;
 begin
   case mykind of
@@ -97,7 +116,7 @@ end;
 { TSymbol }
 
 //hier moeten een paar paramters uit worden verwijderd
-constructor TSymbol.Create(cname: String; ckind: TEnumKind; cvalue: TValue;
+constructor TSymbol.Create(cname: String; cvalue: TValue;
   clinenum: integer; cglobal: boolean);
 begin
   myname:= cname;

@@ -7,7 +7,7 @@ unit uinterpreter;
 
 interface
 uses
-  Classes, fgl, sysutils, symtab, helpers, typinfo;
+  Classes, fgl, sysutils, symtab, helpers, typinfo, variants;
 
 type
   TContext = class;
@@ -477,7 +477,7 @@ begin
   Result:= retval;
 end;
 
-constructor TNumber.Create(val: real);
+constructor TNumber.Create(val: TValue);
 begin
   inherited Create;
   self.value:= val;
@@ -496,7 +496,7 @@ var
 begin
   retval:= inherited ToString + stnewlinetab;
   retval+= 'parameter naam: '+ Naam + stnewlinetab +
-           'parameter value: ' + Value;
+           'parameter value: ' + FloatToStr(Value);
 
   Result:= retval;
 end;
@@ -550,6 +550,7 @@ var
   //ik maak gebruik van deze variable in plaats van result ten behoeve van de leesbaarheid.
   retval: boolean;
   tmpsymbol: TSymbol;
+  tmpkind: TEnumKind;
 begin
   retval:= true;
 
@@ -557,14 +558,14 @@ begin
   begin
     if snaam = tmpsymbol.Name then
     begin
-      tmpsymbol.Value:= svalue;
+      tmpsymbol.Value:= TValue.Create(svalue);
       retval:= false;
     end;
   end;
 
   if retval then
   begin
-    Symbols.Add(TSymbol.Create(snaam, KIND_INTEGER, svalue, true));
+    Symbols.Add(TSymbol.Create(snaam, TValue.Create(svalue), 0, true));
   end;
 
   Result:= retval;

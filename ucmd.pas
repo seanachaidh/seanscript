@@ -59,7 +59,7 @@ end;
 
 function TExitCmd.ToString: ansistring;
 begin
-  Result:= 'Exit commando: ' + retval;
+  Result:= 'Exit commando: ' + IntToStr(retval);
 end;
 
 { TPrintCmd }
@@ -80,4 +80,4 @@ begin
 end;
 
 end.
-
+

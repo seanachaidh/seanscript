@@ -227,8 +227,37 @@ type
       constructor Create(con: TContext);
   end;
 
+  { TFunction }
+
+  TFunction = class(TAstNode)
+    private
+      mymain: boolean;
+      myname: string;
+      myparameters: TParameterList;
+    public
+      constructor Create(cname: string; ccode: TAstNode);
+      constructor Create(cname: string; cparameters: TParameterList; ccode: TAstNode);
+  end;
+
 implementation
 uses appunit;
+
+{ TFunction }
+
+constructor TFunction.Create(cname: string; ccode: TAstNode);
+begin
+  myname:= cname;
+  myparameters:= TParameterList.Create;
+  AddChild(ccode);
+end;
+
+constructor TFunction.Create(cname: string; cparameters: TParameterList;
+  ccode: TAstNode);
+begin
+  myparameters:= cparameters;
+  myname:= cname;
+  AddChild(ccode);
+end;
 
 { TAssignedNumber }
 

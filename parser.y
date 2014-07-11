@@ -43,6 +43,7 @@ programdecl:
 statement: assignment
           |if_statement
           |while_statement
+          |function
 ;
 
 statementlist:
@@ -82,5 +83,13 @@ number:
                     $$:= TAssignedNumber.Create($1);
        }
 ;
+
+function:
+         T_IDENTIFIER T_BEGIN statementlist T_END
+         {
+                      //code
+         }
+;
+
 %%
 

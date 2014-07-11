@@ -39,9 +39,10 @@
       <Unit3>
         <Filename Value="parser.y"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="62"/>
+        <TopLine Value="44"/>
         <CursorPos X="20" Y="20"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
@@ -142,11 +143,10 @@
         <Filename Value="appunit.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="appunit"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="32"/>
-        <CursorPos X="18" Y="54"/>
+        <TopLine Value="57"/>
+        <CursorPos X="17" Y="58"/>
         <UsageCount Value="65"/>
         <Loaded Value="True"/>
       </Unit13>

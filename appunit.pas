@@ -34,7 +34,7 @@ var
   ErrorMsg: String;
 begin
   // quick check parameters
-  ErrorMsg:=CheckOptions('h','help');
+  ErrorMsg:=CheckOptions('h i','help input');
   if ErrorMsg<>'' then begin
     ShowException(Exception.Create(ErrorMsg));
     Terminate;
@@ -46,6 +46,12 @@ begin
     WriteHelp;
     Terminate;
     Exit;
+  end;
+
+  if HasOption('i', 'input') then
+  begin
+    AssignFile(yyinput, GetOptionValue('i', 'input'));
+    Reset(yyinput);
   end;
 
   writeln('welkom');

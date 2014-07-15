@@ -34,7 +34,7 @@ var
   ErrorMsg: String;
 begin
   // quick check parameters
-  ErrorMsg:=CheckOptions('h i','help input');
+  ErrorMsg:=CheckOptions('h i:','help input:');
   if ErrorMsg<>'' then begin
     ShowException(Exception.Create(ErrorMsg));
     Terminate;
@@ -48,8 +48,12 @@ begin
     Exit;
   end;
 
+  //parser op debugmode zetten
+  yydebug:= true;
+
   if HasOption('i', 'input') then
   begin
+    writeln('parsing file: ', GetOptionValue('i', 'input'));
     AssignFile(yyinput, GetOptionValue('i', 'input'));
     Reset(yyinput);
   end;
@@ -60,6 +64,8 @@ begin
 
   //Waar gaat de gemaakte syntaxtree heen?
   yyparse;
+
+  TNonkelScript.maininterpreter.ShowString;
 
   // stop program loop
   Terminate;

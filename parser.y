@@ -11,7 +11,6 @@
   end;
 %}
 
-%token T_EOL
 %token <TValue> T_NUMBER
 %token T_END T_BEGIN
 %token T_EXIT T_PRINT T_COLON T_SEMICOLON T_EQUAL
@@ -22,7 +21,7 @@
 %token <TOperator> T_OPERATOR
 
 %type <TAstNode> number statement assignment if_statement while_statement programdecl
-%type <TAstNode> statementlist calculation programdecl
+%type <TAstNode> statementlist calculation programdecl function
 
 %start program
 %%
@@ -32,6 +31,7 @@
 program:
         |programdecl statementlist {
                      $1.AddChild($2);
+                     TNonkelScript.maininterpreter.AddExpression($1);
         }
 ;
 
@@ -87,7 +87,7 @@ number:
 function:
          T_IDENTIFIER T_BEGIN statementlist T_END
          {
-                      //code
+                      $$:=TFunction.Create($1, $3);
          }
 ;
 

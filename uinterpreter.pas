@@ -225,6 +225,10 @@ type
       procedure AddExpression(expr: TAstNode);
       Constructor Create;
       constructor Create(con: TContext);
+
+      procedure ShowString;
+      procedure ExecuteProgram;
+
   end;
 
   { TFunction }
@@ -237,6 +241,10 @@ type
     public
       constructor Create(cname: string; ccode: TAstNode);
       constructor Create(cname: string; cparameters: TParameterList; ccode: TAstNode);
+
+      function ToString: ansistring; override;
+      procedure Interpret(con: TContext); override;
+
   end;
 
 implementation
@@ -259,14 +267,30 @@ begin
   AddChild(ccode);
 end;
 
+function TFunction.ToString: ansistring;
+var
+  tmp: TAstNode;
+begin
+  Result:=inherited ToString + stnewline;
+  Result+= 'functie naam: ' + myname + stnewline;
+  for tmp in kinderen do
+  begin
+    Result+= tmp.ToString;
+  end;
+end;
+
+procedure TFunction.Interpret(con: TContext);
+begin
+
+end;
+
 { TAssignedNumber }
 
 function TAssignedNumber.GetValue: real;
-var
-  tmp: TValue;
 begin
   //hier de symbolentabel van de interpreter aanspreken
   //tmp:=
+  Result:= 0;
 end;
 
 procedure TAssignedNumber.Interpret(con: TContext);
@@ -554,6 +578,26 @@ constructor TInterpreter.Create(con: TContext);
 begin
   inherited Create;
   mycontext:= con;
+end;
+
+procedure TInterpreter.ShowString;
+var
+  tmp: TAstNode;
+begin
+  for tmp in myexpressions do
+  begin
+      writeln(tmp.ToString);
+  end;
+end;
+
+procedure TInterpreter.ExecuteProgram;
+var
+  tmp: TAstNode;
+begin
+  for tmp in myexpressions do
+  begin
+      tmp.Interpret(mycontext);
+  end;
 end;
 
 { TContext }

@@ -30,8 +30,8 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="16"/>
-        <CursorPos X="59" Y="36"/>
+        <TopLine Value="20"/>
+        <CursorPos X="31" Y="28"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="None"/>
@@ -41,8 +41,8 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="26" Y="22"/>
+        <TopLine Value="81"/>
+        <CursorPos X="46" Y="96"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="None"/>
@@ -69,6 +69,7 @@
         <Filename Value="parser.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="parser"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="363"/>
@@ -122,8 +123,8 @@
         <UnitName Value="uinterpreter"/>
         <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="583"/>
-        <CursorPos X="7" Y="583"/>
+        <TopLine Value="570"/>
+        <CursorPos X="13" Y="590"/>
         <UsageCount Value="210"/>
         <Loaded Value="True"/>
       </Unit11>
@@ -134,7 +135,7 @@
         <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
         <TopLine Value="13"/>
-        <CursorPos X="27" Y="25"/>
+        <CursorPos X="61" Y="24"/>
         <UsageCount Value="122"/>
         <Loaded Value="True"/>
       </Unit12>
@@ -142,10 +143,9 @@
         <Filename Value="appunit.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="appunit"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="42"/>
+        <TopLine Value="37"/>
         <CursorPos X="45" Y="37"/>
         <UsageCount Value="109"/>
         <Loaded Value="True"/>

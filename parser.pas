@@ -13,22 +13,21 @@
        WriteLn('druk op een toets om verder te gaan...');
        ReadLn;
   end;
-const T_EOL = 257;
-const T_NUMBER = 258;
-const T_END = 259;
-const T_BEGIN = 260;
-const T_EXIT = 261;
-const T_PRINT = 262;
-const T_COLON = 263;
-const T_SEMICOLON = 264;
-const T_EQUAL = 265;
-const T_IF = 266;
-const T_WHILE = 267;
-const T_VAR = 268;
-const T_SCRIPT = 269;
-const T_IDENTIFIER = 270;
-const T_CMP = 271;
-const T_OPERATOR = 272;
+const T_NUMBER = 257;
+const T_END = 258;
+const T_BEGIN = 259;
+const T_EXIT = 260;
+const T_PRINT = 261;
+const T_COLON = 262;
+const T_SEMICOLON = 263;
+const T_EQUAL = 264;
+const T_IF = 265;
+const T_WHILE = 266;
+const T_VAR = 267;
+const T_SCRIPT = 268;
+const T_IDENTIFIER = 269;
+const T_CMP = 270;
+const T_OPERATOR = 271;
 
 type YYSType = record case Integer of
                  1 : ( yyTAstNode : TAstNode );
@@ -60,10 +59,12 @@ begin
          
          yyv[yysp-1].yyTAstNode.AddChild(yyv[yysp-0].yyTAstNode);
          TNonkelScript.maininterpreter.AddExpression(yyv[yysp-1].yyTAstNode);
+         writeln('Een programma');
          
        end;
    3 : begin
          
+         writeln('Een scriptdeclaratie');
          yyval.yyTAstNode:= TScriptDeclaration.Create(yyv[yysp-1].yyshortstring);
          
        end;
@@ -87,21 +88,25 @@ begin
        end;
    9 : begin
          
+         writeln('Een berekening');
          yyval.yyTAstNode:= TCalculation.Create(yyv[yysp-2].yyTAstNode, yyv[yysp-0].yyTAstNode, yyv[yysp-1].yyTOperator);
          
        end;
   10 : begin
          
+         writeln('Een toekenning');
          yyval.yyTAstNode:=TAssingnment.Create(yyv[yysp-2].yyshortstring, yyv[yysp-0].yyTAstNode);
          
        end;
   11 : begin
          
+         writeln('Een ifstatement');
          yyval.yyTAstNode:= TIfStatement.Create(yyv[yysp-5].yyTAstNode, yyv[yysp-3].yyTAstNode, yyv[yysp-4].yyTCompType, yyv[yysp-1].yyTAstNode, nil);
          
        end;
   12 : begin
          
+         writeln('Een while statement');
          yyval.yyTAstNode:= TWhileStatement.Create(yyv[yysp-5].yyTAstNode, yyv[yysp-3].yyTAstNode, yyv[yysp-4].yyTCompType, yyv[yysp-1].yyTAstNode);
          
        end;
@@ -115,6 +120,7 @@ begin
        end;
   15 : begin
          
+         writeln('Een functie');
          yyval.yyTAstNode:=TFunction.Create(yyv[yysp-3].yyshortstring, yyv[yysp-1].yyTAstNode);
          
        end;
@@ -139,22 +145,22 @@ yynrules  = 15;
 
 yya : array [1..yynacts] of YYARec = (
 { 0: }
-  ( sym: 269; act: 3 ),
+  ( sym: 268; act: 3 ),
   ( sym: 0; act: -1 ),
 { 1: }
   ( sym: 0; act: 0 ),
 { 2: }
 { 3: }
-  ( sym: 270; act: 5 ),
+  ( sym: 269; act: 5 ),
 { 4: }
-  ( sym: 264; act: 6 ),
+  ( sym: 263; act: 6 ),
   ( sym: 0; act: -2 ),
 { 5: }
-  ( sym: 264; act: 7 ),
+  ( sym: 263; act: 7 ),
 { 6: }
-  ( sym: 266; act: 13 ),
-  ( sym: 267; act: 14 ),
-  ( sym: 270; act: 15 ),
+  ( sym: 265; act: 13 ),
+  ( sym: 266; act: 14 ),
+  ( sym: 269; act: 15 ),
 { 7: }
 { 8: }
 { 9: }
@@ -162,53 +168,53 @@ yya : array [1..yynacts] of YYARec = (
 { 11: }
 { 12: }
 { 13: }
-  ( sym: 258; act: 18 ),
-  ( sym: 270; act: 19 ),
+  ( sym: 257; act: 18 ),
+  ( sym: 269; act: 19 ),
 { 14: }
-  ( sym: 258; act: 18 ),
-  ( sym: 270; act: 19 ),
+  ( sym: 257; act: 18 ),
+  ( sym: 269; act: 19 ),
 { 15: }
-  ( sym: 260; act: 21 ),
-  ( sym: 265; act: 22 ),
+  ( sym: 259; act: 21 ),
+  ( sym: 264; act: 22 ),
 { 16: }
-  ( sym: 271; act: 23 ),
+  ( sym: 270; act: 23 ),
 { 17: }
-  ( sym: 272; act: 24 ),
+  ( sym: 271; act: 24 ),
 { 18: }
 { 19: }
 { 20: }
-  ( sym: 271; act: 25 ),
+  ( sym: 270; act: 25 ),
 { 21: }
 { 22: }
-  ( sym: 258; act: 18 ),
-  ( sym: 270; act: 19 ),
+  ( sym: 257; act: 18 ),
+  ( sym: 269; act: 19 ),
 { 23: }
-  ( sym: 258; act: 18 ),
-  ( sym: 270; act: 19 ),
+  ( sym: 257; act: 18 ),
+  ( sym: 269; act: 19 ),
 { 24: }
-  ( sym: 258; act: 18 ),
-  ( sym: 270; act: 19 ),
+  ( sym: 257; act: 18 ),
+  ( sym: 269; act: 19 ),
 { 25: }
-  ( sym: 258; act: 18 ),
-  ( sym: 270; act: 19 ),
+  ( sym: 257; act: 18 ),
+  ( sym: 269; act: 19 ),
 { 26: }
-  ( sym: 259; act: 31 ),
-  ( sym: 264; act: 6 ),
+  ( sym: 258; act: 31 ),
+  ( sym: 263; act: 6 ),
 { 27: }
 { 28: }
-  ( sym: 260; act: 32 ),
+  ( sym: 259; act: 32 ),
 { 29: }
 { 30: }
-  ( sym: 260; act: 33 ),
+  ( sym: 259; act: 33 ),
 { 31: }
 { 32: }
 { 33: }
 { 34: }
-  ( sym: 259; act: 36 ),
-  ( sym: 264; act: 6 ),
+  ( sym: 258; act: 36 ),
+  ( sym: 263; act: 6 ),
 { 35: }
-  ( sym: 259; act: 37 ),
-  ( sym: 264; act: 6 )
+  ( sym: 258; act: 37 ),
+  ( sym: 263; act: 6 )
 { 36: }
 { 37: }
 );

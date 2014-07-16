@@ -1,7 +1,0 @@
-\select@language {dutch}
-\contentsline {section}{\numberline {1}Introductie}{3}
-\contentsline {section}{\numberline {2}Programmeren binnen een ERP systeem}{3}
-\contentsline {section}{\numberline {3}Bison en flex}{3}
-\contentsline {subsection}{\numberline {3.1}Flex}{3}
-\contentsline {subsection}{\numberline {3.2}Bison}{3}
-\contentsline {section}{\numberline {4}Scriptingtalen}{3}

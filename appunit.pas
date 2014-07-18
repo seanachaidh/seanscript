@@ -62,7 +62,7 @@ begin
   //is het niet veiliger om dit in de constructor te doen?
   TNonkelScript.maininterpreter:= TInterpreter.Create;
 
-  //Waar gaat de gemaakte syntaxtree heen?
+  //De resulterende syntaxtree wordt opgeslagen in maininterpreter
   yyparse;
 
   TNonkelScript.maininterpreter.ShowString;

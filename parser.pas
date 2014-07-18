@@ -3,6 +3,9 @@
 
 (* global definitions: *)
 
+  var
+    NonkelDebug: boolean;
+
   type
       nstring = string[50];
 
@@ -88,25 +91,25 @@ begin
        end;
    9 : begin
          
-         writeln('Een berekening');
+         if NonkelDebug then writeln('Een berekening');
          yyval.yyTAstNode:= TCalculation.Create(yyv[yysp-2].yyTAstNode, yyv[yysp-0].yyTAstNode, yyv[yysp-1].yyTOperator);
          
        end;
   10 : begin
          
-         writeln('Een toekenning');
+         if NonkelDebug then writeln('Een toekenning');
          yyval.yyTAstNode:=TAssingnment.Create(yyv[yysp-2].yyshortstring, yyv[yysp-0].yyTAstNode);
          
        end;
   11 : begin
          
-         writeln('Een ifstatement');
+         if NonkelDebug then writeln('Een ifstatement');
          yyval.yyTAstNode:= TIfStatement.Create(yyv[yysp-5].yyTAstNode, yyv[yysp-3].yyTAstNode, yyv[yysp-4].yyTCompType, yyv[yysp-1].yyTAstNode, nil);
          
        end;
   12 : begin
          
-         writeln('Een while statement');
+         if NonkelDebug then writeln('Een while statement');
          yyval.yyTAstNode:= TWhileStatement.Create(yyv[yysp-5].yyTAstNode, yyv[yysp-3].yyTAstNode, yyv[yysp-4].yyTCompType, yyv[yysp-1].yyTAstNode);
          
        end;
@@ -120,7 +123,7 @@ begin
        end;
   15 : begin
          
-         writeln('Een functie');
+         if NonkelDebug then writeln('Een functie');
          yyval.yyTAstNode:=TFunction.Create(yyv[yysp-3].yyshortstring, yyv[yysp-1].yyTAstNode);
          
        end;

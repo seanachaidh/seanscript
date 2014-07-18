@@ -49,7 +49,9 @@ begin
   end;
 
   //parser op debugmode zetten
+  //ik moet ervoor zorgen dat hiervoor een switch is
   yydebug:= true;
+  NonkelDebug:= true;
 
   if HasOption('i', 'input') then
   begin

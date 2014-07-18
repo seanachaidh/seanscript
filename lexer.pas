@@ -10,65 +10,140 @@ function yylex : Integer;
 procedure yyaction ( yyruleno : Integer );
   (* local definitions: *)
 
-
 begin
   (* actions: *)
   case yyruleno of
   1:
-   				begin yylval.yyTOperator:= OPERATOR_PLUS; return(T_OPERATOR); end;
-  2:
-   				begin yylval.yyTOperator:= OPERATOR_MIN; return(T_OPERATOR); end;
-  3:
-   				begin yylval.yyTOperator:= OPERATOR_MUL; return(T_OPERATOR); end;
-  4:
-                                begin yylval.yyTOperator:= OPERATOR_DIV; return(T_OPERATOR); end;
+   				begin
+                                     if NonkelDebug then writeln('T_OPERATOR');
+                                     yylval.yyTOperator:= OPERATOR_PLUS;
+                                     return(T_OPERATOR);
+                                end;
 
+  2:
+   				begin
+                                     if NonkelDebug then writeln('T_OPERATOR');
+                                     yylval.yyTOperator:= OPERATOR_MIN;
+                                     return(T_OPERATOR);
+                                end;
+  3:
+   				begin
+                                     if NonkelDebug then writeln('T_OPERATOR');
+                                     yylval.yyTOperator:= OPERATOR_MUL;
+                                     return(T_OPERATOR);
+                                end;
+  4:
+                                begin
+                                     if NonkelDebug then writeln('T_OPERATOR');
+                                     yylval.yyTOperator:= OPERATOR_DIV;
+                                     return(T_OPERATOR);
+                                end;
 
   5:
-                                begin yylval.yyTCompType:= LESSER; return(T_CMP); end;
+                                begin
+                                     if NonkelDebug then writeln('T_CMP');
+                                     yylval.yyTCompType:= LESSER;
+                                     return(T_CMP);
+                                end;
   6:
-                                begin yylval.yyTCompType:= GREATER; return(T_CMP); end;
+                                begin
+                                     if NonkelDebug then writeln('T_CMP');
+                                     yylval.yyTCompType:= GREATER;
+                                     return(T_CMP);
+                                end;
+
   7:
-                                begin yylval.yyTCompType:= EQUAL; return(T_CMP); end;
+                                begin
+                                     if NonkelDebug then writeln('T_CMP');
+                                     yylval.yyTCompType:= EQUAL;
+                                     return(T_CMP);
+                                end;
 
   8:
-                                return(T_BEGIN);
+                                begin
+                                     if NonkelDebug then writeln('T_BEGIN');
+                                     return(T_BEGIN);
+                                end;
+
   9:
-                                return(T_END);
+                                begin
+                                     if NonkelDebug then writeln('T_END');
+                                     return(T_END);
+                                end;
 
   10:
-                                return(T_EQUAL);
+                                begin
+                                     if NonkelDebug then writeln('T_EQUAL');
+                                     return(T_EQUAL);
+                                end;
+
   11:
-                                return(T_COLON);
+                                begin
+                                     if NonkelDebug then writeln('T_COLON');
+                                     return(T_COLON);
+                                end;
+
   12:
-                                return(T_PRINT);
+                                begin
+                                     if NonkelDebug then writeln('T_PRINT');
+                                     return(T_PRINT);
+                                end;
+
   13:
-                                return(T_EXIT);
+                                begin
+                                     if NonkelDebug then writeln('T_PRINT');
+                                     return(T_EXIT);
+                                end;
 
   14:
-                                return(T_IF);
+                                begin
+                                     if NonkelDebug then writeln('T_IF');
+                                     return(T_IF);
+                                end;
+
   15:
-                                return(T_WHILE);
+                                begin
+                                     if NonkelDebug then writeln('T_WHILE');
+                                     return(T_WHILE);
+                                end;
 
   16:
-                                return(T_VAR);
+                                begin
+                                     if NonkelDebug then writeln('T_VAR');
+                                     return(T_VAR);
+                                end;
+
   17:
-                                return(T_SCRIPT);
+                                begin
+                                     if NonkelDebug then writeln('T_SCRIPT');
+                                     return(T_SCRIPT);
+                                end;
 
   18:
            			begin
+                                     if NonkelDebug then writeln('T_NUMBER');
                                      yylval.yyTValue:= TValue.Create(StrToFloat(yytext));
                                      return(T_NUMBER);
-                                     end;
+                                end;
+
   19:
-                                begin yylval.yyshortstring := yytext; return(T_IDENTIFIER); end;
+                                begin
+                                     if NonkelDebug then writeln('T_IDENTIFIER');
+                                     yylval.yyshortstring := yytext;
+                                     return(T_IDENTIFIER);
+                                end;
+
   20:
-   				return(T_SEMICOLON);
+   				begin
+                                     if NonkelDebug then writeln('T_SEMICOLON');
+                                     return(T_SEMICOLON);
+                                end;
   21:
        				;
   22:
- 				writeln('error: unknown character', yytext);
-
+ 				begin
+                                     writeln('error: unknown character', yytext);
+                                end;
   end;
 end(*yyaction*);
 
@@ -823,5 +898,6 @@ action:
   yylex := yyretval;
 
 end(*yylex*);
+
 
 

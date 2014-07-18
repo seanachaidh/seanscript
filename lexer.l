@@ -11,17 +11,17 @@
                                 end;
 
 "-"				begin
-                                     if NonkelDebug then writeln('T_OPERATOR);
+                                     if NonkelDebug then writeln('T_OPERATOR');
                                      yylval.yyTOperator:= OPERATOR_MIN;
                                      return(T_OPERATOR);
                                 end;
 "*"				begin
-                                     if NonkelDebug then writeln('T_OPERATOR);
+                                     if NonkelDebug then writeln('T_OPERATOR');
                                      yylval.yyTOperator:= OPERATOR_MUL;
                                      return(T_OPERATOR);
                                 end;
 "/"                             begin
-                                     if NonkelDebug then writeln('T_OPERATOR);
+                                     if NonkelDebug then writeln('T_OPERATOR');
                                      yylval.yyTOperator:= OPERATOR_DIV;
                                      return(T_OPERATOR);
                                 end;
@@ -44,7 +44,7 @@
                                 end;
 
 "{"                             begin
-                                     if NonkelDebug then writeln('T_BEGIN);
+                                     if NonkelDebug then writeln('T_BEGIN');
                                      return(T_BEGIN);
                                 end;
 
@@ -74,7 +74,7 @@
                                 end;
 
 "if"                            begin
-                                     if NonelDebug then writeln('T_IF');
+                                     if NonkelDebug then writeln('T_IF');
                                      return(T_IF);
                                 end;
 

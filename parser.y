@@ -61,20 +61,15 @@ statementlist:
               }
 ;
 
-/*zorg er ook voor dat je identifiers kan berekenen*/
-calculation: number T_OPERATOR number {
-             if NonkelDebug then writeln('Een berekening');
-             $$:= TCalculation.Create($1, $3, $2);
-}
-;
+
 
 assignment:
-           T_VAR T_IDENTIFIER T_EQUAL calculation {
+           T_VAR T_IDENTIFIER T_EQUAL number {
                  if NonkelDebug then writeln('Een nieuwe variable');
                  $$:= TAssingnment.Create($2, true, $4);
            }
 
-           | T_IDENTIFIER T_EQUAL calculation {
+           | T_IDENTIFIER T_EQUAL number {
                          if NonkelDebug then writeln('Een toekenning');
                          $$:=TAssingnment.Create($1, false, $3);
 }
@@ -82,14 +77,14 @@ assignment:
 
 /*hier moet ik nog een else statementlist aan toevoegen.*/
 if_statement:
-             T_IF calculation T_CMP calculation T_BEGIN statementlist T_END {
+             T_IF number T_CMP number T_BEGIN statementlist T_END {
                        if NonkelDebug then writeln('Een ifstatement');
                        $$:= TIfStatement.Create($2, $4, $3, $6, nil);
              }
 ;
 
 while_statement:
-                T_WHILE calculation T_CMP calculation T_BEGIN statementlist T_END {
+                T_WHILE number T_CMP number T_BEGIN statementlist T_END {
                        if NonkelDebug then writeln('Een while statement');
                        $$:= TWhileStatement.Create($2, $4, $3, $6);
                 }
@@ -100,6 +95,17 @@ number:
        | T_IDENTIFIER {
                     $$:= TAssignedNumber.Create($1);
        }
+       | calculation {
+         $$:= $1;
+       }
+;
+
+/*zorg er ook voor dat je identifiers kan berekenen*/
+calculation:
+            | number T_OPERATOR number {
+             if NonkelDebug then writeln('Een berekening');
+             $$:= TCalculation.Create($1, $3, $2);
+}
 ;
 
 function:

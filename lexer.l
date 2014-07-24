@@ -42,6 +42,11 @@
                                      yylval.yyTCompType:= EQUAL;
                                      return(T_CMP);
                                 end;
+"!="                            begin
+                                     if NonkelDebug then writeln('T_CMP');
+                                     yylval.yyTCompType:= NOT_EQUAL;
+                                     return (T_CMP);
+                                end;
 
 "{"                             begin
                                      if NonkelDebug then writeln('T_BEGIN');
@@ -93,7 +98,7 @@
                                      return(T_SCRIPT);
                                 end;
 
-[1-9][0-9]*			begin
+"0"|([1-9][0-9])*			begin
                                      if NonkelDebug then writeln('T_NUMBER');
                                      yylval.yyTValue:= TValue.Create(StrToFloat(yytext));
                                      return(T_NUMBER);
@@ -111,7 +116,7 @@
                                 end;
 [ \t\n]				;
 .				begin
-                                     writeln('error: unknown character', yytext);
+                                     writeln('error: unknown character: ', yytext);
                                 end;
 %%
 

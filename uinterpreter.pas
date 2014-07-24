@@ -14,7 +14,7 @@ type
   TAstNode = class;
 
   TNodeList = specialize TFPGList<TAstNode>;
-  TCompType = (GREATER, LESSER, EQUAL);
+  TCompType = (GREATER, LESSER, EQUAL, NOT_EQUAL);
   TOperator = (OPERATOR_PLUS, OPERATOR_DIV, OPERATOR_MIN, OPERATOR_MUL);
 
   { TAstNode }
@@ -178,11 +178,11 @@ type
 
   TAssingnment = class(TAstNode)
     private
-      calc: TCalculation;
+      num: TNumber;
       ident: String;
       mynewval: boolean;
     public
-      property Calculation: TCalculation read calc write calc;
+      property Calculation: TNumber read num write num;
       property Naam: string read ident write ident;
       property NewValue: boolean read mynewval;
 
@@ -190,7 +190,7 @@ type
       function ToString: AnsiString; override;
 
       constructor Create(cident: string; cnewval: boolean);
-      constructor Create(cident: string; cnewval: boolean; ccalc: TAstNode);
+      constructor Create(cident: string; cnewval: boolean; cnum: TAstNode);
 
   end;
 
@@ -428,11 +428,11 @@ begin
   self.mynewval:= cnewval;
 end;
 
-constructor TAssingnment.Create(cident: string; cnewval: boolean; ccalc: TAstNode);
+constructor TAssingnment.Create(cident: string; cnewval: boolean; cnum: TAstNode);
 begin
   inherited Create;
   Self.ident:= cident;
-  self.calc:= ccalc as TCalculation;
+  self.num:= cnum as TNumber;
   Self.mynewval:= cnewval;
 end;
 

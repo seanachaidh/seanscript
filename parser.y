@@ -68,9 +68,15 @@ calculation: number T_OPERATOR number {
 }
 ;
 
-assignment: T_IDENTIFIER T_EQUAL calculation {
+assignment:
+           T_VAR T_IDENTIFIER T_EQUAL calculation {
+                 if NonkelDebug then writeln('Een nieuwe variable');
+                 $$:= TAssingnment.Create($2, true, $4);
+           }
+
+           | T_IDENTIFIER T_EQUAL calculation {
                          if NonkelDebug then writeln('Een toekenning');
-                         $$:=TAssingnment.Create($1, $3);
+                         $$:=TAssingnment.Create($1, false, $3);
 }
 ;
 

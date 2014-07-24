@@ -180,15 +180,17 @@ type
     private
       calc: TCalculation;
       ident: String;
+      mynewval: boolean;
     public
       property Calculation: TCalculation read calc write calc;
       property Naam: string read ident write ident;
+      property NewValue: boolean read mynewval;
 
       procedure Interpret(con: TContext); override;
       function ToString: AnsiString; override;
 
-      constructor Create(cident: string);
-      constructor Create(cident: string; ccalc: TAstNode);
+      constructor Create(cident: string; cnewval: boolean);
+      constructor Create(cident: string; cnewval: boolean; ccalc: TAstNode);
 
   end;
 
@@ -419,17 +421,19 @@ begin
   Result+= self.ident + stnewlinetab;
 end;
 
-constructor TAssingnment.Create(cident: string);
+constructor TAssingnment.Create(cident: string; cnewval: boolean);
 begin
   inherited Create;
   self.ident:= cident;
+  self.mynewval:= cnewval;
 end;
 
-constructor TAssingnment.Create(cident: string; ccalc: TAstNode);
+constructor TAssingnment.Create(cident: string; cnewval: boolean; ccalc: TAstNode);
 begin
   inherited Create;
   Self.ident:= cident;
   self.calc:= ccalc as TCalculation;
+  Self.mynewval:= cnewval;
 end;
 
 { TCodeBlock }

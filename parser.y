@@ -52,7 +52,10 @@ statement: assignment
 ;
 
 statementlist:
-              statementlist T_SEMICOLON statement {
+              statement {
+                        $$:= $1;
+              }
+              | statementlist T_SEMICOLON statement {
                             $1.AddChild($3);
                             $$:= $1;
               }

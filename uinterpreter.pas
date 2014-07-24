@@ -572,6 +572,7 @@ constructor TInterpreter.Create;
 begin
   inherited Create;
   mycontext:= TContext.Create;
+  myexpressions:= TNodeList.Create;
 end;
 
 constructor TInterpreter.Create(con: TContext);

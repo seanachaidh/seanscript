@@ -30,7 +30,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <CommandLineParams Value="--input=testscripts\gdc.non"/>
+        <CommandLineParams Value="-d --input=testscripts\gdc.non"/>
       </local>
     </RunParams>
     <Units Count="14">

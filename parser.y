@@ -32,7 +32,7 @@
 
 
 program:
-        |programdecl statementlist {
+        programdecl statementlist {
                      $1.AddChild($2);
                      TNonkelScript.maininterpreter.AddExpression($1);
                      writeln('Een programma');

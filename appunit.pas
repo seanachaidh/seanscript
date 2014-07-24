@@ -34,7 +34,7 @@ var
   ErrorMsg: String;
 begin
   // quick check parameters
-  ErrorMsg:=CheckOptions('h i:','help input:');
+  ErrorMsg:=CheckOptions('h d i:','help debug input:');
   if ErrorMsg<>'' then begin
     ShowException(Exception.Create(ErrorMsg));
     Terminate;
@@ -48,10 +48,12 @@ begin
     Exit;
   end;
 
-  //parser op debugmode zetten
-  //ik moet ervoor zorgen dat hiervoor een switch is
-  yydebug:= true;
-  NonkelDebug:= true;
+  //Een debugoptie
+  if HasOption('d', 'debug') then
+  begin
+    yydebug:= true;
+    NonkelDebug:= true;
+  end;
 
   if HasOption('i', 'input') then
   begin

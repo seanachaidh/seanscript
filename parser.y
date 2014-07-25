@@ -68,11 +68,10 @@ assignment:
                  if NonkelDebug then writeln('Een nieuwe variable');
                  $$:= TAssingnment.Create($2, true, $4);
            }
-
            | T_IDENTIFIER T_EQUAL number {
-                         if NonkelDebug then writeln('Een toekenning');
+                         if NonkelDebug then writeln('Een toekenning: ', $1);
                          $$:=TAssingnment.Create($1, false, $3);
-}
+           }
 ;
 
 /*hier moet ik nog een else statementlist aan toevoegen.*/

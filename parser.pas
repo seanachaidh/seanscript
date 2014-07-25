@@ -100,7 +100,7 @@ begin
        end;
   10 : begin
          
-         if NonkelDebug then writeln('Een toekenning');
+         if NonkelDebug then writeln('Een toekenning: ', yyv[yysp-2].yyshortstring);
          yyval.yyTAstNode:=TAssingnment.Create(yyv[yysp-2].yyshortstring, false, yyv[yysp-0].yyTAstNode);
          
        end;

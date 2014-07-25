@@ -529,7 +529,7 @@ var
   retval: string;
 begin
   retval:= inherited ToString + stnewlinetab;
-  retval+= 'nummerwaarde: ' + value.ToString;
+  //retval+= 'nummerwaarde: ' + FloatToStr(self.GetValue);
 
   Result:= retval;
 end;

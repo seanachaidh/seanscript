@@ -52,12 +52,14 @@ statement: assignment
 ;
 
 statementlist:  {$$:= nil;}
-              | statement {
-                        $$:= $1;
-              }
-              | statementlist T_SEMICOLON statement {
-                            $1.AddChild($3);
-                            $$:= $1;
+              | statement T_SEMICOLON statementlist {
+                            if not assigned($3) then
+                            begin
+                                 $$:= $1;
+                            end else begin
+                                $3.Addchild($1);
+                                $$:= $3;
+                            end;
               }
 ;
 

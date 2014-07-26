@@ -135,12 +135,12 @@ type
 
   TConditional = class(TAstNode)
     private
-      myleft, myright: TCalculation;
+      myleft, myright: TNumber;
       comp: TCompType;
       block: TAstNode;
     public
-      property Left: TCalculation read myleft write myleft;
-      property Right: TCalculation read myright write myright;
+      property Left: TNumber read myleft write myleft;
+      property Right: TNumber read myright write myright;
       property Comparator: TCompType read comp write comp;
       property CodeBlock: TAstNode read block write block;
 
@@ -340,8 +340,8 @@ end;
 constructor TConditional.Create(cleft, cright: TAstNode; ccomp: TCompType;
   cblock: TAstNode);
 begin
-  self.Left:= cleft as TCalculation;
-  self.Right:= cright as TCalculation;
+  self.Left:= cleft as TNumber;
+  self.Right:= cright as TNumber;
   Self.comp:= ccomp;
   Self.CodeBlock:= cblock;
 end;
@@ -476,8 +476,8 @@ end;
 constructor TIfStatement.Create(cleft, cright: TAstNode; ccomp: TCompType;
   cblock: TAstNode; celse: TAstNode);
 begin
-  self.Left:= cleft as TCalculation;
-  self.Right:= cright as TCalculation;
+  self.Left:= cleft as TNumber;
+  self.Right:= cright as TNumber;
   self.comp:= ccomp;
   self.CodeBlock:= cblock;
   self.ElseBlock:= celse;
@@ -487,7 +487,11 @@ end;
 
 procedure TAstNode.AddChild(toadd: TAstNode);
 begin
-  kinderen.Add(toadd);
+  {
+    deze methode werkt heel traag omdat op deze manier de hele rij element
+    na element naar rechts verschoven wordt
+  }
+  kinderen.Insert(0, toadd);
 end;
 
 function TAstNode.ToString: ansistring;

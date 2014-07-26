@@ -51,8 +51,8 @@ statement: assignment
           |function
 ;
 
-statementlist:
-              statement {
+statementlist:  {$$:= nil;}
+              | statement {
                         $$:= $1;
               }
               | statementlist T_SEMICOLON statement {

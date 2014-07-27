@@ -24,7 +24,7 @@
 %token <TOperator> T_OPERATOR
 
 %type <TAstNode> number statement assignment if_statement while_statement programdecl
-%type <TAstNode> statementlist calculation programdecl function
+%type <TAstNode> statementlist calculation programdecl function codeblock
 
 %start program
 %%
@@ -79,16 +79,16 @@ assignment:
 
 /*hier moet ik nog een else statementlist aan toevoegen.*/
 if_statement:
-             T_IF number T_CMP number T_BEGIN statementlist T_END {
+             T_IF number T_CMP number codeblock {
                        if NonkelDebug then writeln('Een ifstatement');
-                       $$:= TIfStatement.Create($2, $4, $3, $6, nil);
+                       $$:= TIfStatement.Create($2, $4, $3, $5, nil);
              }
 ;
 
 while_statement:
-                T_WHILE number T_CMP number T_BEGIN statementlist T_END {
+                T_WHILE number T_CMP number codeblock {
                        if NonkelDebug then writeln('Een while statement');
-                       $$:= TWhileStatement.Create($2, $4, $3, $6);
+                       $$:= TWhileStatement.Create($2, $4, $3, $5);
                 }
 ;
 

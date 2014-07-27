@@ -18,8 +18,9 @@ type
   TPrintCmd = class(TAstNode)
     private
       msg: string;
+      isident: boolean;
     public
-      constructor Create(toprint: string);
+      constructor Create(toprint: string; cisident: boolean);
 
       function ToString: ansistring; override;
       procedure Interpret(con: TContext); override;
@@ -64,9 +65,10 @@ end;
 
 { TPrintCmd }
 
-constructor TPrintCmd.Create(toprint: string);
+constructor TPrintCmd.Create(toprint: string; cisident: boolean);
 begin
   msg:= toprint;
+  isident:= cisident;
 end;
 
 function TPrintCmd.ToString: ansistring;

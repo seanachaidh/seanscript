@@ -49,6 +49,7 @@ statement: assignment
           |if_statement
           |while_statement
           |function
+          |print_statement
 ;
 
 statementlist:  {$$:= nil;}
@@ -115,6 +116,12 @@ function:
                       if NonkelDebug then writeln('Een functie');
                       $$:=TFunction.Create($1, $3);
          }
+;
+
+codeblock:
+          T_BEGIN statementlist T_END {
+                  $$:= $1;
+          }
 ;
 
 %%

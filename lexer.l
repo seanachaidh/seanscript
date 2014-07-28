@@ -68,6 +68,11 @@
                                      return(T_COLON);
                                 end;
 
+";"				begin
+                                     if NonkelDebug then writeln('T_SEMICOLON');
+                                     return(T_SEMICOLON);
+                                end;
+
 "print"                         begin
                                      if NonkelDebug then writeln('T_PRINT');
                                      return(T_PRINT);
@@ -110,10 +115,13 @@
                                      return(T_IDENTIFIER);
                                 end;
 
-";"				begin
-                                     if NonkelDebug then writeln('T_SEMICOLON');
-                                     return(T_SEMICOLON);
+/*het kan zijn dat deze regex expressie niet klopt*/
+(?<!\\)"(.+)(?<!\\)"            begin
+                                     if NonkelDebug then writeln('T_STRING');
+                                     yylval.yyshortstring:= yytext;
+                                     return(T_STRING);
                                 end;
+
 [ \t\n]				;
 .				begin
                                      writeln('error: unknown character: ', yytext);

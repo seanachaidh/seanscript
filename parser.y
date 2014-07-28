@@ -111,7 +111,7 @@ calculation:
 ;
 
 function:
-         T_IDENTIFIER T_BEGIN statementlist T_END
+         T_IDENTIFIER T_BEGIN codeblock
          {
                       if NonkelDebug then writeln('Een functie');
                       $$:=TFunction.Create($1, $3);

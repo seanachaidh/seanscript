@@ -19,17 +19,15 @@
 %token T_EXIT T_PRINT T_COLON T_SEMICOLON T_EQUAL
 %token T_IF T_WHILE
 %token T_VAR T_SCRIPT
-%token <shortstring> T_IDENTIFIER
+%token <shortstring> T_IDENTIFIER T_STRING
 %token <TCompType> T_CMP
 %token <TOperator> T_OPERATOR
 
 %type <TAstNode> number statement assignment if_statement while_statement programdecl
-%type <TAstNode> statementlist calculation programdecl function codeblock
+%type <TAstNode> statementlist calculation programdecl function codeblock print_statement
 
 %start program
 %%
-
-
 
 program:
         programdecl statementlist {
@@ -111,16 +109,27 @@ calculation:
 ;
 
 function:
-         T_IDENTIFIER T_BEGIN codeblock
+         T_IDENTIFIER codeblock
          {
                       if NonkelDebug then writeln('Een functie');
-                      $$:=TFunction.Create($1, $3);
+                      $$:=TFunction.Create($1, $2);
          }
 ;
 
 codeblock:
           T_BEGIN statementlist T_END {
-                  $$:= $1;
+                  $$:= $2;
+          }
+;
+
+print_statement:
+          T_PRINT T_IDENTIFIER T_SEMICOLON {
+                  if NonkelDebug then writeln('Een printstatement met een identifier');
+                  $$:= TPrintCmd.Create($2, true);
+          }
+          T_PRINT T_STRING {
+                  if NonkelDebug then writeln('Een printstatment met een gewone string');
+                  $$:= TPrintCmd.Create($2, false);
           }
 ;
 

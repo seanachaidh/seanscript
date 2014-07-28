@@ -5,7 +5,7 @@ unit appunit;
 interface
 
 uses
-  Classes, SysUtils, symtab, uinterpreter, CustApp, YaccLib, LexLib ;
+  Classes, SysUtils, symtab, uinterpreter, CustApp, YaccLib, LexLib, ucmd;
 
 type
 

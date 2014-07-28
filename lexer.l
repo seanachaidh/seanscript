@@ -115,8 +115,9 @@
                                      return(T_IDENTIFIER);
                                 end;
 
-/*het kan zijn dat deze regex expressie niet klopt*/
+
 (?<!\\)"(.+)(?<!\\)"            begin
+                                     //het kan zijn dat deze regex expressie niet klopt
                                      if NonkelDebug then writeln('T_STRING');
                                      yylval.yyshortstring:= yytext;
                                      return(T_STRING);

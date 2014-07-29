@@ -491,7 +491,7 @@ begin
     deze methode werkt heel traag omdat op deze manier de hele rij element
     na element naar rechts verschoven wordt
   }
-  kinderen.Insert(0, toadd);
+  kinderen.Add(toadd);
 end;
 
 function TAstNode.ToString: ansistring;

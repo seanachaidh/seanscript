@@ -50,10 +50,15 @@ statement: assignment
           |print_statement
 ;
 
-statementlist:  statement  {$$:= $1;}
-              | statement T_SEMICOLON statementlist {
-                          $3.Addchild($1);
-                          $$:= $3;
+statementlist:  {$$:= nil;}
+              | statementlist statement T_SEMICOLON {
+                          if not assigned($1) then
+                          begin
+                               $$:= $2;
+                          end else begin
+                              $1.Addchild($2);
+                              $$:= $1;
+                          end;
               }
 ;
 

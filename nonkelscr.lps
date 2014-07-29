@@ -42,8 +42,8 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="45"/>
-        <CursorPos X="45" Y="60"/>
+        <TopLine Value="75"/>
+        <CursorPos X="42" Y="59"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="None"/>
@@ -117,8 +117,8 @@
         <UnitName Value="uinterpreter"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="603"/>
-        <CursorPos X="37" Y="614"/>
+        <TopLine Value="490"/>
+        <CursorPos X="21" Y="496"/>
         <UsageCount Value="210"/>
         <Loaded Value="True"/>
       </Unit11>
@@ -172,7 +172,7 @@
     <General>
       <ActiveWindowIndexAtStart Value="0"/>
     </General>
-    <JumpHistory Count="21" HistoryIndex="20">
+    <JumpHistory Count="22" HistoryIndex="21">
       <Position1>
         <Filename Value="uinterpreter.pas"/>
         <Caret Line="406" Column="26" TopLine="382"/>
@@ -257,6 +257,10 @@
         <Filename Value="parser.y"/>
         <Caret Line="114" Column="40" TopLine="106"/>
       </Position21>
+      <Position22>
+        <Filename Value="parser.y"/>
+        <Caret Line="55" Column="35" TopLine="42"/>
+      </Position22>
     </JumpHistory>
   </ProjectSession>
   <Debugging>

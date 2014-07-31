@@ -28,9 +28,9 @@
       <Unit2>
         <Filename Value="lexer.l"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="17"/>
+        <TopLine Value="102"/>
         <CursorPos X="80" Y="121"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
@@ -39,10 +39,9 @@
       <Unit3>
         <Filename Value="parser.y"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="75"/>
+        <TopLine Value="79"/>
         <CursorPos X="42" Y="59"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
@@ -70,10 +69,13 @@
         <Filename Value="parser.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="parser"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="143"/>
+        <TopLine Value="151"/>
         <CursorPos X="24" Y="152"/>
         <UsageCount Value="209"/>
+        <Loaded Value="True"/>
       </Unit6>
       <Unit7>
         <Filename Value="lexer.pas"/>
@@ -115,7 +117,7 @@
         <Filename Value="uinterpreter.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uinterpreter"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="490"/>
         <CursorPos X="21" Y="496"/>
@@ -126,9 +128,9 @@
         <Filename Value="ucmd.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ucmd"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="10"/>
+        <TopLine Value="57"/>
         <CursorPos X="19" Y="76"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
@@ -139,8 +141,8 @@
         <UnitName Value="appunit"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="74" Y="8"/>
+        <TopLine Value="16"/>
+        <CursorPos X="12" Y="29"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit13>
@@ -264,6 +266,15 @@
     </JumpHistory>
   </ProjectSession>
   <Debugging>
+    <BreakPoints Count="1">
+      <Item1>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="parser.pas"/>
+        <Line Value="160"/>
+      </Item1>
+    </BreakPoints>
     <Watches Count="2">
       <Item1>
         <Expression Value="x"/>

@@ -24,7 +24,7 @@
 %token <TOperator> T_OPERATOR
 
 %type <TAstNode> number statement assignment if_statement while_statement programdecl
-%type <TAstNode> statementlist calculation programdecl function codeblock print_statement
+%type <TAstNode> statementlist calculation programdecl function print_statement
 
 %start program
 %%
@@ -77,16 +77,16 @@ assignment:
 
 /*hier moet ik nog een else statementlist aan toevoegen.*/
 if_statement:
-             T_IF number T_CMP number codeblock {
+             T_IF number T_CMP number T_BEGIN statementlist T_END {
                        if NonkelDebug then writeln('Een ifstatement');
-                       $$:= TIfStatement.Create($2, $4, $3, $5, nil);
+                       $$:= TIfStatement.Create($2, $4, $3, $6, nil);
              }
 ;
 
 while_statement:
-                T_WHILE number T_CMP number codeblock {
+                T_WHILE number T_CMP number T_BEGIN statementlist T_END {
                        if NonkelDebug then writeln('Een while statement');
-                       $$:= TWhileStatement.Create($2, $4, $3, $5);
+                       $$:= TWhileStatement.Create($2, $4, $3, $6);
                 }
 ;
 
@@ -109,17 +109,11 @@ calculation:
 ;
 
 function:
-         T_IDENTIFIER codeblock
+         T_IDENTIFIER T_BEGIN statementlist T_END
          {
                       if NonkelDebug then writeln('Een functie');
-                      $$:=TFunction.Create($1, $2);
+                      $$:=TFunction.Create($1, $3);
          }
-;
-
-codeblock:
-          T_BEGIN statementlist T_END {
-                  $$:= $2;
-          }
 ;
 
 print_statement:
@@ -127,7 +121,7 @@ print_statement:
                   if NonkelDebug then writeln('Een printstatement met een identifier');
                   $$:= TPrintCmd.Create($2, true);
           }
-          T_PRINT T_STRING {
+          T_PRINT T_STRING T_SEMICOLON{
                   if NonkelDebug then writeln('Een printstatment met een gewone string');
                   $$:= TPrintCmd.Create($2, false);
           }

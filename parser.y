@@ -24,7 +24,7 @@
 %token <TOperator> T_OPERATOR
 
 %type <TAstNode> number statement assignment if_statement while_statement programdecl
-%type <TAstNode> statementlist calculation programdecl function print_statement
+%type <TAstNode> statementlist calculation programdecl function print_statement codeblock
 
 %start program
 %%
@@ -50,15 +50,19 @@ statement: assignment
           |print_statement
 ;
 
-statementlist:  {$$:= nil;}
+codeblock: T_BEGIN statementlist T_END {
+       $$:= $2;
+}
+;
+
+statementlist:
+              | statementlist codeblock T_SEMICOLON {
+                $1.AddChild($2);
+                $$:= $1;
+              }
               | statementlist statement T_SEMICOLON {
-                          if not assigned($1) then
-                          begin
-                               $$:= $2;
-                          end else begin
-                              $1.Addchild($2);
-                              $$:= $1;
-                          end;
+                $1.AddChild($2);
+                $$:= $1;
               }
 ;
 

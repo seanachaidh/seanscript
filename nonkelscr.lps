@@ -28,9 +28,10 @@
       <Unit2>
         <Filename Value="lexer.l"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="102"/>
+        <TopLine Value="111"/>
         <CursorPos X="80" Y="121"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
@@ -41,8 +42,8 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="79"/>
-        <CursorPos X="42" Y="59"/>
+        <TopLine Value="83"/>
+        <CursorPos X="28" Y="102"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="None"/>
@@ -69,7 +70,6 @@
         <Filename Value="parser.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="parser"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="151"/>
@@ -266,15 +266,6 @@
     </JumpHistory>
   </ProjectSession>
   <Debugging>
-    <BreakPoints Count="1">
-      <Item1>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="parser.pas"/>
-        <Line Value="160"/>
-      </Item1>
-    </BreakPoints>
     <Watches Count="2">
       <Item1>
         <Expression Value="x"/>

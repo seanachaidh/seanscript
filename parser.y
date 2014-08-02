@@ -30,7 +30,7 @@
 %%
 
 program:
-        programdecl statementlist {
+        programdecl function  {
                      $1.AddChild($2);
                      TNonkelScript.maininterpreter.AddExpression($1);
                      writeln('Een programma');
@@ -46,7 +46,6 @@ programdecl:
 statement: assignment
           |if_statement
           |while_statement
-          |function
           |print_statement
 ;
 

@@ -54,14 +54,24 @@ codeblock: T_BEGIN statementlist T_END {
 }
 ;
 
-statementlist:
-              | statementlist codeblock T_SEMICOLON {
-                $1.AddChild($2);
-                $$:= $1;
+statementlist: {$$:= nil;}
+              | statementlist codeblock {
+                if not assigned($1) then
+                begin
+                     $$:= TAstNode.Create($2);
+                end else begin
+                    $1.addchild($2);
+                    $$:= $1;
+                end;
               }
               | statementlist statement T_SEMICOLON {
-                $1.AddChild($2);
-                $$:= $1;
+                if not Assigned($1) then
+                begin
+                     $$:= TAstNode.Create($2);
+                end else begin
+                    $1.AddChild($2);
+                    $$:= $1;
+                end;
               }
 ;
 
@@ -80,16 +90,16 @@ assignment:
 
 /*hier moet ik nog een else statementlist aan toevoegen.*/
 if_statement:
-             T_IF number T_CMP number T_BEGIN statementlist T_END {
+             T_IF number T_CMP number codeblock {
                        if NonkelDebug then writeln('Een ifstatement');
-                       $$:= TIfStatement.Create($2, $4, $3, $6, nil);
+                       $$:= TIfStatement.Create($2, $4, $3, $5, nil);
              }
 ;
 
 while_statement:
-                T_WHILE number T_CMP number T_BEGIN statementlist T_END {
+                T_WHILE number T_CMP number codeblock {
                        if NonkelDebug then writeln('Een while statement');
-                       $$:= TWhileStatement.Create($2, $4, $3, $6);
+                       $$:= TWhileStatement.Create($2, $4, $3, $5);
                 }
 ;
 
@@ -112,10 +122,10 @@ calculation:
 ;
 
 function:
-         T_IDENTIFIER T_BEGIN statementlist T_END
+         T_IDENTIFIER codeblock
          {
                       if NonkelDebug then writeln('Een functie');
-                      $$:=TFunction.Create($1, $3);
+                      $$:=TFunction.Create($1, $2);
          }
 ;
 

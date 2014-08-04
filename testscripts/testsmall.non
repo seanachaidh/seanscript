@@ -1,0 +1,10 @@
+script testsmall;
+
+main {
+	var a:= 56;
+	var b:= 78;
+	
+	if a = 56 {
+		a:= 96;
+	}
+}

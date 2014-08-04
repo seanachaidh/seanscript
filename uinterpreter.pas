@@ -30,6 +30,9 @@ type
       constructor Create;
       constructor Create(initkinderen: TNodeList);
 
+      //een constructor die het mogelijk maakt om te initialiseren met één kind
+      constructor Create(initkind: TAstNode);
+
   end;
 
   { TParameter }
@@ -256,6 +259,7 @@ uses appunit;
 
 constructor TFunction.Create(cname: string; ccode: TAstNode);
 begin
+  inherited Create;
   myname:= cname;
   myparameters:= TParameterList.Create;
   AddChild(ccode);
@@ -308,6 +312,8 @@ end;
 
 constructor TAssignedNumber.Create(val: string);
 begin
+  //ik maak dit voorlopig nil
+  inherited Create(nil);
   myident:= val;
 end;
 
@@ -340,6 +346,7 @@ end;
 constructor TConditional.Create(cleft, cright: TAstNode; ccomp: TCompType;
   cblock: TAstNode);
 begin
+  inherited Create;
   self.Left:= cleft as TNumber;
   self.Right:= cright as TNumber;
   Self.comp:= ccomp;
@@ -403,6 +410,8 @@ end;
 
 constructor TCalculation.Create(cleft, cright: TAstNode; cop: TOperator);
 begin
+  //ik maak dit voorlopig nil
+  inherited Create(nil);
   self.Left:= cleft as TNumber;
   self.Right:= cright as TNumber;
   self.op:= cop;
@@ -488,9 +497,10 @@ end;
 procedure TAstNode.AddChild(toadd: TAstNode);
 begin
   {
-    deze methode werkt heel traag omdat op deze manier de hele rij element
-    na element naar rechts verschoven wordt
+    Dit geeft een segmentatiefout bij het toekennen van een variable
   }
+  //een snelle oplossing voor een segmentatiefout. Ik moet dit later vervangen door iets anders.
+  if not Assigned(kinderen) then kinderen:= TNodeList.Create;
   kinderen.Add(toadd);
 end;
 
@@ -509,6 +519,12 @@ constructor TAstNode.Create(initkinderen: TNodeList);
 begin
   inherited Create;
   self.kinderen:= initkinderen;
+end;
+
+constructor TAstNode.Create(initkind: TAstNode);
+begin
+  kinderen:= TNodeList.Create;
+  kinderen.Add(initkind);
 end;
 
 { TNumber }

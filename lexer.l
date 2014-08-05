@@ -103,7 +103,7 @@
                                      return(T_SCRIPT);
                                 end;
 
-"0"|([1-9][0-9])*			begin
+[0-9]+"."[0-9]*|"."?[0-9]+	begin
                                      if NonkelDebug then writeln('T_NUMBER');
                                      yylval.yyTValue:= TValue.Create(StrToFloat(yytext));
                                      return(T_NUMBER);

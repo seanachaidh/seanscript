@@ -69,7 +69,6 @@
         <Filename Value="parser.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="parser"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="222"/>
@@ -117,9 +116,10 @@
         <Filename Value="uinterpreter.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uinterpreter"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="438"/>
+        <TopLine Value="361"/>
         <CursorPos X="95" Y="454"/>
         <UsageCount Value="210"/>
         <Loaded Value="True"/>

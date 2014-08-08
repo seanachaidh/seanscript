@@ -29,7 +29,7 @@
 %start program
 %%
 
-program:
+program: |
         programdecl function  {
                      $1.AddChild($2);
                      TNonkelScript.maininterpreter.AddExpression($1);
@@ -54,22 +54,13 @@ codeblock: T_BEGIN statementlist T_END {
 }
 ;
 
-statementlist: {$$:= nil;}
-              | statementlist codeblock {
-                if not assigned($1) then
-                begin
-                     $$:= TAstNode.Create($2);
-                end else begin
-                    $1.addchild($2);
-                    $$:= $1;
-                end;
-              }
-              | statementlist statement T_SEMICOLON {
+statementlist:  statement {$$:= $1;}
+              | statementlist T_SEMICOLON statement  {
                 if not Assigned($1) then
                 begin
-                     $$:= TAstNode.Create($2);
+                     $$:= TAstNode.Create($3);
                 end else begin
-                    $1.AddChild($2);
+                    $1.AddChild($3);
                     $$:= $1;
                 end;
               }
@@ -103,6 +94,14 @@ while_statement:
                 }
 ;
 
+
+/*zorg er ook voor dat je identifiers kan berekenen*/
+calculation: number T_OPERATOR number {
+             if NonkelDebug then writeln('Een berekening');
+             $$:= TCalculation.Create($1, $3, $2);
+}
+;
+
 number:
        T_NUMBER {$$:= TNumber.Create($1);}
        | T_IDENTIFIER {
@@ -113,19 +112,11 @@ number:
        }
 ;
 
-/*zorg er ook voor dat je identifiers kan berekenen*/
-calculation:
-            | number T_OPERATOR number {
-             if NonkelDebug then writeln('Een berekening');
-             $$:= TCalculation.Create($1, $3, $2);
-}
-;
-
 function:
          T_IDENTIFIER codeblock
          {
                       if NonkelDebug then writeln('Een functie');
-                      $$:=TFunction.Create($1, $2);
+                      $$:=TFunction.Create('een functie', $2);
          }
 ;
 
@@ -133,10 +124,6 @@ print_statement:
           T_PRINT T_IDENTIFIER T_SEMICOLON {
                   if NonkelDebug then writeln('Een printstatement met een identifier');
                   $$:= TPrintCmd.Create($2, true);
-          }
-          T_PRINT T_STRING T_SEMICOLON{
-                  if NonkelDebug then writeln('Een printstatment met een gewone string');
-                  $$:= TPrintCmd.Create($2, false);
           }
 ;
 

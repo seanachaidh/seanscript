@@ -116,7 +116,7 @@ function:
          T_IDENTIFIER codeblock
          {
                       if NonkelDebug then writeln('Een functie');
-                      $$:=TFunction.Create('een functie', $2);
+                      $$:=TFunction.Create($1, $2);
          }
 ;
 

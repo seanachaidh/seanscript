@@ -69,7 +69,12 @@ begin
   //De resulterende syntaxtree wordt opgeslagen in maininterpreter
   yyparse;
 
-  TNonkelScript.maininterpreter.ShowString;
+  If NonkelDebug then
+  begin
+    TNonkelScript.maininterpreter.ShowString;
+  end else begin
+    TNonkelScript.maininterpreter.ExecuteProgram;
+  end;
 
   // stop program loop
   Terminate;

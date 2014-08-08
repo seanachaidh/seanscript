@@ -293,6 +293,8 @@ end;
 { TAssignedNumber }
 
 function TAssignedNumber.GetValue: real;
+var
+  tmp: TValue;
 begin
   //hier de symbolentabel van de interpreter aanspreken
   //tmp:=
@@ -361,9 +363,11 @@ begin
 end;
 
 function TScriptDeclaration.ToString: ansistring;
+var
+  tmp: TAstNode;
 begin
   Result:=inherited ToString + stnewlinetab;
-  Result+= 'Script naam: ' + Naam;
+  Result+= 'Script naam: ' + Naam + stnewline + myprogram.ToString;
 end;
 
 procedure TScriptDeclaration.AddProgram(toadd: TNodeList);
@@ -505,8 +509,14 @@ begin
 end;
 
 function TAstNode.ToString: ansistring;
+var
+  tmp: TAstNode;
 begin
   Result:='naam node: ' + ClassName;
+  for tmp in kinderen do
+  begin
+    Result+= stnewline + tmp.ToString;
+  end;
 end;
 
 constructor TAstNode.Create;

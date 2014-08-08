@@ -9,7 +9,7 @@ unit ucmd;
 interface
 
 uses
-  Classes, SysUtils, uinterpreter;
+  Classes, SysUtils, uinterpreter, symtab;
 
 type
 

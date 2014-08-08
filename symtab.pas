@@ -63,7 +63,31 @@ type
 
   end;
 
-  TSymbolTable = specialize TFPGList<TSymbol>;
+  TSymbolList = specialize TFPGList<TSymbol>;
+
+
+  { TContext }
+
+  TContext = class
+    private
+      mysymbols: TSymbolList;
+    public
+      property Symbols: TSymbolList read mysymbols write mysymbols;
+
+      //functies om de symbolentabel van deze context te beheren
+
+      //deze functie zoekt een symbool op. Geeft nil indien dit symbool niet gevonden werd
+      function SearchSymbol(snaam: string): TSymbol;
+      {
+      update een symbol
+      Deze funtie geeft true wanneer er een symbol is toegevoegd
+      False wanneer het slechts geüpdated is
+      }
+      function PutSymbol(snaam: string; svalue: variant): boolean;
+
+      constructor Create(syms: TSymbolList);
+      constructor Create;
+  end;
 
 implementation
 
@@ -128,6 +152,62 @@ end;
 function TSymbol.ToString: ansistring;
 begin
   Result:= 'Symbol naam: ' + Name + ', value: ' + Value.ToString;
+end;
+
+{ TContext }
+
+function TContext.SearchSymbol(snaam: string): TSymbol;
+var
+  tmp: TSymbol;
+begin
+  Result:= nil;
+
+  for tmp in Symbols do
+  begin
+    if tmp.Name = snaam then
+    begin
+      Result:= tmp;
+    end;
+  end;
+
+end;
+
+function TContext.PutSymbol(snaam: string; svalue: variant): boolean;
+var
+  //ik maak gebruik van deze variable in plaats van result ten behoeve van de leesbaarheid.
+  retval: boolean;
+  tmpsymbol: TSymbol;
+  tmpkind: TEnumKind;
+begin
+  retval:= true;
+
+  for tmpsymbol in Symbols do
+  begin
+    if snaam = tmpsymbol.Name then
+    begin
+      tmpsymbol.Value:= TValue.Create(svalue);
+      retval:= false;
+    end;
+  end;
+
+  if retval then
+  begin
+    Symbols.Add(TSymbol.Create(snaam, TValue.Create(svalue), 0, true));
+  end;
+
+  Result:= retval;
+end;
+
+constructor TContext.Create(syms: TSymbolList);
+begin
+  inherited Create;
+  mysymbols:= syms;
+end;
+
+constructor TContext.Create;
+begin
+  inherited Create;
+  mysymbols:= TSymbolList.Create;
 end;
 
 end.

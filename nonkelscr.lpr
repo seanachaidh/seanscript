@@ -4,7 +4,7 @@ program nonkelscr;
 
 uses
   classes, sysutils, CustApp, varsystem, yacclib, lexlib, helpers,
-  conditionsystem, symtab, ucomp, uinterpreter, ucmd, appunit;
+  conditionsystem, symtab, ucomp, uinterpreter, ucmd, appunit, NonkelExceptions;
 
 var
   Application: TNonkelScript;

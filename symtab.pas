@@ -14,8 +14,6 @@ uses
 type
   TEnumKind = (KIND_BOOL, KIND_STRING, KIND_NUMBER);
 
-  { TSymbol }
-
   //deze klasse moet  ervoor zorgen dat er zo weinig mogelijk gebruik gemaakt wordt
   //van het variant.
 
@@ -41,6 +39,8 @@ type
       property Kind: TEnumKind read mykind;
 
   end;
+
+ { TSymbol }
 
   TSymbol = class
     private
@@ -75,6 +75,9 @@ type
       property Symbols: TSymbolList read mysymbols write mysymbols;
 
       //functies om de symbolentabel van deze context te beheren
+
+      //kijkt of een symbool al dan niet bestaat
+      function SymbolExists(naam: string): boolean;
 
       //deze functie zoekt een symbool op. Geeft nil indien dit symbool niet gevonden werd
       function SearchSymbol(snaam: string): TSymbol;
@@ -155,6 +158,17 @@ begin
 end;
 
 { TContext }
+
+function TContext.SymbolExists(naam: string): boolean;
+var
+  tmp: TSymbol;
+begin
+  result:= false;
+  for tmp in Symbols do
+  begin
+    if tmp.Name = naam then Result:= true;
+  end;
+end;
 
 function TContext.SearchSymbol(snaam: string): TSymbol;
 var

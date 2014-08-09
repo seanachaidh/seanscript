@@ -33,7 +33,7 @@
         <CommandLineParams Value="-d --input=testscripts\testsmall.non"/>
       </local>
     </RunParams>
-    <Units Count="14">
+    <Units Count="15">
       <Unit0>
         <Filename Value="nonkelscr.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -102,6 +102,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="appunit"/>
       </Unit13>
+      <Unit14>
+        <Filename Value="nonkelexceptions.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="NonkelExceptions"/>
+      </Unit14>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

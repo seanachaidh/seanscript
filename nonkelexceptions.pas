@@ -9,9 +9,9 @@ uses
 
 type
 
-  { VariableExistsException }
+  { TVariableNotExistsException }
 
-  VariableExistsException = class(Exception)
+  TVariableNotExistsException = class(Exception)
     private
       varname: string;
     public
@@ -21,11 +21,11 @@ type
 
 implementation
 
-{ VariableExistsException }
+{ TVariableNotExistsException }
 
-constructor VariableExistsException.Create(cname: string);
+constructor TVariableNotExistsException.Create(cname: string);
 begin
-  inherited Create('Variable bestaat al: ', cname);
+  inherited Create('Variable bestaat niet: ', cname);
   self.Name:= cname;
 end;
 

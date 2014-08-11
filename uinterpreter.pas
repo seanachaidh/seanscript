@@ -7,7 +7,7 @@ unit uinterpreter;
 
 interface
 uses
-  Classes, fgl, sysutils, symtab, helpers, typinfo, variants;
+  Classes, fgl, sysutils, symtab, helpers, typinfo, variants, NonkelExceptions;
 
 type
   TAstNode = class;
@@ -264,8 +264,13 @@ begin
 end;
 
 procedure TFunction.Interpret(con: TContext);
+var
+  tmpnode: TAstNode;
 begin
-
+  for tmpnode in kinderen do
+  begin
+    kinderen.interpret(con);
+  end;
 end;
 
 { TAssignedNumber }
@@ -273,10 +278,18 @@ end;
 function TAssignedNumber.GetValue: real;
 var
   tmp: TValue;
+  exists: boolean;
+  tmpsym: TSymbol;
 begin
   //hier de symbolentabel van de interpreter aanspreken
-  //tmp:=
-  Result:= 0;
+  exists:= TNonkelScript.maininterpreter.Context.SymbolExists(myident);
+  if not exists then begin
+    raise TVariableNotExistsException.Create(myident);
+    Result:= 0;
+  end else begin
+    tmpsym:= TNonkelScript.maininterpreter.Context.SearchSymbol(myident);
+    Result:=tmpsym.Value.DoubleValue;
+  end;
 end;
 
 procedure TAssignedNumber.Interpret(con: TContext);
@@ -404,7 +417,9 @@ end;
 procedure TAssingnment.Interpret(con: TContext);
 begin
   if NewValue then begin
-
+    //een nieuwe varible in de symbolentabel maken
+  end else begin
+    //een variable in de symbolentabel updaten.
   end;
 end;
 
@@ -432,8 +447,13 @@ end;
 { TCodeBlock }
 
 procedure TCodeBlock.Interpret(con: TContext);
+var
+  tmpnode: TAstNode;
 begin
-  raise Exception.Create('nog niet geimplementeerd');
+  for tmpnode in kinderen do
+  begin
+    tmpnode.Interpret(con);
+  end;
 end;
 
 function TCodeBlock.ToString: ansistring;

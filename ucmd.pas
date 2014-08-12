@@ -23,6 +23,9 @@ type
       constructor Create(toprint: string; cisident: boolean);
 
       function ToString: ansistring; override;
+
+      //Als het bericht een identifier is schrijft het de waarde van het symbool waarmee
+      //het overeenstemt naar het scherm, anders schrijft het gewoon het bericht naar het scherm.
       procedure Interpret(con: TContext); override;
 
       property Message: string read msg write msg;
@@ -45,6 +48,8 @@ type
 
 implementation
 
+uses appunit;
+
 { TExitCmd }
 
 constructor TExitCmd.Create(cretval: integer);
@@ -55,6 +60,7 @@ end;
 {de mogelijkheid implementeren om zonder return value te halten}
 procedure TExitCmd.Interpret(con: TContext);
 begin
+  //moet iets subtieler
   halt(retval);
 end;
 
@@ -77,8 +83,21 @@ begin
 end;
 
 procedure TPrintCmd.Interpret(con: TContext);
+var
+  tmpsym: TSymbol;
 begin
-  write(msg);
+  if isident then
+  begin
+    tmpsym:= con.SearchSymbol(msg);
+    if not Assigned(tmpsym) then
+    begin
+      raise Exception.Create(Format('varaible niet gevonden: %s', [msg]));
+    end else begin
+      Write(tmpsym.Value.ToString);
+    end;
+  end else begin
+    write(msg);
+  end;
 end;
 
 end.

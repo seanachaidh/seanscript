@@ -100,8 +100,6 @@ type
       constructor Create(cleft, cright: TAstNode; cop: TOperator);
   end;
 
-  {Deze klasse stelt een block voor}
-
   { TCodeBlock }
 
   TCodeBlock = class (TAstNode)
@@ -116,11 +114,13 @@ type
       constructor Create;
   end;
 
-  {Deze kasse stelt een hoofding voor van een programma}
+
 
   { TScriptDeclaration }
 
+  {Deze kasse stelt een hoofding voor van een programma}
   TScriptDeclaration = class(TAstNode)
+
     private
       mynaam: String;
       myprogram: TNodeList;
@@ -140,6 +140,8 @@ type
       myleft, myright: TNumber;
       comp: TCompType;
       block: TAstNode;
+    protected
+      function CheckCondition: boolean;
     public
       property Left: TNumber read myleft write myleft;
       property Right: TNumber read myright write myright;
@@ -269,7 +271,7 @@ var
 begin
   for tmpnode in kinderen do
   begin
-    kinderen.interpret(con);
+    tmpnode.interpret(con);
   end;
 end;
 
@@ -313,8 +315,13 @@ end;
 { TWhileStatement }
 
 procedure TWhileStatement.Interpret(con: TContext);
+var
+  tmpnode: TAstNode;
 begin
-  inherited Interpret(con);
+  while CheckCondition do
+  begin
+      for tmpnode in kinderen do tmpnode.Interpret(con);
+  end;
 end;
 
 function TWhileStatement.ToString: AnsiString;
@@ -324,9 +331,24 @@ end;
 
 { TConditional }
 
+function TConditional.CheckCondition: boolean;
+var
+  x, y: double;
+begin
+  //deze functie kijkt na of de voorwaarde waar of vals is.
+  x:= Left.GetValue; y:= Right.GetValue;
+  case Comparator of
+    LESSER: if x < y then Result:= true else Result:= false;
+    GREATER: if x > y then Result:= true else Result:= false;
+    EQUAL: if x = y then Result:= true else Result:= false;
+    NOT_EQUAL: if x <> y then Result:= true else Result:= false;
+  end;
+end;
+
 procedure TConditional.Interpret(con: TContext);
 begin
-  raise Exception.Create('nog niet geimplementeerd');
+  //is er geen mooiere manier om dit op te lossen?
+  raise Exception.Create('De interpret methode van deze klasse mag niet direct aangeroepen worden');
 end;
 
 function TConditional.ToString: AnsiString;
@@ -349,8 +371,10 @@ end;
 { TScriptDeclaration }
 
 procedure TScriptDeclaration.Interpret(con: TContext);
+var
+  tmpnode: TAstNode;
 begin
-  raise Exception.Create('nog niet geimplemteerd');
+  for tmpnode in kinderen do tmpnode.Interpret(con);
 end;
 
 function TScriptDeclaration.ToString: ansistring;
@@ -392,7 +416,7 @@ end;
 
 procedure TCalculation.Interpret(con: TContext);
 begin
-  raise Exception.Create('nog niet geimplementeerd');
+  //heeft geen specifieke implementatie.
 end;
 
 function TCalculation.ToString: ansistring;
@@ -416,11 +440,7 @@ end;
 
 procedure TAssingnment.Interpret(con: TContext);
 begin
-  if NewValue then begin
-    //een nieuwe varible in de symbolentabel maken
-  end else begin
-    //een variable in de symbolentabel updaten.
-  end;
+  con.PutSymbol(naam, Calculation.GetValue);
 end;
 
 function TAssingnment.ToString: AnsiString;
@@ -476,8 +496,13 @@ end;
 { TIfStatement }
 
 procedure TIfStatement.Interpret(con: TContext);
+var
+  tmpnode: TAstNode;
 begin
-  raise Exception.Create('nog niet geimplementeerd');
+  if CheckCondition then
+  begin
+    for tmpnode in kinderen do tmpnode.Interpret(con);
+  end;
 end;
 
 function TIfStatement.ToString: AnsiString;
@@ -551,7 +576,7 @@ end;
 
 procedure TNumber.Interpret(con: TContext);
 begin
-  raise Exception.Create('nog niet geimplementeerd');
+  //heeft geen specifieke implementatie
 end;
 
 function TNumber.ToString: ansistring;

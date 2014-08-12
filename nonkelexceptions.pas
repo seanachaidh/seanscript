@@ -25,7 +25,7 @@ implementation
 
 constructor TVariableNotExistsException.Create(cname: string);
 begin
-  inherited Create('Variable bestaat niet: ', cname);
+  inherited Create(Format('De variable bestaat niet: %s', [cname]));
   self.Name:= cname;
 end;
 

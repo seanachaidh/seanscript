@@ -302,7 +302,7 @@ end;
 function TAssignedNumber.ToString: ansistring;
 begin
   Result:= inherited ToString;
-  Result+= 'een assigned value: ' + myident;
+  Result+= 'een assigned value: ' + myident + stnewline;
 end;
 
 constructor TAssignedNumber.Create(val: string);
@@ -354,8 +354,8 @@ end;
 function TConditional.ToString: AnsiString;
 begin
   Result:=inherited ToString + stnewline;
-  Result+= 'Left: ' + stnewline + Left.ToString + stnewline;
-  Result+= 'Right: ' + stnewline + Right.ToString;
+  Result+= 'Left: ' + Left.ToString;
+  Result+= 'Right: ' + Right.ToString;
 end;
 
 constructor TConditional.Create(cleft, cright: TAstNode; ccomp: TCompType;
@@ -423,7 +423,7 @@ function TCalculation.ToString: ansistring;
 begin
   Result:=inherited ToString + stnewline;
   Result+= 'Operator: ' + GetEnumName(TypeInfo(TOperator), integer(self.op)) + stnewline;
-  Result+= 'Left:' + stnewlinetab + left.ToString + stnewline;
+  Result+= 'Left:' + left.ToString;
   Result+= 'Right:' + stnewlinetab + right.ToString;
 end;
 
@@ -445,8 +445,8 @@ end;
 
 function TAssingnment.ToString: AnsiString;
 begin
-  Result:=inherited ToString + stnewlinetab;
-  Result+= self.ident + stnewlinetab;
+  Result:=inherited ToString;
+  Result+= 'Een assingment: ' + ident + stnewline;
 end;
 
 constructor TAssingnment.Create(cident: string; cnewval: boolean);
@@ -480,7 +480,7 @@ function TCodeBlock.ToString: ansistring;
 var
   tmp: TAstNode;
 begin
-  Result:=inherited ToString + stnewlinetab;
+  Result:=inherited ToString + stnewline;
   for tmp in Statements do
   begin
     Result+= tmp.ToString;
@@ -508,7 +508,7 @@ end;
 function TIfStatement.ToString: AnsiString;
 begin
   Result:=inherited ToString;
-  Result += 'elseblock: ' + stnewlinetab + belse.ToString;
+  Result += 'elseblock: ' + belse.ToString;
 end;
 
 constructor TIfStatement.Create(cleft, cright: TAstNode; ccomp: TCompType;
@@ -537,10 +537,10 @@ function TAstNode.ToString: ansistring;
 var
   tmp: TAstNode;
 begin
-  Result:='naam node: ' + ClassName;
+  Result:='naam node: ' + ClassName + stnewline;
   for tmp in kinderen do
   begin
-    Result+= stnewline + tmp.ToString;
+    Result+= tmp.ToString;
   end;
 end;
 
@@ -583,8 +583,8 @@ function TNumber.ToString: ansistring;
 var
   retval: string;
 begin
-  retval:= inherited ToString + stnewlinetab;
-  //retval+= 'nummerwaarde: ' + FloatToStr(self.GetValue);
+  //retval:= inherited ToString + stnewline;
+  retval:= 'nummerwaarde: ' + FloatToStr(self.GetValue) + stnewline;
 
   Result:= retval;
 end;

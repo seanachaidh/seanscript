@@ -28,10 +28,10 @@ Nonkelscript is een scriptingtaal met ingebouwde multithreading. Als de verdere 
 %vertel hier over de api van NonkelErp
 
 \section{Bison en flex}
-%een kleine geschiedenisi over bison en flex
+Bison en Flex zijn twee programma's die tezamen gebruikt kunnen worden voor het maken van een compiler. Met Flex kan er via reguliere expressies een "tokenizer" gemaakt worden die gebruikt kan worden om broncode te scannen op bepaalde sleutelwoorden. De informatie de Flex op deze manier verzameld kan op zijn beurt weer gebruikt worden door Bison. Deze vraagt de gescande sleutelwoorden kunnen gebruikt worden voor het opstellen van regels geschreven in Bakkus-Naur vorm. Aan iedere regel kan er een actie gekoppeld worden. Dit is een stuk code. Meestal is deze code geschreven in C, maar aangezien onze compiler in Delphi geschreven zal worden zal deze code dan ook Delphi zijn. De paser die uit deze verzameling regels gegenereerd zal worden zal naar iedere regel zoeken telkens wanneer er één van die regels gevonden wordt de gekoppelde actie uitvoeren. Op deze manier kan er op een efficiënte wijze een interpeter gemaakt worden.
 
 \subsection{Flex}
-%Hoe flex in elkaar zit
+
 
 \subsection{Bison}
 %Hoe bison in elkaar zit

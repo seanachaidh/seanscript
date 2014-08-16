@@ -28,13 +28,15 @@ Nonkelscript is een scriptingtaal met ingebouwde multithreading. Als de verdere 
 %vertel hier over de api van NonkelErp
 
 \section{Bison en flex}
-Bison en Flex zijn twee programma's die tezamen gebruikt kunnen worden voor het maken van een compiler. Met Flex kan er via reguliere expressies een "tokenizer" gemaakt worden die gebruikt kan worden om broncode te scannen op bepaalde sleutelwoorden. De informatie de Flex op deze manier verzameld kan op zijn beurt weer gebruikt worden door Bison. Deze vraagt de gescande sleutelwoorden kunnen gebruikt worden voor het opstellen van regels geschreven in Bakkus-Naur vorm. Aan iedere regel kan er een actie gekoppeld worden. Dit is een stuk code. Meestal is deze code geschreven in C, maar aangezien onze compiler in Delphi geschreven zal worden zal deze code dan ook Delphi zijn. De paser die uit deze verzameling regels gegenereerd zal worden zal naar iedere regel zoeken telkens wanneer er één van die regels gevonden wordt de gekoppelde actie uitvoeren. Op deze manier kan er op een efficiënte wijze een interpeter gemaakt worden.
+Bison en Flex zijn twee programma's die tezamen gebruikt kunnen worden voor het maken van een compiler. Met Flex kan er via reguliere expressies een "tokenizer" gemaakt worden die gebruikt kan worden om broncode te scannen op bepaalde sleutelwoorden. De informatie de Flex op deze manier verzameld kan op zijn beurt weer gebruikt worden door Bison. Deze vraagt de gescande sleutelwoorden kunnen gebruikt worden voor het opstellen van regels geschreven in Bakkus-Naur vorm. Aan iedere regel kan er een actie gekoppeld worden. Dit is een stuk code. Meestal is deze code geschreven in C, maar aangezien onze compiler in Delphi geschreven zal worden zal deze code dan ook Delphi zijn. De parser die uit deze verzameling regels gegenereerd zal worden zal naar iedere regel zoeken telkens wanneer er één van die regels gevonden wordt de gekoppelde actie uitvoeren. Op deze manier kan er op een efficiënte wijze een interpeter gemaakt worden.
 
 \subsection{Flex}
-
+Zoals eerder gezegd werkt flex door middel van reguliere expressies. Deze expressies kunnen net zoals in Bison gekoppeld worden aan een actie. Deze actie wordt net zoals in de Bison parser uitgevoerd. In een standaard Flex scanner doen deze acties niet zoveel. Eigenlijk geven ze gewoon tokens terug die correspondeert met de gevonden reguliere expressie. 
 
 \subsection{Bison}
-%Hoe bison in elkaar zit
+Bison is ongeveer hetzelfde als flex. Met het verschil dat bison de informatie van die flex doorgeeft opvangt, verwerkt, en vergelijkt met een aantal regels. De regels worden geschreven in bakkus-naur vorm. Ook deze regels zijn gekoppeld aan een actie die uitgevoerd wordt wanneer de regel in de broncode gevonden wordt.
+
+In ons geval gaan we voor iedere gevonden regel een node maken en deze node in onze syntaxboom stoppen. Meer hierover straks.
 
 \section{Scripttaal}
 

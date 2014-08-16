@@ -606,10 +606,7 @@ function TParameter.ToString: ansistring;
 var
   retval: string;
 begin
-  retval:= inherited ToString + stnewlinetab;
-  retval+= 'parameter naam: '+ Naam + stnewlinetab +
-           'parameter value: ' + FloatToStr(Value);
-
+  retval+= 'parameter naam: '+ Naam + stnewline;
   Result:= retval;
 end;
 

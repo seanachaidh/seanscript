@@ -38,6 +38,29 @@ Bison is ongeveer hetzelfde als flex. Met het verschil dat bison de informatie v
 
 In ons geval gaan we voor iedere gevonden regel een node maken en deze node in onze syntaxboom stoppen. Meer hierover straks.
 
+\section{Interne structuur van de compiler}
+Voor het programmeren van de compiler werd er gekozen voor Delphi. Wat niet een voor de hand liggende keuze is. Zowel Bison als Flex zijn immers beiden ontworpen om gebruikt te worden in combinatie met C. De reden voor deze vreemde keuze is dat de compiler moet kunnen integreren met een bestaand ERP systeem en dit systeem is geschreven in Delphi. Freepascal (de compiler die we gebruiken voor het bouwen van onze compiler) komt echter gebundeld met een programma dat in staat is om Bison en Flex code te converteren naar een Pascal unit. Hoewel deze tool is gemaakt in 2001 en eigenlijk bedoeld is voor gebruik in combinatie met Turbo Pascal volstaat het voor ons doel.
+
+\section{Design}
+Onze compiler is gebaseerd op twee grote design pattern. Het composite design pattern, dat gebruikt wordt om de syntaxboom te bouwen en het interpreter design pattern, dat gebruikt wordt om de interpreter te bouwen. Beide zullen in dit hoofdstuk uitgelegd worden.
+
+%eens opzoeken hoe dat ik dit mooi in monospace in het verslag krijg.
+%\ttfamily{
+%script testsmall;\\
+%main \{\\
+%	var a:= 5;\\
+%	var b:= 78;\\
+%	
+%	print a;
+%\}
+%}
+
+
+\subsection{Composite design pattern}
+Het composite design pattern werd gebruikt voor het bouwen van de \emph{syntaxboom}. Dit is een datastructuur bestaande uit alle elementen die gevonden worden in heb bronbestand dat geïnterpreteerd dient te worden.
+
+\subsection{Interpreter design pattern}
+
 \section{Scripttaal}
 
 \end{document}

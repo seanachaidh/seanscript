@@ -54,14 +54,13 @@ codeblock: T_BEGIN statementlist T_END {
 }
 ;
 
-statementlist:  statement {$$:= $1;}
-              | statementlist T_SEMICOLON statement  {
-                if not Assigned($1) then
+statementlist:
+              | statement T_SEMICOLON statementlist  {
+                if not Assigned($3) then
                 begin
-                     $$:= TAstNode.Create($3);
+                    //code
                 end else begin
-                    $1.AddChild($3);
-                    $$:= $1;
+                    //code
                 end;
               }
 ;

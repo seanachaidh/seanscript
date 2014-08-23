@@ -24,6 +24,9 @@ type
     public
       procedure Interpret(con: TContext);virtual; abstract;
       procedure AddChild(toadd: TAstNode);
+
+      //dit is een minder efficiënte methode
+      procedure AddInFront(toadd: TAstNode);
       function ToString: ansistring; override;
 
       constructor Create;
@@ -531,6 +534,11 @@ begin
   //een snelle oplossing voor een segmentatiefout. Ik moet dit later vervangen door iets anders.
   if not Assigned(kinderen) then kinderen:= TNodeList.Create;
   kinderen.Add(toadd);
+end;
+
+procedure TAstNode.AddInFront(toadd: TAstNode);
+begin
+  kinderen.Insert(0, toadd);
 end;
 
 function TAstNode.ToString: ansistring;

@@ -54,20 +54,23 @@ In ons geval gaan we voor iedere gevonden regel een node maken en deze node in o
 \section{Interne structuur van de compiler}
 Voor het programmeren van de compiler werd er gekozen voor Delphi. Wat niet een voor de hand liggende keuze is. Zowel Bison als Flex zijn immers beiden ontworpen om gebruikt te worden in combinatie met C. De reden voor deze vreemde keuze is dat de compiler moet kunnen integreren met een bestaand ERP systeem en dit systeem is geschreven in Delphi. Freepascal (de compiler die we gebruiken voor het bouwen van onze compiler) komt echter gebundeld met een programma dat in staat is om Bison en Flex code te converteren naar een Pascal unit. Hoewel deze tool is gemaakt in 2001 en eigenlijk bedoeld is voor gebruik in combinatie met Turbo Pascal volstaat het voor ons doel.
 
+\begin{center}
+\textbf{De procedure van broncode naar uitvoerbaar programma kan als volgt beschreven worden}
+\end{center}
+
+\paragraph{\textbf{front-end}}
+Hier komt de tekst over de frontend
+
+\paragraph{\textbf{Middle-end}}
+hier komt de tekst over de middle end
+
+\paragraph{\textbf{back-end}}
+Hier komt de tekst over de back end
+
+Zowel Flex als Bison zijn zogenaamde parsergenerators. Dit wil zeggen dat zij een formele grammatica aanvaarden. Deze formele grammatica is meestal opgeschreven in Bakus-Naur vorm. Nadat de parsergenerator de grammatica heeft verwerkt genereert deze een parser in een bepaalde doelprogrammeertaal. Dit kan in C, C++, Pascal en dergelijke zijn. Deze parser kan daarna als component in de compiler gebruikt worden en helpt bij het scannen en analyseren van de broncode.
+
 \section{Design}
 Onze compiler is gebaseerd op twee grote design pattern. Het composite design pattern, dat gebruikt wordt om de syntaxboom te bouwen en het interpreter design pattern, dat gebruikt wordt om de interpreter te bouwen. Beide zullen in dit hoofdstuk uitgelegd worden.
-
-%eens opzoeken hoe dat ik dit mooi in monospace in het verslag krijg.
-%\ttfamily{
-%script testsmall;\\
-%main \{\\
-%	var a:= 5;\\
-%	var b:= 78;\\
-%	
-%	print a;
-%\}
-%}
-
 
 \subsection{Composite design pattern}
 Het composite design pattern werd gebruikt voor het bouwen van de \emph{syntaxboom}. Dit is een datastructuur bestaande uit alle elementen die gevonden worden in heb bronbestand dat geïnterpreteerd dient te worden.

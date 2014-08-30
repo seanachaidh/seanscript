@@ -64,7 +64,38 @@ Buiten het parsen van de broncode, is de front-end verantwoordelijk voor nog een
 \subsubsection{middle end}
 Hoewel dit onderdeel niet altijd aanwezig is in iedere compiler, voert dit gedeelte, indien aanwezig, nodige extra optimalisaties uit. Naast dit voeren sommige compiler ook nog een verdere analyse uit op de abstract syntax tree.
 
-Tijdens deze analyse wordt er aandacht besteed aan twee onderdelen van de code. Namelijk de data flow en de control flow
+Tijdens deze analyse wordt er aandacht besteed aan twee onderdelen van de code. Namelijk de data flow en de control flow. Het doel echter van deze analyse blijft het optimaliseren van de code. Hiermee bedoelen we iedere bewerking op de code die het programma sneller zal doen draaien terwijl het hetzelfde resultaat levert. Met optimalisaties moet men heel voorzichtig omspringen, omdat men nooit de daadwerkelijke bedoelingen van de programmeur weet.
+
+
+\begin{description}
+\item[Dode code] Soms heeft een programma zogenaamde dode code. Dit is code die wel mee in het uiteindelijke uitvoerbare programma zit, maar die eigenlijk nooit wordt uitgevoerd. In zulke gevallen kunnen we de snelheid van het programma vergroten door deze code gewoon weg te laten. Hetzelfde voorbeeld kan nog veel verder getrokken worden. Stel dat men als debugger een programma aan het maken is en men wilt bepaalde code testen. Dan wordt vaak, ookal is dat niet echt aan te raden, een aparte functie gemaakt die het te testen object als parameter meekrijgt. Dit louter om het object naar de terminal te schrijven zodat de inhoud ervan door de ontwikkelaar gelezen kan worden. Naargelang het productieproces vordert worden de aanroepen van deze functies verwijderd, waardoor deze code niet meer wordt uitgevoerd en eigenlijk overbodig is.
+
+\begin{verbatim}
+if (n >= 0) {
+  // n groter of gelijk aan 0
+} else if (n < 0) {
+  // n kleiner dan 0
+} else {
+  // dood
+}
+\end{verbatim}
+
+Dit soort code heeft enkele grote nadelen.
+\begin{itemize}
+\item Bij het ontwikkelen wordt er vaak veel tijd verspild aan dode code.
+\item Dode code verspilt geheugen aangezien deze code toch niet gebruikt wordt.
+\end{itemize}
+
+\item[Redundante code] Redundante code is zo ongeveer hetzelfde als gewone code, met het verschil dat de code wel uitgevoerd wordt, maar er eigenlijk niets mee wordt gedaan. Dit kan een berekening zijn of de uitvoer van een functie. Ook hier is het, indien dit geen invloed heeft op de uitvoer van het programma, het beste dat we deze code weglaten.
+
+\begin{verbatim}
+const char * a = "redundante variable";
+const char* b = "niet redundante variable;
+
+printf("%s", b);
+\end{verbatim}
+
+\end{description}
 
 \subsubsection{back end}
 Hier komt de tekst over de back end

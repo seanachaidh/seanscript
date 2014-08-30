@@ -29,7 +29,7 @@
 %start program
 %%
 
-program: |
+program:
         programdecl function  {
                      $1.AddChild($2);
                      TNonkelScript.maininterpreter.AddExpression($1);
@@ -54,15 +54,20 @@ codeblock: T_BEGIN statementlist T_END {
 }
 ;
 
-statementlist: {$$:= nil;}
-              | statement T_SEMICOLON statementlist  {
-                if not Assigned($3) then
-                begin
-                    $$:= $1;
-                end else begin
-                    $3.Parent.AddChild($1);
-                    $$:= $3;
-                end;
+statementlist: statement T_SEMICOLON {$$:= $1;}
+              | statementlist statement T_SEMICOLON{
+                             if not Assigned($1) then
+                             begin
+                                  $$:= $2;
+                             end else begin
+                                 if assigned($1.parent) then
+                                 begin
+                                      $1.parent.addchild($2);
+                                 end else begin
+                                     $1.addchild($2);
+                                 end;
+                                 $$:= $1;
+                             end;
               }
 ;
 
@@ -122,10 +127,6 @@ print_statement:
           T_PRINT T_IDENTIFIER T_SEMICOLON {
                   if NonkelDebug then writeln('Een printstatement met een identifier');
                   $$:= TPrintCmd.Create($2, true);
-          }
-          | T_PRINT T_STRING T_SEMICOLON {
-                  if NonkelDebug then writeln('Een printstatement met een string');
-                  $$:= TPrintCmd.Create($2, false);
           }
 ;
 

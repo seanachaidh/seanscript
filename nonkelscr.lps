@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectSession>
     <PathDelim Value="\"/>
@@ -37,11 +37,10 @@
       <Unit3>
         <Filename Value="parser.y"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="114"/>
-        <CursorPos X="12" Y="130"/>
+        <CursorPos X="70" Y="130"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="None"/>
@@ -68,6 +67,7 @@
         <Filename Value="parser.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="parser"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="76"/>
@@ -153,7 +153,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="14"/>
         <CursorPos X="67" Y="28"/>
-        <UsageCount Value="106"/>
+        <UsageCount Value="108"/>
       </Unit14>
       <Unit15>
         <Filename Value="uexpressions.pas"/>
@@ -331,4 +331,5 @@
       </Item6>
     </Watches>
   </Debugging>
+  <EditorMacros Count="0"/>
 </CONFIG>

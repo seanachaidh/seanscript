@@ -1,4 +1,4 @@
-\documentclass[10pt,a4paper]{article}
+\documentclass[12pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[dutch]{babel}
 \usepackage{amsmath}
@@ -100,15 +100,35 @@ printf("%s", b);
 \subsubsection{back end}
 Hier komt de tekst over de back end
 
+\subsection{variabelesystemen}
+\subsubsection{Variabelen}
+Een programma maakt berekeningen. Het spreekt voor zich dat deze berekeningen moeten kunnen worden opgeslagen zodat het mogelijk is om het resultaat van de berekening te gebruiken in een andere berekening. Men moet hier echter bij bedenken dat er verschillende manieren bestaan om dit binnen een programmeertaal aan te pakken. Intuïtief zou men dit kunnen doen.
+
+\begin{verbatim}
+a:= 7;
+b:= 10.27;
+c:= a + b;
+\end{verbatim}
+
+Als men deze code zou bekijken zou men kunnen denken dat dit de makkelijkste manier is om dit op te schrijven. Dit komt bijna overeen met hoe een doorsnee mens deze bewerkingen op papier zou schrijven. Dit wordt echter in een programmeertaal niet zo vaak gedaan omdat dit een enorm nadeel heeft voor de compiler. De compiler weet namelijk niet welk type aan de variabele toegekend wordt. Indien de compiler dit wel weet kan de compiler hierop inspelen door exact die hoeveelheid geheugen te reserveren die nodig is voor het opslaan van die variabele. Dit kan op de volgende manier.
+
+\begin{verbatim}
+int a:= 7;
+int b:= 8;
+int c:= a + b;
+\end{verbatim}
+
+De eerste methode wordt dynamische typering genoemd. De tweede statische. Het is duidelijk dat, hoewel de tweede methode beter is voor de compiler, de eerste methode vlotter schrijft. Daarom wordt er in een scripttaal vaak gebruik gemaakt van dynamische typering omdat hier vaak de snelheid minder belangrijk is en deze talen voornamelijk bedoeld zijn om snel kleine programma's te kunnen schrijven.  
+
 \section{Design}
 Onze compiler is gebaseerd op twee grote design pattern. Het composite design pattern, dat gebruikt wordt om de syntaxboom te bouwen en het interpreter design pattern, dat gebruikt wordt om de interpreter te bouwen. Beide zullen in dit hoofdstuk uitgelegd worden.
 
+Voor het programmeren van systeemapplicaties is statische typering meestal te prefereren boven dynamische. Veel compilers voeren namelijk zogenaamde typechecks uit. Voordat een bepaald stuk code wordt gecompileerd wordt er eerst bekeken, indien dit bijvoorbeeld een toekenning is, of de waarde die toegekend wordt aan de variabele wel degelijk in de variabele kan. Indien niet wordt er een fout gegeneerd. Bij dynamische typering is dit niet mogelijk tijdens het compileren, maar tijdens het uitvoeren van het programma. Dit omdat men nooit weet, bij een dynamisch getypeerde taal, welk type een variabele uiteindelijk gaat hebben. Dit is een nadeel in een omgeving waar snelheid en betrouwbaarheid hoog in het vaandel gedragen wordt. 
+
 \subsection{Composite design pattern}
-Het composite design pattern werd gebruikt voor het bouwen van de \emph{syntaxboom}. Dit is een datastructuur bestaande uit alle elementen die gevonden worden in heb bronbestand dat geïnterpreteerd dient te worden.
+Het composite design pattern werd gebruikt voor het bouwen van de syntaxboom. Dit is een datastructuur bestaande uit alle elementen die gevonden worden in heb bronbestand dat geïnterpreteerd dient te worden.
 
 \subsection{Interpreter design pattern}
 Dit design pattern vormt het hart van de hele compiler en is tevens de middle end van de compiler. Door dit design pattern zijn we in staat om een abstracte syntaxboom door te nemen en de instructies die deze beschrijft uit te voeren.
-
-\section{Scripttaal}
 
 \end{document}

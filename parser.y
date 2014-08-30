@@ -54,18 +54,17 @@ codeblock: T_BEGIN statementlist T_END {
 }
 ;
 
-statementlist:
+statementlist: {$$:= nil;}
               | statement T_SEMICOLON statementlist  {
                 if not Assigned($3) then
                 begin
-                    //code
+                    $$:= $1;
                 end else begin
-                    //code
+                    $3.Parent.AddChild($1);
+                    $$:= $3;
                 end;
               }
 ;
-
-
 
 assignment:
            T_VAR T_IDENTIFIER T_EQUAL number {

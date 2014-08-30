@@ -92,6 +92,8 @@ type
       constructor Create;
   end;
 
+function VarIsBoolean(v: variant): boolean;
+
 implementation
 
 { TValue }
@@ -124,7 +126,7 @@ begin
   begin
     mykind:= KIND_STRING;
     mystring:= val;
-  end else if VarIsBool(val) then
+  end else if VarIsBoolean(val) then
   begin
     mykind:= KIND_BOOL;
     myboolean:= val;
@@ -222,6 +224,12 @@ constructor TContext.Create;
 begin
   inherited Create;
   mysymbols:= TSymbolList.Create;
+end;
+
+{functions}
+function VarIsBoolean(v: variant): boolean;
+begin
+  Result:= VarIsType(v, varboolean);
 end;
 
 end.

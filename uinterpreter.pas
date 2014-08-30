@@ -21,6 +21,7 @@ type
   TAstNode = class
     private
       kinderen: TNodeList;
+      myparent: TAstNode;
     public
       procedure Interpret(con: TContext);virtual; abstract;
       procedure AddChild(toadd: TAstNode);
@@ -34,6 +35,8 @@ type
 
       //een constructor die het mogelijk maakt om te initialiseren met één kind
       constructor Create(initkind: TAstNode);
+
+      property Parent: TAstNode read myparent write myparent;
 
   end;
 
@@ -528,16 +531,14 @@ end;
 
 procedure TAstNode.AddChild(toadd: TAstNode);
 begin
-  {
-    Dit geeft een segmentatiefout bij het toekennen van een variable
-  }
-  //een snelle oplossing voor een segmentatiefout. Ik moet dit later vervangen door iets anders.
   if not Assigned(kinderen) then kinderen:= TNodeList.Create;
+  toadd.Parent:= self;
   kinderen.Add(toadd);
 end;
 
 procedure TAstNode.AddInFront(toadd: TAstNode);
 begin
+  toadd.Parent:= self;
   kinderen.Insert(0, toadd);
 end;
 
@@ -559,8 +560,14 @@ begin
 end;
 
 constructor TAstNode.Create(initkinderen: TNodeList);
+var
+  tmp: TAstNode;
 begin
   inherited Create;
+  for tmp in initkinderen do
+  begin
+    tmp.Parent:= self;
+  end;
   self.kinderen:= initkinderen;
 end;
 
@@ -667,4 +674,4 @@ end;
 
 
 end.
-
+

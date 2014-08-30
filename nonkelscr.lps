@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <CONFIG>
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="19">
+    <Units Count="20">
       <Unit0>
         <Filename Value="nonkelscr.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -37,11 +37,10 @@
       <Unit3>
         <Filename Value="parser.y"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="49"/>
-        <CursorPos X="27" Y="61"/>
+        <CursorPos X="61" Y="52"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="None"/>
@@ -68,10 +67,10 @@
         <Filename Value="parser.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="parser"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="89"/>
-        <CursorPos X="26" Y="97"/>
+        <TopLine Value="90"/>
+        <CursorPos X="29" Y="99"/>
         <UsageCount Value="209"/>
         <Loaded Value="True"/>
       </Unit6>
@@ -97,10 +96,12 @@
         <Filename Value="symtab.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="symtab"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="137"/>
-        <CursorPos X="41" Y="155"/>
+        <TopLine Value="216"/>
+        <CursorPos X="23" Y="232"/>
         <UsageCount Value="205"/>
+        <Loaded Value="True"/>
       </Unit9>
       <Unit10>
         <Filename Value="ucomp.pas"/>
@@ -117,8 +118,8 @@
         <UnitName Value="uinterpreter"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="15"/>
-        <CursorPos X="45" Y="28"/>
+        <TopLine Value="185"/>
+        <CursorPos X="20" Y="566"/>
         <UsageCount Value="210"/>
         <Loaded Value="True"/>
       </Unit11>
@@ -137,10 +138,11 @@
         <Filename Value="appunit.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="appunit"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="65"/>
-        <CursorPos X="1" Y="76"/>
+        <TopLine Value="20"/>
+        <CursorPos X="44" Y="36"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit13>
@@ -151,7 +153,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="14"/>
         <CursorPos X="67" Y="28"/>
-        <UsageCount Value="102"/>
+        <UsageCount Value="104"/>
       </Unit14>
       <Unit15>
         <Filename Value="uexpressions.pas"/>
@@ -162,7 +164,7 @@
         <UsageCount Value="2"/>
       </Unit15>
       <Unit16>
-        <Filename Value="..\..\..\..\..\usr\lib\fpc\src\rtl\inc\variants.pp"/>
+        <Filename Value="C:\usr\lib\fpc\src\rtl\inc\variants.pp"/>
         <UnitName Value="variants"/>
         <WindowIndex Value="0"/>
         <TopLine Value="77"/>
@@ -170,7 +172,7 @@
         <UsageCount Value="1"/>
       </Unit16>
       <Unit17>
-        <Filename Value="..\..\..\..\..\usr\lib\fpc\src\packages\fcl-base\src\custapp.pp"/>
+        <Filename Value="C:\usr\lib\fpc\src\packages\fcl-base\src\custapp.pp"/>
         <UnitName Value="CustApp"/>
         <WindowIndex Value="0"/>
         <TopLine Value="35"/>
@@ -178,137 +180,111 @@
         <UsageCount Value="35"/>
       </Unit17>
       <Unit18>
-        <Filename Value="..\..\..\..\..\usr\lib\fpc\src\rtl\objpas\sysutils\sysutilh.inc"/>
+        <Filename Value="C:\usr\lib\fpc\src\rtl\objpas\sysutils\sysutilh.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="104"/>
         <CursorPos X="45" Y="108"/>
         <UsageCount Value="2"/>
       </Unit18>
+      <Unit19>
+        <Filename Value="C:\lazarus\fpc\2.6.2\source\rtl\inc\variants.pp"/>
+        <UnitName Value="variants"/>
+        <EditorIndex Value="7"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="43"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit19>
     </Units>
     <General>
       <ActiveWindowIndexAtStart Value="0"/>
     </General>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="21" HistoryIndex="20">
       <Position1>
-        <Filename Value="appunit.pas"/>
-        <Caret Line="76" Column="1" TopLine="65"/>
+        <Filename Value="uinterpreter.pas"/>
+        <Caret Line="654" Column="1" TopLine="644"/>
       </Position1>
       <Position2>
         <Filename Value="uinterpreter.pas"/>
-        <Caret Line="654" Column="1" TopLine="644"/>
+        <Caret Line="656" Column="1" TopLine="644"/>
       </Position2>
       <Position3>
         <Filename Value="uinterpreter.pas"/>
-        <Caret Line="656" Column="1" TopLine="644"/>
+        <Caret Line="382" Column="66" TopLine="368"/>
       </Position3>
       <Position4>
         <Filename Value="uinterpreter.pas"/>
-        <Caret Line="382" Column="66" TopLine="368"/>
+        <Caret Line="272" Column="1" TopLine="263"/>
       </Position4>
       <Position5>
         <Filename Value="uinterpreter.pas"/>
-        <Caret Line="272" Column="1" TopLine="263"/>
+        <Caret Line="274" Column="1" TopLine="263"/>
       </Position5>
       <Position6>
         <Filename Value="uinterpreter.pas"/>
-        <Caret Line="274" Column="1" TopLine="263"/>
+        <Caret Line="442" Column="1" TopLine="433"/>
       </Position6>
       <Position7>
         <Filename Value="uinterpreter.pas"/>
-        <Caret Line="442" Column="1" TopLine="433"/>
+        <Caret Line="272" Column="1" TopLine="263"/>
       </Position7>
       <Position8>
         <Filename Value="uinterpreter.pas"/>
-        <Caret Line="272" Column="1" TopLine="263"/>
+        <Caret Line="276" Column="1" TopLine="263"/>
       </Position8>
       <Position9>
-        <Filename Value="uinterpreter.pas"/>
-        <Caret Line="276" Column="1" TopLine="263"/>
+        <Filename Value="parser.y"/>
+        <Caret Line="128" Column="13" TopLine="117"/>
       </Position9>
       <Position10>
         <Filename Value="parser.y"/>
-        <Caret Line="128" Column="13" TopLine="117"/>
+        <Caret Line="128" Column="13" TopLine="40"/>
       </Position10>
       <Position11>
-        <Filename Value="parser.pas"/>
-        <Caret Line="210" Column="60" TopLine="90"/>
+        <Filename Value="uinterpreter.pas"/>
+        <Caret Line="27" Column="45" TopLine="15"/>
       </Position11>
       <Position12>
-        <Filename Value="parser.pas"/>
-        <Caret Line="97" Column="1" TopLine="91"/>
+        <Filename Value="uinterpreter.pas"/>
+        <Caret Line="28" Column="46" TopLine="15"/>
       </Position12>
       <Position13>
-        <Filename Value="parser.pas"/>
-        <Caret Line="101" Column="1" TopLine="91"/>
+        <Filename Value="symtab.pas"/>
+        <Caret Line="155" Column="41" TopLine="137"/>
       </Position13>
       <Position14>
-        <Filename Value="parser.pas"/>
-        <Caret Line="102" Column="1" TopLine="91"/>
+        <Filename Value="symtab.pas"/>
+        <Caret Line="127" Column="20" TopLine="119"/>
       </Position14>
       <Position15>
-        <Filename Value="parser.pas"/>
-        <Caret Line="168" Column="1" TopLine="160"/>
+        <Filename Value="symtab.pas"/>
+        <Caret Line="12" Column="29" TopLine="1"/>
       </Position15>
       <Position16>
-        <Filename Value="parser.pas"/>
-        <Caret Line="776" Column="1" TopLine="767"/>
+        <Filename Value="symtab.pas"/>
+        <Caret Line="232" Column="35" TopLine="216"/>
       </Position16>
       <Position17>
-        <Filename Value="parser.pas"/>
-        <Caret Line="777" Column="1" TopLine="767"/>
+        <Filename Value="symtab.pas"/>
+        <Caret Line="129" Column="27" TopLine="119"/>
       </Position17>
       <Position18>
-        <Filename Value="parser.pas"/>
-        <Caret Line="781" Column="1" TopLine="767"/>
+        <Filename Value="symtab.pas"/>
+        <Caret Line="95" Column="33" TopLine="85"/>
       </Position18>
       <Position19>
-        <Filename Value="parser.pas"/>
-        <Caret Line="694" Column="1" TopLine="685"/>
+        <Filename Value="symtab.pas"/>
+        <Caret Line="230" Column="33" TopLine="216"/>
       </Position19>
       <Position20>
         <Filename Value="parser.pas"/>
-        <Caret Line="695" Column="1" TopLine="685"/>
+        <Caret Line="97" Column="26" TopLine="89"/>
       </Position20>
       <Position21>
-        <Filename Value="parser.pas"/>
-        <Caret Line="700" Column="1" TopLine="685"/>
+        <Filename Value="appunit.pas"/>
+        <Caret Line="76" Column="1" TopLine="65"/>
       </Position21>
-      <Position22>
-        <Filename Value="parser.pas"/>
-        <Caret Line="704" Column="1" TopLine="695"/>
-      </Position22>
-      <Position23>
-        <Filename Value="parser.pas"/>
-        <Caret Line="707" Column="1" TopLine="695"/>
-      </Position23>
-      <Position24>
-        <Filename Value="parser.pas"/>
-        <Caret Line="710" Column="1" TopLine="695"/>
-      </Position24>
-      <Position25>
-        <Filename Value="parser.pas"/>
-        <Caret Line="714" Column="1" TopLine="705"/>
-      </Position25>
-      <Position26>
-        <Filename Value="parser.pas"/>
-        <Caret Line="715" Column="1" TopLine="705"/>
-      </Position26>
-      <Position27>
-        <Filename Value="parser.y"/>
-        <Caret Line="128" Column="13" TopLine="40"/>
-      </Position27>
-      <Position28>
-        <Filename Value="parser.pas"/>
-        <Caret Line="97" Column="1" TopLine="89"/>
-      </Position28>
-      <Position29>
-        <Filename Value="parser.pas"/>
-        <Caret Line="101" Column="1" TopLine="89"/>
-      </Position29>
-      <Position30>
-        <Filename Value="uinterpreter.pas"/>
-        <Caret Line="27" Column="45" TopLine="15"/>
-      </Position30>
     </JumpHistory>
   </ProjectSession>
   <Debugging>
@@ -342,5 +318,4 @@
       </Item6>
     </Watches>
   </Debugging>
-  <EditorMacros Count="0"/>
 </CONFIG>

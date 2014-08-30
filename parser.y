@@ -128,7 +128,10 @@ print_statement:
                   if NonkelDebug then writeln('Een printstatement met een identifier');
                   $$:= TPrintCmd.Create($2, true);
           }
+          | T_PRINT T_STRING T_SEMICOLON {
+                  if NonkelDebug then writeln('Een printstatement met een string');
+                  $$:= TPrintCmd.Create($2, false);
+          }
 ;
 
 %%
-

@@ -37,6 +37,7 @@
       <Unit3>
         <Filename Value="parser.y"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="114"/>
@@ -67,7 +68,6 @@
         <Filename Value="parser.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="parser"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="76"/>
@@ -198,7 +198,7 @@
     <General>
       <ActiveWindowIndexAtStart Value="0"/>
     </General>
-    <JumpHistory Count="26" HistoryIndex="25">
+    <JumpHistory Count="27" HistoryIndex="26">
       <Position1>
         <Filename Value="uinterpreter.pas"/>
         <Caret Line="654" Column="1" TopLine="644"/>
@@ -303,6 +303,10 @@
         <Filename Value="parser.pas"/>
         <Caret Line="100" Column="10" TopLine="90"/>
       </Position26>
+      <Position27>
+        <Filename Value="parser.y"/>
+        <Caret Line="130" Column="12" TopLine="114"/>
+      </Position27>
     </JumpHistory>
   </ProjectSession>
   <Debugging>

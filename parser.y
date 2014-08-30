@@ -124,11 +124,11 @@ function:
 ;
 
 print_statement:
-          T_PRINT T_IDENTIFIER T_SEMICOLON {
+          T_PRINT T_IDENTIFIER {
                   if NonkelDebug then writeln('Een printstatement met een identifier');
                   $$:= TPrintCmd.Create($2, true);
           }
-          | T_PRINT T_STRING T_SEMICOLON {
+          | T_PRINT T_STRING {
                   if NonkelDebug then writeln('Een printstatement met een string');
                   $$:= TPrintCmd.Create($2, false);
           }

@@ -77,6 +77,7 @@ begin
   end;
 
   // stop program loop
+  readln;
   Terminate;
 end;
 
@@ -98,4 +99,4 @@ begin
 end;
 
 end.
-
+

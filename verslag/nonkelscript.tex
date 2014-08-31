@@ -158,6 +158,12 @@ Deze code kan gemakkelijk omgezet worden naar een boomstructuur. Op deze manier 
 \end{figure}
 
 \subsection{Interpreter design pattern}
-Dit design pattern vormt het hart van de hele compiler en is tevens de middle end van de compiler. Door dit design pattern zijn we in staat om een abstracte syntaxboom door te nemen en de instructies die deze beschrijft uit te voeren.
+Het interpreter design pattern ligt aan de basis van onze interpreter. Dit design pattern zorgt ervoor dat we in staat zijn onze syntaxboom door te lopen en elke stap uit te voeren. Het hart van dit design pattern zit hem in de interpreter klasse. Deze klasse bevat een context object dat verantwoordelijk is voor het bijhouden van de symbolentabel en andere variabelen die belangrijk kunnen zijn voor de interpreter. Verder bevat de interpreter klasse ook nog een lijst met nodes. Deze nodes erven allemaal over van een gemeenschappelijke klasse die hen verplicht een interpret methode te implementeren. Deze methode voert de node uit en verandert, naargelang dit nodig is, de context van de interpreter. De execute methode van de interpreter zorgt ervoor dat de lijst van nodes die de interpreter bezit, overlopen wordt en er van iedere node de interpret methode wordt uitgevoerd.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{afbeeldingen/interpreter_small}
+\caption{Het interpreter design pattern}
+\end{figure}
 
 \end{document}

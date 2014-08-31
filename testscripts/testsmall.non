@@ -5,5 +5,4 @@ main {
 	var b:= 87;
 	
 	print a;
-	print b;
 }

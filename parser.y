@@ -1,6 +1,8 @@
 %{
   var
     NonkelDebug: boolean;
+    tmpnodes: TAstNode;
+    finalnodes: TAstNode;
 
   type
       nstring = string[50];
@@ -50,24 +52,17 @@ statement: assignment
 ;
 
 codeblock: T_BEGIN statementlist T_END {
-       $$:= $2;
+       finalnodes:= tmpnodes;
+       tmpnodes.clear;
+       $$:= nil;
 }
 ;
 
-statementlist: statement T_SEMICOLON {$$:= $1;}
-              | statementlist statement T_SEMICOLON{
-                             if not Assigned($1) then
-                             begin
-                                  $$:= $2;
-                             end else begin
-                                 if assigned($1.parent) then
-                                 begin
-                                      $1.parent.addchild($2);
-                                 end else begin
-                                     $1.addchild($2);
-                                 end;
-                                 $$:= $1;
-                             end;
+statementlist: {$$:= nil;}
+              | statement T_SEMICOLON statementlist{
+                if not assigned(tmpnodes) then tmpnodes:= TAstNode.Create;
+                tmpnodes.AddChild($1);
+                $$:= nil;
               }
 ;
 
@@ -119,7 +114,7 @@ function:
          T_IDENTIFIER codeblock
          {
                       if NonkelDebug then writeln('Een functie');
-                      $$:=TFunction.Create($1, $2);
+                      $$:=TFunction.Create($1, finalnodes);
          }
 ;
 

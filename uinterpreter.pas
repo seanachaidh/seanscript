@@ -23,8 +23,9 @@ type
       kinderen: TNodeList;
       myparent: TAstNode;
     public
-      procedure Interpret(con: TContext);virtual; abstract;
+      procedure Interpret(con: TContext);virtual;
       procedure AddChild(toadd: TAstNode);
+      procedure AddSibling(toadd: TAstNode);
 
       //dit is een minder efficiënte methode
       procedure AddInFront(toadd: TAstNode);
@@ -529,11 +530,26 @@ end;
 
 { TAstNode }
 
+procedure TAstNode.Interpret(con: TContext);
+var
+  tmp: TAstNode;
+begin
+  for tmp in kinderen do
+  begin
+    tmp.Interpret(con);
+  end;
+end;
+
 procedure TAstNode.AddChild(toadd: TAstNode);
 begin
   if not Assigned(kinderen) then kinderen:= TNodeList.Create;
   toadd.Parent:= self;
   kinderen.Add(toadd);
+end;
+
+procedure TAstNode.AddSibling(toadd: TAstNode);
+begin
+  self.parent.AddChild(toadd);
 end;
 
 procedure TAstNode.AddInFront(toadd: TAstNode);

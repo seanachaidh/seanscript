@@ -6,6 +6,7 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{pdfpages}
+\usepackage[section]{placeins}
 
 \author{Pieter Van Keymeulen}
 \title{NonkelScript}
@@ -22,14 +23,16 @@ Bedrijven zijn er in alle soorten en maten. Niet ieder bedrijf heeft dezelfde sp
 
 Bij het maken van een ERP systeem is het belangrijk dat we kunnen inspelen op de noden van de klant. We kunnen een ERP systeem zodanig maken dat de klant dit door middel van scripts kan aanpassen. In ons geval spreken we van scripts die de klant in staat stellen fouten die gebeuren binnen het systeem op te vangen. Dit kan gaan van simpele dingen zoals een printer die zonder inkt komt te liggen, tot meer complexe omstandigheden zoals het blokkeren van de productie van goederen. In beide gevallen moet er een soort fout gegenereerd worden die afgevangen kan worden. De klant zal deze fout op zijn eigen manier willen afhandelen. Door middel van onze scripttaal is dat van nu af aan mogelijk.
 
-Nonkelscript is een scriptingtaal met ingebouwde multithreading. Als de verdere ontwikkelingen het ons toelaten zal de Nonkelscript interpreter in de toekomst kunnen draaien als daemon. Deze daemon zal in staat zijn de verschillende subsystemen van het ERP systeem te ondervragen. Verder zal de daemon enkele scripts toegewezen krijgen die gekoppeld kunnen worden aan een bepaalde fout die het ERP systeem kan genereren.
+Nonkelscript is een scriptingtaal met ingebouwde multithreading. Als de verdere ontwikkelingen het ons toelaten zal de  interpreter in de toekomst kunnen draaien als daemon. Deze daemon zal in staat zijn de verschillende subsystemen van het ERP systeem te ondervragen. Verder zal de daemon enkele scripts toegewezen krijgen die gekoppeld kunnen worden aan een bepaalde fout die het ERP systeem kan genereren.
+
+
 
 \section{Over programmeertalen}
-\subsection{Geschiedenis}
+%\subsection{Geschiedenis}
 %notities over deze sectie.
 %Zorgen dat ik zo weinig mogelijk namen noem en, indien ik dit wel doe, ze eerst goed opzoek
 %Evoor zorgen dat de aanhalingstekens goed getoond worden
-Al vanaf het levenslicht van de eerste computer (De Z1 van Konrad Zuse) bestond er de nood om deze geweldige machines te programmeren. Computers moesten in staat zijn om een door de mens neergeschreven opdracht te kunnen uitvoeren. Dit konden hele complexe taken zijn. Van een simpele optelling tot het sorteren van een volledige reeks getallen. Een eerste poging tot het maken van zo een machine werd gedaan door Charles Babage. Het ontwerp van deze machine bleek echter te complex om ooit uitgevoerd te worden. Babbage had namelijk er geen rekening mee gehouden dat het arabische telsysteem veel complexer is dan het op het eerste gezicht lijkt. Dat bestaat namelijk uit 10 cijfers. Wat redelijk complex is om te implementeren gezien dat ieder cijfer voorgesteld moet worden. Dat betekent dat men 10 "states" nodig heeft om getallen te kunnen uitdrukken. Hoe moet dit uitgedrukt worden. Konrad Zuse had dit opgelost door het binaire systeem te gebruiken. Hierbij waren er slechts twee "states" nodig. Namelijk "waar" of "vals"
+%Al vanaf het levenslicht van de eerste computer (De Z1 van Konrad Zuse) bestond er de nood om deze geweldige machines te programmeren. Computers moesten in staat zijn om een door de mens neergeschreven opdracht te kunnen uitvoeren. Dit konden hele complexe taken zijn. Van een simpele optelling tot het sorteren van een volledige reeks getallen. Een eerste poging tot het maken van zo een machine werd gedaan door Charles Babage. Het ontwerp van deze machine bleek echter te complex om ooit uitgevoerd te worden. Babbage had namelijk er geen rekening mee gehouden dat het arabische telsysteem veel complexer is dan het op het eerste gezicht lijkt. Dat bestaat namelijk uit 10 cijfers. Wat redelijk complex is om te implementeren gezien dat ieder cijfer voorgesteld moet worden. Dat betekent dat men 10 "states" nodig heeft om getallen te kunnen uitdrukken. Hoe moet dit uitgedrukt worden. Konrad Zuse had dit opgelost door het binaire systeem te gebruiken. Hierbij waren er slechts twee "states" nodig. Namelijk "waar" of "vals"
 
 \subsection{Waarom niet één programmeertaal?}
 Niet alles is even belangrijk op ieder werkveld. In de industrie is het vooral de veiligheid belangrijk. Stel dat er tijdens het productieproces bijvoorbeeld een fout zou gebeuren en dat het corrigeren van deze fout van groot belang is. Dan is het wenselijk dat de programma's die verantwoordelijk zijn voor het corrigeren van deze fout ook zo snel mogelijk kunnen reageren. Om dit te bereiken moet de gebruikte programmeertaal zo laag mogelijk zijn. Dit wil zeggen, zo dicht mogelijk aanliggen bij de eigenlijke werking van de machine. Dit laat de programmeur toe om enorm veel details van het programma te controleren.
@@ -46,20 +49,58 @@ Het maken van een nieuwe programmeertaal brengt vele voordelen met zich mee. Er 
 \item[Exceptie handeling] Het is in ADA mogelijk om verschillende fouten af te handelen die naar de programmeur gegooid worden. Hoewel hetzelfde effect ook bereikt kan worden is leuk dat we door hier een speciale syntaxis te voorzien we hier speciale features aan kunnen toevoegen zodat de code beter leesbaar wordt en er minder variabelen nodig zijn voor het afhandelen van fouten.
 \end{description}
 
-\section{ERP systemen}
-
-%vertel hier over de api van NonkelErp
+Al deze features maken deze programmeertaal ideaal als systeemtaal. Deze taal is eigenlijk bedoeld voor het programmeren van systemen met militaire doeleinden. Op zo een werkveld kan men het zich namelijk niet veroorloven dat er een fout zou plaatsvinden tijdens het uitvoeren van een programma. Dus werd ervoor gezorgd dat er enorm veel compile-time checks werden uitgevoerd en er ondersteuning was voor exceptie afhandeling.
 
 \section{Bison en flex}
 Bison en Flex zijn twee programma's die tezamen gebruikt kunnen worden voor het maken van een compiler. Met Flex kan er via reguliere expressies een "tokenizer" gemaakt worden die gebruikt kan worden om broncode te scannen op bepaalde sleutelwoorden. De informatie de Flex op deze manier verzameld kan op zijn beurt weer gebruikt worden door Bison. Deze vraagt de gescande sleutelwoorden kunnen gebruikt worden voor het opstellen van regels geschreven in Bakkus-Naur vorm. Aan iedere regel kan er een actie gekoppeld worden. Dit is een stuk code. Meestal is deze code geschreven in C, maar aangezien onze compiler in Delphi geschreven zal worden zal deze code dan ook Delphi zijn. De parser die uit deze verzameling regels gegenereerd zal worden zal naar iedere regel zoeken telkens wanneer er één van die regels gevonden wordt de gekoppelde actie uitvoeren. Op deze manier kan er op een efficiënte wijze een interpeter gemaakt worden.
 
 \subsection{Flex}
-Zoals eerder gezegd werkt flex door middel van reguliere expressies. Deze expressies kunnen net zoals in Bison gekoppeld worden aan een actie. Deze actie wordt net zoals in de Bison parser uitgevoerd. In een standaard Flex scanner doen deze acties niet zoveel. Eigenlijk geven ze gewoon tokens terug die correspondeert met de gevonden reguliere expressie. 
+Flex is een programma waarmee het mogelijk is om een bronbestand te scannen op zogenaamde tokens. Deze tokens worden gespecificeerd door gebruik te maken van reguliere expressies. Verder laat Flex toe om aan deze tokens acties te koppelen die moeten worden uitgevoerd indien een bepaalde token in het het bronbestand wordt gevonden. Deze actie is meestal geschreven in de programmeertaal C, maar kan ook in andere programmeertalen geschreven naargelang de versie van Flex die gebruikt wordt. Bovenaan het flex-bestand is er ook een sectie voorzien om vrije code in te stoppen. Eenmaal men een Flex bronbestand heeft gemaakt (dit wordt een lexer genoemd) kan deze verwerkt worden door de flex compiler die dan een bronbestand en (in dien wordt gebruik gemaakt van C) een header. Deze bevatten een functie die gebruikt kan worden voor het scannen van een bronbestand. Een voorbeeld.
+\begin{verbatim}
+%{
+	//count newlines
+	int newlines;
+%}
+
+%%
+
+[\n] newlines++;
+
+%%
+
+int main(){
+	yylex();
+	return 0;
+}
+\end{verbatim}  
+Dit zou een programma kunnen  zijn voor het tellen van de hoeveelheid regels in een bestand. De reguliere expressie zorgt ervoor dat elke newline herkend wordt. Deze reguliere expressie is op zijn beurt weer gekoppeld aan een actie de een variabele verhoogt. Verder bevat dit programma een hoofdfunctie die yylex uitvoert. Dit is een functie die geleverd wordt samen met Flex en ervoor zorgt dat er gelezen wordt vanaf stdin en dit gescand wordt op tokens.
 
 \subsection{Bison}
-Bison is ongeveer hetzelfde als flex. Met het verschil dat bison de informatie van die flex doorgeeft opvangt, verwerkt, en vergelijkt met een aantal regels. De regels worden geschreven in bakkus-naur vorm. Ook deze regels zijn gekoppeld aan een actie die uitgevoerd wordt wanneer de regel in de broncode gevonden wordt.
+Bison werkt samen met Flex en zorgt ervoor dat we de tokens die Flex ontdekt kunnen gebruiken voor het samenstellen van enkele regels. Dit kan dan gecompileerd worden tot een parser Deze regels worden geschreven in Bakkus-Naur vorm en kunnen, net als in Flex, een actie aan zich gekoppeld kunnen krijgen die uitgevoerd wordt wanneer deze gevonden wordt in het bronbestand. Ook hier is het mogelijk om extra C code toe te voegen die mee in parser terecht komen. Bison genereert een bronbestand (meestal geschreven in C) die een functie bevat waarmee een bestand geparset kan worden.
 
-In ons geval gaan we voor iedere gevonden regel een node maken en deze node in onze syntaxboom stoppen. Meer hierover straks.
+\begin{verbatim}
+%{
+	int calculations;
+%}
+
+%%
+
+calculation:
+	number T_OP number {calculatons++;};
+
+%%
+
+int main() {
+	yyparse();
+}
+\end{verbatim}
+
+Dit programma telt bijvoorbeeld berekeningen uit een bronbestand.
+
+\subsection{Onze programmeertaal}
+Nonkelscript is een scriptingtaal met ingebouwde multithreading. Als de verdere ontwikkelingen het ons toelaten zal de Nonkelscript interpreter in de toekomst kunnen draaien als daemon. Deze daemon zal in staat zijn de verschillende subsystemen van het ERP systeem te ondervragen. Verder zal de daemon enkele scripts toegewezen krijgen die gekoppeld kunnen worden aan een bepaalde fout die het ERP systeem kan genereren.
+
+Bij het toewijzen van de scripts zal er de mogelijkheid om de variabelen met het globale systeem te delen of niet. In het het eerste geval zal het mogelijk zijn om bijvoorbeeld een variabele a in het ene script te declareren en in het andere script terug opnieuw te gebruiken. Men moet wel opletten dat deze feature vanzelfsprekend niet thread-safe is.
 
 \section{Interne structuur van de compiler}
 Voor het programmeren van de compiler werd er gekozen voor Delphi. Wat niet een voor de hand liggende keuze is. Zowel Bison als Flex zijn immers beiden ontworpen om gebruikt te worden in combinatie met C. De reden voor deze vreemde keuze is dat de compiler moet kunnen integreren met een bestaand ERP systeem en dit systeem is geschreven in Delphi. Freepascal (de compiler die we gebruiken voor het bouwen van onze compiler) komt echter gebundeld met een programma dat in staat is om Bison en Flex code te converteren naar een Pascal unit. Hoewel deze tool is gemaakt in 2001 en eigenlijk bedoeld is voor gebruik in combinatie met Turbo Pascal volstaat het voor ons doel.
@@ -71,7 +112,7 @@ Zowel Flex als Bison zijn zogenaamde parsergenerators. Dit wil zeggen dat zij ee
 
 Buiten het parsen van de broncode, is de front-end verantwoordelijk voor nog een aantal taken. De belangrijkste hiervan is het omzetten van de broncode naar een interne representatie. Dit is een abstracte representatie van broncode ontdaan van alles wat niet relevant is voor het interpreteren van het programma. De manier waarop dit intern gerepresenteerd moet worden is vrij. De meestgebruikte technieken zijn een syntaxboom en een lineaire representatie. 
 
-\subsubsection{back end}
+\subsubsection{Back end}
 Hoewel dit onderdeel niet altijd aanwezig is in iedere compiler, voert dit gedeelte, indien aanwezig, nodige extra optimalisaties uit. Naast dit voeren sommige compiler ook nog een verdere analyse uit op de abstract syntax tree.
 
 Tijdens deze analyse wordt er aandacht besteed aan twee onderdelen van de code. Namelijk de data flow en de control flow. Het doel echter van deze analyse blijft het optimaliseren van de code. Hiermee bedoelen we iedere bewerking op de code die het programma sneller zal doen draaien terwijl het hetzelfde resultaat levert. Met optimalisaties moet men heel voorzichtig omspringen, omdat men nooit de daadwerkelijke bedoelingen van de programmeur weet.
@@ -166,4 +207,21 @@ Het interpreter design pattern ligt aan de basis van onze interpreter. Dit desig
 \caption{Het interpreter design pattern}
 \end{figure}
 
+\section{Besluit}
+Ik weet dat het niet de bedoeling is om te persoonlijk te worden in een verslag, maar ik kan het echt niet laten. Hoewel ik denk ik niet de eindtermen heb gehaald voor deze bachelorproef, was het onderzoeksveld enorm. Met het uitvoeren van deze bachelorproef heb ik meer inzicht in programmeertalen gekregen dan ik ooit had kunnen denken. Hoewel een programmeertaal slechts een formele grammatica is en niet, zoals een natuurlijke taal, onderhevig aan vele interpretaties en er velen nog niet zo lang bestaan, heb ik door dat dit een werkveld is dat niet te onderschatten valt. De verschillende mogelijkheden en manieren om éénzelfde programma te implementeren zijn echt overweldigend.
+
+Ik denk dat ik de opdracht nogal heb onderschat. Desalniettemin ben ik toch blij dat ik deze opdracht heb aangenomen. Programmeertaalkunde interesseert me namelijk nogal veel en ik ben zeker van plan om, hoewel dit project nu afgesloten is, dit toch voort te zetten. Ik heb nog veel ideeën met deze compiler die ik nog niet heb kunnen uitproberen en ik wil eens weten hoe ver ik hiermee kan geraken.
+
+De boeken die ik gebruikt heb voor dit project zijn.
+\begin{itemize}
+\item Bison and Flex: Jhon R. levine
+\item De cursussen van op school.
+\end{itemize}
+
+\subsection{Dankwoordje}
+Graag zou ik Ditmar van Belle willen bedanken die al vanaf het begin af aan er het volste vertrouwen in had. De heer Jan wante zou ik ook willen bedanken. Zoals ik Ditmar overdonderde met mijn moderne programmeertechniek, zo was hij de lijm tussen ons tweeën. Daar waar wij niet overeenkwamen wist hij ons terug op één lijn te brengen. Ook zou ik graag Dylan Meysmans willen bedanken. Hij gaf naar het einde toe nog vele onmisbare tips.
+
+\begin{flushright}
+\textbf{Pieter \emph{Seanachaidh} Van Keymeulen}
+\end{flushright}
 \end{document}

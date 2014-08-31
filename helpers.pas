@@ -5,7 +5,7 @@ unit helpers;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, fgl;
 
 {enkele constanten voor het maken van newlines en tabs in strings}
 const

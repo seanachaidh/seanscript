@@ -52,8 +52,10 @@ statement: assignment
 ;
 
 codeblock: T_BEGIN statementlist T_END {
-       finalnodes:= tmpnodes;
-       tmpnodes.clear;
+       finalnodes:= TAstNode.Create;
+       finalnodes.Kinderen.Assign(tmpnodes.Kinderen);
+       finalnodes.Kinderen:= RevertList(finalnodes.Kinderen);
+       tmpnodes.Kinderen.clear;
        $$:= nil;
 }
 ;

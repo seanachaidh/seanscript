@@ -20,7 +20,7 @@ type
 
   TAstNode = class
     private
-      kinderen: TNodeList;
+      mykinderen: TNodeList;
       myparent: TAstNode;
     public
       procedure Interpret(con: TContext);virtual;
@@ -37,6 +37,7 @@ type
       //een constructor die het mogelijk maakt om te initialiseren met één kind
       constructor Create(initkind: TAstNode);
 
+      property Kinderen: TNodeList read mykinderen write mykinderen;
       property Parent: TAstNode read myparent write myparent;
 
   end;
@@ -239,6 +240,7 @@ type
 
   end;
 
+function RevertList(input: TNodeList): TNodeList;
 implementation
 uses appunit;
 
@@ -266,7 +268,7 @@ var
 begin
   Result:=inherited ToString + stnewline;
   Result+= 'functie naam: ' + myname + stnewline;
-  for tmp in kinderen do
+  for tmp in mykinderen do
   begin
     Result+= tmp.ToString;
   end;
@@ -276,7 +278,7 @@ procedure TFunction.Interpret(con: TContext);
 var
   tmpnode: TAstNode;
 begin
-  for tmpnode in kinderen do
+  for tmpnode in mykinderen do
   begin
     tmpnode.interpret(con);
   end;
@@ -327,7 +329,7 @@ var
 begin
   while CheckCondition do
   begin
-      for tmpnode in kinderen do tmpnode.Interpret(con);
+      for tmpnode in mykinderen do tmpnode.Interpret(con);
   end;
 end;
 
@@ -381,7 +383,7 @@ procedure TScriptDeclaration.Interpret(con: TContext);
 var
   tmpnode: TAstNode;
 begin
-  for tmpnode in kinderen do tmpnode.Interpret(con);
+  for tmpnode in mykinderen do tmpnode.Interpret(con);
 end;
 
 function TScriptDeclaration.ToString: ansistring;
@@ -477,7 +479,7 @@ procedure TCodeBlock.Interpret(con: TContext);
 var
   tmpnode: TAstNode;
 begin
-  for tmpnode in kinderen do
+  for tmpnode in mykinderen do
   begin
     tmpnode.Interpret(con);
   end;
@@ -508,7 +510,7 @@ var
 begin
   if CheckCondition then
   begin
-    for tmpnode in kinderen do tmpnode.Interpret(con);
+    for tmpnode in mykinderen do tmpnode.Interpret(con);
   end;
 end;
 
@@ -534,7 +536,7 @@ procedure TAstNode.Interpret(con: TContext);
 var
   tmp: TAstNode;
 begin
-  for tmp in kinderen do
+  for tmp in mykinderen do
   begin
     tmp.Interpret(con);
   end;
@@ -542,9 +544,9 @@ end;
 
 procedure TAstNode.AddChild(toadd: TAstNode);
 begin
-  if not Assigned(kinderen) then kinderen:= TNodeList.Create;
+  if not Assigned(mykinderen) then mykinderen:= TNodeList.Create;
   toadd.Parent:= self;
-  kinderen.Add(toadd);
+  mykinderen.Add(toadd);
 end;
 
 procedure TAstNode.AddSibling(toadd: TAstNode);
@@ -555,7 +557,7 @@ end;
 procedure TAstNode.AddInFront(toadd: TAstNode);
 begin
   toadd.Parent:= self;
-  kinderen.Insert(0, toadd);
+  mykinderen.Insert(0, toadd);
 end;
 
 function TAstNode.ToString: ansistring;
@@ -563,7 +565,7 @@ var
   tmp: TAstNode;
 begin
   Result:='naam node: ' + ClassName + stnewline;
-  for tmp in kinderen do
+  for tmp in mykinderen do
   begin
     Result+= tmp.ToString;
   end;
@@ -572,7 +574,7 @@ end;
 constructor TAstNode.Create;
 begin
   inherited Create;
-  Self.kinderen:= TNodeList.Create;
+  Self.mykinderen:= TNodeList.Create;
 end;
 
 constructor TAstNode.Create(initkinderen: TNodeList);
@@ -584,13 +586,13 @@ begin
   begin
     tmp.Parent:= self;
   end;
-  self.kinderen:= initkinderen;
+  self.mykinderen:= initkinderen;
 end;
 
 constructor TAstNode.Create(initkind: TAstNode);
 begin
-  kinderen:= TNodeList.Create;
-  kinderen.Add(initkind);
+  mykinderen:= TNodeList.Create;
+  mykinderen.Add(initkind);
 end;
 
 { TNumber }
@@ -688,6 +690,20 @@ begin
   end;
 end;
 
+function RevertList(input: TNodeList): TNodeList;
+var
+  tmp: TAstNode;
+  total: integer;
+  tmpint: integer;
+begin
+  total:= input.Count - 1;
+  Result:= TNodeList.Create;
+  for tmpint:= total downto 0 do
+  begin
+    tmp:= input.Items[tmpint];
+    result.Add(tmp);
+  end;
+end;
 
 end.
 

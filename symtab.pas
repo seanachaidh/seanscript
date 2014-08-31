@@ -121,7 +121,7 @@ begin
   if VarIsNumeric(val) then
   begin
     mykind:= KIND_NUMBER;
-    myboolean:= val;
+    mynumber:= val;
   end else if VarIsStr(val) then
   begin
     mykind:= KIND_STRING;

@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="20">
+    <Units Count="18">
       <Unit0>
         <Filename Value="nonkelscr.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -40,8 +40,8 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="60"/>
-        <CursorPos X="87" Y="62"/>
+        <TopLine Value="41"/>
+        <CursorPos X="51" Y="72"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="None"/>
@@ -155,49 +155,34 @@
         <WindowIndex Value="0"/>
         <TopLine Value="14"/>
         <CursorPos X="67" Y="28"/>
-        <UsageCount Value="127"/>
+        <UsageCount Value="131"/>
       </Unit14>
       <Unit15>
-        <Filename Value="uexpressions.pas"/>
-        <UnitName Value="uexpressions"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="91"/>
-        <CursorPos X="15" Y="112"/>
-        <UsageCount Value="0"/>
-      </Unit15>
-      <Unit16>
         <Filename Value="C:\usr\lib\fpc\src\packages\fcl-base\src\custapp.pp"/>
         <UnitName Value="CustApp"/>
         <WindowIndex Value="0"/>
         <TopLine Value="35"/>
         <CursorPos X="1" Y="35"/>
         <UsageCount Value="33"/>
-      </Unit16>
-      <Unit17>
-        <Filename Value="C:\usr\lib\fpc\src\rtl\objpas\sysutils\sysutilh.inc"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="104"/>
-        <CursorPos X="45" Y="108"/>
-        <UsageCount Value="0"/>
-      </Unit17>
-      <Unit18>
+      </Unit15>
+      <Unit16>
         <Filename Value="C:\lazarus\fpc\2.6.2\source\rtl\inc\variants.pp"/>
         <UnitName Value="variants"/>
         <WindowIndex Value="0"/>
         <TopLine Value="43"/>
         <CursorPos X="1" Y="1"/>
         <UsageCount Value="8"/>
-      </Unit18>
-      <Unit19>
+      </Unit16>
+      <Unit17>
         <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\objpas\fgl.pp"/>
         <UnitName Value="fgl"/>
         <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="65"/>
         <CursorPos X="3" Y="41"/>
-        <UsageCount Value="13"/>
+        <UsageCount Value="15"/>
         <Loaded Value="True"/>
-      </Unit19>
+      </Unit17>
     </Units>
     <General>
       <ActiveWindowIndexAtStart Value="0"/>

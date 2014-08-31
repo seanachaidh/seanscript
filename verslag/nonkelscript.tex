@@ -1,16 +1,17 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[11pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[dutch]{babel}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage{pdfpages}
 
 \author{Pieter Van Keymeulen}
 \title{NonkelScript}
 
 \begin{document}
-\maketitle
+\includepdf{afbeeldingen/voorblad}
 \newpage
 
 \tableofcontents
@@ -29,12 +30,21 @@ Nonkelscript is een scriptingtaal met ingebouwde multithreading. Als de verdere 
 %Zorgen dat ik zo weinig mogelijk namen noem en, indien ik dit wel doe, ze eerst goed opzoek
 %Evoor zorgen dat de aanhalingstekens goed getoond worden
 Al vanaf het levenslicht van de eerste computer (De Z1 van Konrad Zuse) bestond er de nood om deze geweldige machines te programmeren. Computers moesten in staat zijn om een door de mens neergeschreven opdracht te kunnen uitvoeren. Dit konden hele complexe taken zijn. Van een simpele optelling tot het sorteren van een volledige reeks getallen. Een eerste poging tot het maken van zo een machine werd gedaan door Charles Babage. Het ontwerp van deze machine bleek echter te complex om ooit uitgevoerd te worden. Babbage had namelijk er geen rekening mee gehouden dat het arabische telsysteem veel complexer is dan het op het eerste gezicht lijkt. Dat bestaat namelijk uit 10 cijfers. Wat redelijk complex is om te implementeren gezien dat ieder cijfer voorgesteld moet worden. Dat betekent dat men 10 "states" nodig heeft om getallen te kunnen uitdrukken. Hoe moet dit uitgedrukt worden. Konrad Zuse had dit opgelost door het binaire systeem te gebruiken. Hierbij waren er slechts twee "states" nodig. Namelijk "waar" of "vals"
+
 \subsection{Waarom niet één programmeertaal?}
 Niet alles is even belangrijk op ieder werkveld. In de industrie is het vooral de veiligheid belangrijk. Stel dat er tijdens het productieproces bijvoorbeeld een fout zou gebeuren en dat het corrigeren van deze fout van groot belang is. Dan is het wenselijk dat de programma's die verantwoordelijk zijn voor het corrigeren van deze fout ook zo snel mogelijk kunnen reageren. Om dit te bereiken moet de gebruikte programmeertaal zo laag mogelijk zijn. Dit wil zeggen, zo dicht mogelijk aanliggen bij de eigenlijke werking van de machine. Dit laat de programmeur toe om enorm veel details van het programma te controleren.
 
 Omgekeerd is ook mogelijk. het programmeren in assembler kan namelijk erg tijdrovend zijn. Zeker wanneer de te programmeren programma's ingewikkelder worden. Het is erg moeilijk een grafisch programma (maar niet onmogelijk) te maken met assembler. Ook omdat assembler een ongestructureerde programmeertaal is (meer hierover straks) en daarom de kans groot dat je uitkomt in zogenaamde "spaghetticode". Deze code wordt na verloop van tijd onhandelbaar. Het is dan wenselijk enige abstractie in de code te brengen. Dit kan door middel van in eerste instantie objectgeoriënteerd programmeren en, in tweede instantie proceduraal programmeren. Beide manier worden later in het verslag uitvoerig besproken.
+
 \subsection{Waarom nog een nieuwe programmeertaal maken?}
-%Hier vertellen over de mogelijkheid om de api van het nonkelerp systeem te integereren
+Het maken van een nieuwe programmeertaal brengt vele voordelen met zich mee. Er zijn namelijk weinig echt pure multi purpose talen terwijl dat er veel gespecialiseerde talen zijn. Dit heeft zo zijn redenen. Het maken van een eigen programmeertaal leent zich namelijk tot het perfect aanpassen van deze programmeertaal. Neem nu een voorbeeld aan ADA. Dit is een programmeertaal die speciaal gemaakt is voor militaire doeleinden. Het heeft de volgende features.
+
+\begin{description}
+\item[Sterke typering] Objecten van het éne type kunnen niet zomaar geconverteerd worden naar objecten van het andere type.
+\item[Modulariteit] Het is in ADA mogelijk om zogenaamde packages te maken zodat een programma opgesplitst kan worden in meerdere bestanden.
+\item[Run-time checking] Een aan de standaard houdende ADA compiler moet de mogelijkheid bieden om zogenaamde run-time checks uit te voeren. Deze kijken na over geen typecast fouten, stack overflows, wiskundige fouten etc \ldots in het programma bevinden.
+\item[Exceptie handeling] Het is in ADA mogelijk om verschillende fouten af te handelen die naar de programmeur gegooid worden. Hoewel hetzelfde effect ook bereikt kan worden is leuk dat we door hier een speciale syntaxis te voorzien we hier speciale features aan kunnen toevoegen zodat de code beter leesbaar wordt en er minder variabelen nodig zijn voor het afhandelen van fouten.
+\end{description}
 
 \section{ERP systemen}
 
@@ -61,7 +71,7 @@ Zowel Flex als Bison zijn zogenaamde parsergenerators. Dit wil zeggen dat zij ee
 
 Buiten het parsen van de broncode, is de front-end verantwoordelijk voor nog een aantal taken. De belangrijkste hiervan is het omzetten van de broncode naar een interne representatie. Dit is een abstracte representatie van broncode ontdaan van alles wat niet relevant is voor het interpreteren van het programma. De manier waarop dit intern gerepresenteerd moet worden is vrij. De meestgebruikte technieken zijn een syntaxboom en een lineaire representatie. 
 
-\subsubsection{middle end}
+\subsubsection{back end}
 Hoewel dit onderdeel niet altijd aanwezig is in iedere compiler, voert dit gedeelte, indien aanwezig, nodige extra optimalisaties uit. Naast dit voeren sommige compiler ook nog een verdere analyse uit op de abstract syntax tree.
 
 Tijdens deze analyse wordt er aandacht besteed aan twee onderdelen van de code. Namelijk de data flow en de control flow. Het doel echter van deze analyse blijft het optimaliseren van de code. Hiermee bedoelen we iedere bewerking op de code die het programma sneller zal doen draaien terwijl het hetzelfde resultaat levert. Met optimalisaties moet men heel voorzichtig omspringen, omdat men nooit de daadwerkelijke bedoelingen van de programmeur weet.
@@ -97,8 +107,8 @@ printf("%s", b);
 
 \end{description}
 
-\subsubsection{back end}
-Hier komt de tekst over de back end
+%\subsubsection{back end}
+%Hier komt de tekst over de back end
 
 \subsection{variabelesystemen}
 \subsubsection{Variabelen}
@@ -126,7 +136,26 @@ Onze compiler is gebaseerd op twee grote design pattern. Het composite design pa
 Voor het programmeren van systeemapplicaties is statische typering meestal te prefereren boven dynamische. Veel compilers voeren namelijk zogenaamde typechecks uit. Voordat een bepaald stuk code wordt gecompileerd wordt er eerst bekeken, indien dit bijvoorbeeld een toekenning is, of de waarde die toegekend wordt aan de variabele wel degelijk in de variabele kan. Indien niet wordt er een fout gegeneerd. Bij dynamische typering is dit niet mogelijk tijdens het compileren, maar tijdens het uitvoeren van het programma. Dit omdat men nooit weet, bij een dynamisch getypeerde taal, welk type een variabele uiteindelijk gaat hebben. Dit is een nadeel in een omgeving waar snelheid en betrouwbaarheid hoog in het vaandel gedragen wordt. 
 
 \subsection{Composite design pattern}
-Het composite design pattern werd gebruikt voor het bouwen van de syntaxboom. Dit is een datastructuur bestaande uit alle elementen die gevonden worden in heb bronbestand dat geïnterpreteerd dient te worden.
+Het composite design pattern helpt bij het aanmaken van een boomstructuur. Een programma geschreven in onze taal is immers perfect te herleiden naar zo een boomstructuur. Beschouw de volgende code
+
+\begin{verbatim}
+script testsmall;
+
+main {
+	var a:= 5;
+	var b:= 87;
+	
+	print a;
+	print b;
+}
+
+\end{verbatim}
+Deze code kan gemakkelijk omgezet worden naar een boomstructuur. Op deze manier is het programma makkelijk voor te stellen in het geheugen en kan het later gemakkelijk geïnterpreteerd worden door de interpreter.
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{afbeeldingen/testsmall_tree}
+\caption{Een voorbeeld van een syntaxboom}
+\end{figure}
 
 \subsection{Interpreter design pattern}
 Dit design pattern vormt het hart van de hele compiler en is tevens de middle end van de compiler. Door dit design pattern zijn we in staat om een abstracte syntaxboom door te nemen en de instructies die deze beschrijft uit te voeren.

@@ -53,6 +53,35 @@ Het maken van een nieuwe programmeertaal brengt vele voordelen met zich mee. Er 
 
 Al deze features maken deze programmeertaal ideaal als systeemtaal. Deze taal is eigenlijk bedoeld voor het programmeren van systemen met militaire doeleinden. Op zo een werkveld kan men het zich namelijk niet veroorloven dat er een fout zou plaatsvinden tijdens het uitvoeren van een programma. Dus werd ervoor gezorgd dat er enorm veel compile-time checks werden uitgevoerd en er ondersteuning was voor exceptie afhandeling.
 
+\subsection{Verschillende paradigma's}
+Elke programmeertaal heeft zijn eigen paradigma. Dit wil zeggen dat er één bepaald taalkundig concept naar boven komt in de programmeertaal. Er zijn heel veel verschillende paradigma's en velen hiervan zijn niet relevant genoeg om hier op te noemen. Omdat echter onze programmeertaal naar de toekomst toe specifiek event-driven zal worden, zal ik er hier een paar opnoemen.
+
+\begin{description}
+\item[niet gestructureerd programmeren] Dit is één van de oudste paradigma's en houdt in dat men enkel commando's gaat gebruiken die opgelijst zijn in een bronbestand. Dit zonder enig compound statement of loop. Deze laatste twee worden namelijk vervangen door commando's die geleverd worden met de processor. Ook heeft een programmeertaal die dit paradigma volgt geen ondersteuning voor procedures en functies. Dit effect wordt namelijk bereikt door het uitvoeren van zogenaamde jumps waarbij er van de éne regel in het programma, naar de andere regel wordt gesprongen. Een voorbeeld hiervan is assembler
+
+\item[Gestructureerd programmeren] Hier is er ondersteuning toegevoegd voor het uitvoeren van keuzes en loops en dit in de syntax van de programmeertaal zelf. Ook wordt er hier ondersteuning voor procedures aangeboden. Dit zijn subprogramma's, wat toelaat om bepaalde onderdelen van uw programma te scheiden van de rest. Dit maakt het programma overzichtelijker. Voorbeelden hiervan zijn C en Pascal.
+
+\item[Objectgeoriënteerd programmeren] Hier wordt er een extra abstractielaag toegevoegd. Alles wordt namelijk voorgesteld als een object dat zich manifesteert binnen een programma. Stel dat je een programma hebt dat een databank bijhoudt van alle studenten die in een school studeren. Dan is het in een objectgeoriënteerde taal mogelijk om een entiteit student aan te maken die een naam en een leeftijd heeft. Daarna kan deze opgeslagen worden in een databank.
+
+\begin{verbatim}
+Object student = new Object;
+student.naam = "jan";
+student.leeftijd = 21;
+
+db.save(student);
+\end{verbatim}
+
+Voorbeelden hiervan zijn Java en CSharp.
+
+\item[Imperatief programmeren] Een imperatieve programmeertaal is een programmeertaal waarbij men de computer gebiedt dingen te doen. Het programma wordt sequentieel overlopen en de programmeur heeft de volle controle over hoe het programma wordt uitgevoerd. Een voorbeeld hiervan is C.
+
+\item[Declaratief programmeren] Hierbij wordt het gewenste resultaat neergeschreven. Hoe dit resultaat bekomen wordt, wordt volledig overgelaten aan het programma dat het bronbestand interpreteert. Wat opvalt bij deze programmeertalen is het ontbreken van if structuren om een resultaat om te buigen. Een voorbeeld hiervan is HTML.
+
+\item[Event-driven programming] Bij event-driven programming gaat men ervan uit dat het programma moet kunnen reageren op bepaalde gebeurtenissen. Programma's van dit paradigma draaien vaak in een loop waarin er telkens gekeken wordt naar binnenkomende gebeurtenissen. Iedere gebeurtenis (bijvoorbeeld een muisklik) wordt gekoppeld aan een procedure die wordt uitgevoerd wanneer deze gebeurtenis plaatsvindt. Dit paradigma wordt vaak gebruikt bij het programmeren van grafische gebruikersomgevingen. Een voorbeeld hiervan is HTML.
+
+\end{description}
+
+
 \section{Bison en flex}
 Bison en Flex zijn twee programma's die tezamen gebruikt kunnen worden voor het maken van een compiler. Met Flex kan er via reguliere expressies een "tokenizer" gemaakt worden die gebruikt kan worden om broncode te scannen op bepaalde sleutelwoorden. De informatie de Flex op deze manier verzameld kan op zijn beurt weer gebruikt worden door Bison. Deze vraagt de gescande sleutelwoorden kunnen gebruikt worden voor het opstellen van regels geschreven in Bakkus-Naur vorm. Aan iedere regel kan er een actie gekoppeld worden. Dit is een stuk code. Meestal is deze code geschreven in C, maar aangezien onze compiler in Delphi geschreven zal worden zal deze code dan ook Delphi zijn. De parser die uit deze verzameling regels gegenereerd zal worden zal naar iedere regel zoeken telkens wanneer er één van die regels gevonden wordt de gekoppelde actie uitvoeren. Op deze manier kan er op een efficiënte wijze een interpeter gemaakt worden.
 

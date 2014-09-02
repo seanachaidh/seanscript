@@ -52,19 +52,19 @@ statement: assignment
 ;
 
 codeblock: T_BEGIN statementlist T_END {
-       finalnodes:= TAstNode.Create;
-       finalnodes.Kinderen.Assign(tmpnodes.Kinderen);
-       finalnodes.Kinderen:= RevertList(finalnodes.Kinderen);
-       tmpnodes.Kinderen.clear;
-       $$:= nil;
+           $$:= $2;
 }
 ;
 
-statementlist: {$$:= nil;}
+statementlist: statement {$$:= $1;}
               | statement T_SEMICOLON statementlist{
-                if not assigned(tmpnodes) then tmpnodes:= TAstNode.Create;
-                tmpnodes.AddChild($1);
-                $$:= nil;
+                if $3 = nil then
+                begin
+                     $$:= $1;
+                end else begin
+                     TStatement($1).Next:= TStatement($3);
+                     $$:= $1;
+                end;
               }
 ;
 
@@ -90,7 +90,7 @@ if_statement:
 while_statement:
                 T_WHILE number T_CMP number codeblock {
                        if NonkelDebug then writeln('Een while statement');
-                       $$:= TWhileStatement.Create($2, $4, $3, $5);
+                       $$:= TWhileStatement.Create($2, $4, $3, finalnodes);
                 }
 ;
 

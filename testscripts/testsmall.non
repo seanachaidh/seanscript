@@ -1,7 +1,7 @@
 script testsmall;
 
 main {
-	var a:= 5;
+	var a:= 5 + 4;
 	var b:= 87;
 	
 	print a;

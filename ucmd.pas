@@ -15,7 +15,7 @@ type
 
   { TPrintCmd }
 
-  TPrintCmd = class(TAstNode)
+  TPrintCmd = class(TStatement)
     private
       msg: string;
       isident: boolean;
@@ -101,4 +101,4 @@ begin
 end;
 
 end.
-
+

@@ -75,6 +75,21 @@ type
 
   end;
 
+  { TStatement }
+
+  TStatement = class (TAstNode)
+    private
+      //het statement na dit statement. Nil indien er geen meer volgt
+      mynext: TStatement;
+    public
+      constructor Create;
+      constructor Create(cnext: TStatement);
+
+      property Next: TStatement read mynext write mynext;
+      procedure Interpret(con: TContext); override;
+      function ToString: ansistring; override;
+  end;
+
   { TAssignedNumber }
 
   TAssignedNumber = class(TNumber)
@@ -143,7 +158,7 @@ type
 
   { TConditional }
 
-  TConditional = class(TAstNode)
+  TConditional = class(TStatement)
     private
       myleft, myright: TNumber;
       comp: TCompType;
@@ -188,7 +203,7 @@ type
 
   { TAssingnment }
 
-  TAssingnment = class(TAstNode)
+  TAssingnment = class(TStatement)
     private
       num: TNumber;
       ident: String;
@@ -243,6 +258,28 @@ type
 function RevertList(input: TNodeList): TNodeList;
 implementation
 uses appunit;
+
+{ TStatement }
+
+constructor TStatement.Create;
+begin
+  mynext:= nil;
+end;
+
+constructor TStatement.Create(cnext: TStatement);
+begin
+  mynext:= cnext;
+end;
+
+procedure TStatement.Interpret(con: TContext);
+begin
+  if Assigned(mynext) then mynext.Interpret(con);
+end;
+
+function TStatement.ToString: ansistring;
+begin
+  Result:='nog geen tostring';
+end;
 
 { TFunction }
 
@@ -331,6 +368,7 @@ begin
   begin
       for tmpnode in mykinderen do tmpnode.Interpret(con);
   end;
+  inherited Interpret(con);
 end;
 
 function TWhileStatement.ToString: AnsiString;
@@ -450,6 +488,7 @@ end;
 procedure TAssingnment.Interpret(con: TContext);
 begin
   con.PutSymbol(naam, Calculation.GetValue);
+  inherited Interpret(con);
 end;
 
 function TAssingnment.ToString: AnsiString;
@@ -512,6 +551,7 @@ begin
   begin
     for tmpnode in mykinderen do tmpnode.Interpret(con);
   end;
+  inherited Interpret(con);
 end;
 
 function TIfStatement.ToString: AnsiString;
@@ -545,7 +585,6 @@ end;
 procedure TAstNode.AddChild(toadd: TAstNode);
 begin
   if not Assigned(mykinderen) then mykinderen:= TNodeList.Create;
-  toadd.Parent:= self;
   mykinderen.Add(toadd);
 end;
 

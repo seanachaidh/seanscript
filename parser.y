@@ -56,14 +56,14 @@ codeblock: T_BEGIN statementlist T_END {
 }
 ;
 
-statementlist: statement {$$:= $1;}
+statementlist: {$$:= nil;}
               | statement T_SEMICOLON statementlist{
                 if $3 = nil then
                 begin
                      $$:= $1;
                 end else begin
-                     TStatement($1).Next:= TStatement($3);
-                     $$:= $1;
+                     TStatement($3).Next:= TStatement($1);
+                     $$:= $3;
                 end;
               }
 ;
@@ -116,7 +116,7 @@ function:
          T_IDENTIFIER codeblock
          {
                       if NonkelDebug then writeln('Een functie');
-                      $$:=TFunction.Create($1, finalnodes);
+                      $$:=TFunction.Create($1, $2);
          }
 ;
 

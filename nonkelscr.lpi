@@ -30,7 +30,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <CommandLineParams Value="-d --input=testscripts\testsmall.non"/>
+        <CommandLineParams Value="--input=testscripts\testsmall.non"/>
       </local>
     </RunParams>
     <Units Count="15">

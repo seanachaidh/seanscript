@@ -307,7 +307,10 @@ begin
   Result+= 'functie naam: ' + myname + stnewline;
   for tmp in mykinderen do
   begin
-    Result+= tmp.ToString;
+    if assigned(tmp) then
+    begin
+      Result+= tmp.ToString;
+    end;
   end;
 end;
 
@@ -606,7 +609,11 @@ begin
   Result:='naam node: ' + ClassName + stnewline;
   for tmp in mykinderen do
   begin
-    Result+= tmp.ToString;
+    //een beetje een dodgy manier
+    if Assigned(tmp) then
+    begin
+      Result+= tmp.ToString;
+    end;
   end;
 end;
 
